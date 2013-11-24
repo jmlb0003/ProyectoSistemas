@@ -101,7 +101,7 @@ public class AlgSimilitud {
      * @param peliculas Conjunto de peliculas de las que se calcula la similitud.
      * @return Devuelve el modelo de similitud de las peliculas.
     */    
-    public HashMap<Long, TreeSet<Similitud>> getModeloSimilitudCoseno(int k, HashMap<Long,Pelicula> peliculas) {
+    public HashMap<Long, TreeSet<Similitud>> getModeloSimilitudCoseno(int k, Map<Long,Pelicula> peliculas) {
         /**
          * La estructura en la que almacenamos el modelo de similitud es:
          * clave: id de pelicula.

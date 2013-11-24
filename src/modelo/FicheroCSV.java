@@ -211,7 +211,7 @@ class FicheroCSV{
 
     /**
      * Devuelve las peliculas extraidas del CSV
-     * @return Map<String, Pelicula> peliculas leidas
+     * @return Map<Long, Pelicula> peliculas leidas
      */
     Map<Long, Pelicula> getPeliculas() {
         return _peliculas;

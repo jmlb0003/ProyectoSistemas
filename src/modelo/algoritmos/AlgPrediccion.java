@@ -116,11 +116,11 @@ public class AlgPrediccion {
                 v = it1.next();
                 idPAux = v.getIdPelicula();
 
-//.....            itemSim = buscarVecino(idPAux, vecinos);
+                itemSim = buscarVecino(idPAux, vecinos);
 
-//..           numerador = numerador + itemSim.getSimilitud()*(v.getPuntuacion()-mediaU) ;
+                numerador = numerador + itemSim.getSimilitud()*(v.getPuntuacion()-mediaU) ;
                 
-//..               denominador = denominador + itemSim.getSimilitud() ;
+                denominador = denominador + itemSim.getSimilitud() ;
 
             }
 

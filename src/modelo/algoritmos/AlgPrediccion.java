@@ -20,6 +20,7 @@ import modelo.*;
  */
 public class AlgPrediccion {
     
+    
     /**
      * Método para predecir la valoracion de un usuario sobre una pelicula. 
      * Se tendra en cuenta solo los vecinos mas cercanos y el algoritmo de IA+A.
@@ -34,45 +35,34 @@ public class AlgPrediccion {
      *          podido predecir
     */
     public double calcularPrediccionIAmasA(int n, Usuario u, double mediaP, TreeSet<Similitud> vecinos) {
-        // Estructura para guardar las valoraciones que un usuario ha realizado 
-        //sobre los k vecinos mas cercanos a idP
-        ArrayList<Valoracion> vecinoConValoracion = new ArrayList();
-        //Valoraciones del usuario actual
-        Map<Long, Valoracion> uValoraciones = (Map<Long, Valoracion>) u.obtieneDetalles().obtieneDetalles().get("valoraciones");
-        
-        /// PASO 1: Quedarnos con las valoraciones a las películas más cercanas.
-        /// 1.1. Se recorren los vecinos mas cercanos a idP
+        //Lista de las Valoraciones que el usuario ha realizado sobre los 
+        //k-vecinos mas cercanos a idPelicula
+        ArrayList<Valoracion> valoracionesVecinos = new ArrayList();
+        //Valoraciones del usuario actual (u)
+        Map<Long, Valoracion> uValoraciones = 
+                (Map<Long, Valoracion>) u.obtieneDetalles().obtieneDetalles().get("valoraciones");
+      
+       
         ///mostrarVecinos(vecinos);
-        //Obtenemos las valoraciones de los vecinos mas cercanos
+        //Obtenemos las valoraciones de los k-vecinos mas cercanos
         try{
-            //Se recorren los vecinos en busca de las valoraciones de la pelicula
-            //que han valorado
-            //la misma pelicula
-            
+            //Se recorren las peliculas vecinas para quedarnos solamente con las
+            //que hayan sido votados por el usuario actual
             for(Similitud i : vecinos){
-                //Si el usuario ha valorado al dicho vecino                 
-                if ( uValoraciones.containsKey(i.getIdPelicula()) ){
-                    // 1.3. Si es así se almacena en la estructura vecinoConValoracion.
-                    vecinoConValoracion.add(uValoraciones.get(i.getIdPelicula()));
+                //Si el usuario ha valorado a la pelicula vecina
+                if ( uValoraciones.containsKey(i.getIdPelicula()) ){                    
+                    valoracionesVecinos.add(uValoraciones.get(i.getIdPelicula()));
                 }
             }
         }catch(Exception e){
             return -1;
         }
         
-        if (!vecinoConValoracion.isEmpty()){
-            // PASO 2: Conseguir las medias.
-            // 2.1. Media de la pelicula idP
-            //Va en el parametro mediaP que se pasa a la funcion
-
-            // 2.2. Media del usuario en cuestion
-//            double mediaU = u.getMedia();
-
-
+        //Ahora la formula de la prediccion Item Average+Adjustment
+        if (!valoracionesVecinos.isEmpty()){
             // PASO 3: Cálculo de la prediccion.
             double numerador = 0;
             double denominador = 0;
-            long idPAux;
             Similitud itemSim;
             Valoracion v;
             
@@ -82,26 +72,25 @@ public class AlgPrediccion {
             /**
              * ENFOQUE DADOS-N. Seleccionamos N valoraciones cercanas.
              * Si no hubiera suficientes valoraciones hay que dar la prediccion 
-             * por imposible. El parametro cobertura serviria para evaluar si 
-             * con el algoritmo se dan muchas predicciones por perdidas.
+             * por imposible (devolveria -1).
              */            
             if (n > 0){
                 //Si n>0 y hay suficientes valoraciones se hace enfoque dados-n
-                if (n < vecinoConValoracion.size()) {                    
+                if (n < valoracionesVecinos.size()) {                    
                     int rand;
                     int cont = 0;
-                    ArrayList<Valoracion> array = new ArrayList();
+                    ArrayList<Valoracion> aux = new ArrayList();
 
                     while (cont < n){
-                        rand = (int) (Math.random() * vecinoConValoracion.size());
-                        v = vecinoConValoracion.get(rand);
-                        if (!array.contains(v)){
-                            array.add(v);
+                        rand = (int) (Math.random() * valoracionesVecinos.size());
+                        v = valoracionesVecinos.get(rand);
+                        if (!aux.contains(v)){
+                            aux.add(v);
                             ++cont;
                         }
                     }
 
-                    vecinoConValoracion = array;
+                    valoracionesVecinos = aux;
                 } else {
                     return -1;
                 }
@@ -109,25 +98,24 @@ public class AlgPrediccion {
             // FIN ENFOQUE DADOS-N
             
             
+            double mediaU = (double) u.obtieneDetalles().obtieneDetalle("media");
             //A partir de aquí FORMULA de IA+A
-            Iterator<Valoracion> it1 = vecinoConValoracion.iterator();
+            Iterator<Valoracion> it1 = valoracionesVecinos.iterator();
             
             while(it1.hasNext()){
                 v = it1.next();
-                idPAux = v.getIdPelicula();
 
-                itemSim = buscarVecino(idPAux, vecinos);
-
-                numerador = numerador + itemSim.getSimilitud()*(v.getPuntuacion()-mediaU) ;
+                //Buscamos las similitudes de los vecinos
+                itemSim = buscarVecino(v.getIdPelicula(), vecinos);
                 
-                denominador = denominador + itemSim.getSimilitud() ;
-
+                if (itemSim != null){
+                    numerador = numerador + itemSim.getSimilitud()*(v.getPuntuacion()-mediaU) ;
+                    denominador = denominador + itemSim.getSimilitud() ;
+                }
             }
 
-            if (denominador != 0){
-                double ajuste = numerador/denominador;
-                
-                return mediaP + ajuste;
+            if (denominador != 0){                
+                return mediaP + numerador/denominador;
             }else{
                 return 0;
             }
@@ -135,5 +123,36 @@ public class AlgPrediccion {
             return -1;
         }
         
+    }
+    
+    
+    
+    /*************************/
+    /**
+     * Funciones auxiliares
+     */
+    
+    /**
+     * Funcion para buscar la similitud para una pelicula
+     * @param idP   Identificador de la pelicula de la que se quiere conocer
+     *              la similitud con la pelicula que se va a predecir la valoracion.
+     * @param vecinos Conjunto de k-vecinos mas cercanos a la pelicula de la que 
+     *              se va a precedir una valoracion.
+     * @return Devuelve un objeto Similitud de idP si existe o null en caso 
+     * contrario. La clase Similitud contiene pares pelicula-valor de similitud.
+    */
+    private Similitud buscarVecino(long idP, TreeSet<Similitud> vecinos) {
+        Iterator<Similitud> it = vecinos.iterator();
+        Similitud i;
+        
+        while (it.hasNext()){
+            i = it.next();
+            
+            if (i.getIdPelicula() == idP){
+                return i;
+            }
+        }
+        
+        return null;
     }
 }

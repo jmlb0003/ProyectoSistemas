@@ -37,7 +37,7 @@ public class Modelo implements ModeloInterface{
         fichero.leerCSVTest();
         Map<Long, Pelicula> peliculas = fichero.getPeliculas();
         Map<String, Usuario> usuarios = fichero.getUsuarios();
-        List valoraciones = fichero.getValoraciones();
+        List valoraciones = fichero.getValoraciones(); 
         
         System.out.println("Ficheros leidos correctamente \nAplicando modelo de similitud del coseno...");       
         

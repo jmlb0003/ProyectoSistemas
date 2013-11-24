@@ -7,7 +7,6 @@
 package modelo.algoritmos;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
@@ -39,7 +38,7 @@ public class AlgPrediccion {
         //sobre los k vecinos mas cercanos a idP
         ArrayList<Valoracion> vecinoConValoracion = new ArrayList();
         //Valoraciones del usuario actual
-        HashMap<Long, Valoracion> uValoraciones = (HashMap<Long, Valoracion>) u.obtieneDetalles().obtieneDetalles().get("valoraciones");
+        Map<Long, Valoracion> uValoraciones = (Map<Long, Valoracion>) u.obtieneDetalles().obtieneDetalles().get("valoraciones");
         
         /// PASO 1: Quedarnos con las valoraciones a las películas más cercanas.
         /// 1.1. Se recorren los vecinos mas cercanos a idP
@@ -119,7 +118,7 @@ public class AlgPrediccion {
 
 //.....            itemSim = buscarVecino(idPAux, vecinos);
 
-//.....           numerador = numerador + itemSim.getSimilitud()*(v.getPuntuacion()-mediaU) ;
+//..           numerador = numerador + itemSim.getSimilitud()*(v.getPuntuacion()-mediaU) ;
                 
 //..               denominador = denominador + itemSim.getSimilitud() ;
 

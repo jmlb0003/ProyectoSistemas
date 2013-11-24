@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,6 +11,7 @@ import modelo.persistencia.DAOPelicula;
 import modelo.persistencia.DAOUsuario;
 import modelo.persistencia.DAOValoracion;
 import modelo.persistencia.GestorPersistencia;
+import modelo.persistencia.excepciones.ErrorConexionBD;
 import modelo.persistencia.excepciones.ErrorInsertarPelicula;
 import modelo.persistencia.excepciones.ErrorInsertarUsuario;
 import modelo.persistencia.excepciones.ErrorInsertarValoracion;
@@ -19,30 +21,39 @@ import modelo.persistencia.excepciones.ErrorInsertarValoracion;
  * @author Jesus
  */
 public class Modelo implements ModeloInterface{
-
-    private FicheroCSV _fichero;
-    private Map<String, Usuario> _usuarios;
-    private Map<Long, Pelicula> _peliculas;
     
     public Modelo(){
-        _fichero = new FicheroCSV();
-        /**try {
+        try {
             GestorPersistencia.crearConexion();
-            _fichero.importarDatos();
-            _fichero.recuperarDato();
         } catch (ErrorConexionBD ex) {
             Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ErrorLecturaFichero ex) {
-            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        
-        _fichero.leerparaalgortimos();
+        }
         
     }
     
     public void aplicarAlgoritmos(){
+        //Leemos el fichero csv para los Test
+        FicheroCSV fichero = new FicheroCSV();
+        fichero.leerCSVTest();
+        Map<Long, Pelicula> peliculas = fichero.getPeliculas();
+        Map<String, Usuario> usuarios = fichero.getUsuarios();
+        List valoraciones = fichero.getValoraciones(); 
         
-        AlgSimilitud algortimosSimilitud = new AlgSimilitud();
+        System.out.println("Ficheros leidos correctamente \nAplicando modelo de similitud del coseno...");       
+        
+        //Aplicamos el algoritmo de similitud del coseno para k = 20
+        AlgSimilitud algSimilitud = new AlgSimilitud();
+        algSimilitud.getModeloSimilitudCoseno(20, peliculas);                
+        System.out.println("tiempo | MAE");
+        
+        //Aplicamos el algoritmo de similitud del coseno para k = 35
+        algSimilitud.getModeloSimilitudCoseno(35, peliculas);        
+        System.out.println("tiempo | MAE");
+        
+        //Aplicamos el algoritmo de similitud del coseno para k = 50
+        algSimilitud.getModeloSimilitudCoseno(50, peliculas);        
+        System.out.println("tiempo | MAE");
+
         
     }
     
@@ -55,22 +66,23 @@ public class Modelo implements ModeloInterface{
      * Crea la EEDD desde los ficheros y las inserta en la BBDD
      */
     void importarDatos() throws ErrorLecturaFichero{
-        //Lee los ficheros de peliculas y valoraciones
-        leerFicheroPeliculas();
-        leerFicheroValoraciones("recursos/peliculas.csv");
+        //Creamos el lector de CSV, leemos y obtenemos las EEDD
+        FicheroCSV fichero = new FicheroCSV();
+        fichero.leerCSV();
+        Map<Long, Pelicula> peliculas = fichero.getPeliculas();
+        Map<String, Usuario> usuarios = fichero.getUsuarios();
+        List valoraciones = fichero.getValoraciones();
+        
         System.out.println("Ficheros leidos correctamente \nInsertando en la BBDD...");
         
         try { 
             //Inserta las EEDD en la BBDD
-            DAOValoracion.instancia().insert(_valoraciones);
+            DAOValoracion.instancia().insert(valoraciones);
             System.out.println("Valoraciones insertadas.");
-            DAOPelicula.instancia().insert(_peliculas);
+            DAOPelicula.instancia().insert(peliculas);
             System.out.println("Peliculas insertadas.");
-            _peliculas.clear();
-            DAOUsuario.instancia().insert(_usuarios);
-            _usuarios.clear();
+            DAOUsuario.instancia().insert(usuarios);
             System.out.println("Usuarios insertados.");
-            _valoraciones.clear();
 
         } catch ( ErrorInsertarValoracion | ErrorInsertarPelicula | ErrorInsertarUsuario ex) {
             Logger.getLogger(FicheroCSV.class.getName()).log(Level.SEVERE, null, ex);

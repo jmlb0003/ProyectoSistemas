@@ -13,8 +13,10 @@ import javax.persistence.Id;
  */
 @Entity(name="Pelicula")
 public class Pelicula implements Serializable{
+    //Entero long identificador de la pelicula
     @Id
     private long _id;
+    //Detalles y atributos de la pelicula
     @Column(columnDefinition = "LONGBLOB") 
     private DetallesPelicula _detalles;
 

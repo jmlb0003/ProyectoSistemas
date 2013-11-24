@@ -41,6 +41,9 @@ public class Modelo implements ModeloInterface{
         
         System.out.println("Ficheros leidos correctamente \nAplicando modelo de similitud del coseno...");       
         
+        AQUI FALTAN LAS LISTAS DE PELICULAS QUE FORMAN PARTE DE LA PARTICION TEST
+                HAY QUE METERLAS EN UN ARRAYLIST
+        
         //Aplicamos el algoritmo de similitud del coseno para k = 20
         AlgSimilitud algSimilitud = new AlgSimilitud();
         algSimilitud.getModeloSimilitudCoseno(20, peliculas);                

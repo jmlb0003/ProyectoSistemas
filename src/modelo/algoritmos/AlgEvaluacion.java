@@ -6,6 +6,12 @@
 
 package modelo.algoritmos;
 
+import java.awt.List;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.TreeSet;
+import modelo.Usuario;
+
 /**
  *
  * @author José
@@ -14,7 +20,7 @@ public class AlgEvaluacion {
     
     
     /*Sin documentacion y puede que con algun fallo...es tarde ya pa mi*/
-public Parametros testIAmasA(int n, HashMap<Long, TreeSet<ItemSim>> modeloSimilitud, List<Usuario> test, GestorPersistencia instancia) {
+public double testIAmasA(int n, HashMap<Long, TreeSet<ItemSim>> modeloSimilitud, List<Usuario> test, GestorPersistencia instancia) {
         
     // Variables auxiliares:
     Iterator<Usuario> it1 = test.iterator();

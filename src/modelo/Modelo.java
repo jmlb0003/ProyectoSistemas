@@ -1,8 +1,15 @@
 package modelo;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.algoritmos.AlgSimilitud;
@@ -40,20 +47,36 @@ public class Modelo implements ModeloInterface{
         List valoraciones = fichero.getValoraciones(); 
         
         System.out.println("Ficheros leidos correctamente \nAplicando modelo de similitud del coseno...");       
-        
+        URL url = this.getClass().getClassLoader().getResource("recursos/resultados.txt");
+        File f;
+        try {
+          f = new File(url.toURI());
+        } catch(URISyntaxException e) {
+          f = new File(url.getPath());
+        }
+        PrintWriter   pw = null;
+        try {
+            pw = new PrintWriter(f);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
         //Aplicamos el algoritmo de similitud del coseno para k = 20
         AlgSimilitud algSimilitud = new AlgSimilitud();
-        algSimilitud.getModeloSimilitudCoseno(20, peliculas);                
-        System.out.println("tiempo | MAE");
+        long tiempoEntrenamiento = System.currentTimeMillis();
+        HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno = algSimilitud.getModeloSimilitudCoseno(20, peliculas);                
+        tiempoEntrenamiento = System.currentTimeMillis() - tiempoEntrenamiento;
+        pw.println("Prueba 1 Coseno. Entrenamiento: parte 1, 2,3,4. K = 20");
+        pw.println("Tiempo entrenamiento "+tiempoEntrenamiento);
         
+        
+        pw.println("MAE "+tiempoEntrenamiento);      
         //Aplicamos el algoritmo de similitud del coseno para k = 35
-        algSimilitud.getModeloSimilitudCoseno(35, peliculas);        
+        HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno1 = algSimilitud.getModeloSimilitudCoseno(35, peliculas);        
         System.out.println("tiempo | MAE");
-        
         //Aplicamos el algoritmo de similitud del coseno para k = 50
-        algSimilitud.getModeloSimilitudCoseno(50, peliculas);        
+        HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno2 = algSimilitud.getModeloSimilitudCoseno(50, peliculas);        
         System.out.println("tiempo | MAE");
-
         
     }
     
@@ -62,9 +85,9 @@ public class Modelo implements ModeloInterface{
         GestorPersistencia.desconectar();
     }
     
-     /**
-     * Crea la EEDD desde los ficheros y las inserta en la BBDD
-     */
+    /**
+    * Crea la EEDD desde los ficheros y las inserta en la BBDD
+    */
     void importarDatos() throws ErrorLecturaFichero{
         //Creamos el lector de CSV, leemos y obtenemos las EEDD
         FicheroCSV fichero = new FicheroCSV();

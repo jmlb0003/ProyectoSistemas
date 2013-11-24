@@ -43,20 +43,15 @@ public class AlgPrediccion {
                 (Map<Long, Valoracion>) u.obtieneDetalles().obtieneDetalles().get("valoraciones");
       
        
-        ///mostrarVecinos(vecinos);
-        //Obtenemos las valoraciones de los k-vecinos mas cercanos
-        try{
-            //Se recorren las peliculas vecinas para quedarnos solamente con las
-            //que hayan sido votados por el usuario actual
-            for(Similitud i : vecinos){
-                //Si el usuario ha valorado a la pelicula vecina
-                if ( uValoraciones.containsKey(i.getIdPelicula()) ){                    
-                    valoracionesVecinos.add(uValoraciones.get(i.getIdPelicula()));
-                }
+        //Se recorren las peliculas vecinas para quedarnos solamente con las
+        //que hayan sido votados por el usuario actual
+        for(Similitud i : vecinos){
+            //Si el usuario ha valorado a la pelicula vecina
+            if ( uValoraciones.containsKey(i.getIdPelicula()) ){                    
+                valoracionesVecinos.add(uValoraciones.get(i.getIdPelicula()));
             }
-        }catch(Exception e){
-            return -1;
         }
+        
         
         //Ahora la formula de la prediccion Item Average+Adjustment
         if (!valoracionesVecinos.isEmpty()){
@@ -124,6 +119,66 @@ public class AlgPrediccion {
         }
         
     }
+    
+  
+    
+    /**
+     * Metodo para predecir la valoracion de un usuario sobre una película, 
+     * teniendo en cuenta solo los vecinos más cercanos, utilizando el algoritmo 
+     * de predicción Weigthed Sum.
+     * @param u Usuario actual
+     * @param vecinos Conjunto de vecinos mas cercanos a la pelicula de la que 
+     *                  se va a precedir la valoracion.
+     * @return Devuelve la prediccion de la valoracion o -1 si no se ha 
+     *          podido predecir
+     */
+    private double calcularPrediccionWS(Usuario u, TreeSet<Similitud> vecinos) {
+        // Estructura con solamente las valoraciones que un usuario ha realizado sobre los k vecinos mas cercanos a idP
+        ArrayList<Valoracion> valoracionesVecinos = new ArrayList();
+        //Valoraciones del usuario actual (u)
+        Map<Long, Valoracion> uValoraciones = 
+                (Map<Long, Valoracion>) u.obtieneDetalles().obtieneDetalles().get("valoraciones");
+        
+        //Se recorren las peliculas vecinas para quedarnos solamente con las
+        //que hayan sido votados por el usuario actual
+        for(Similitud i : vecinos){            
+            //Si el usuario ha valorado a la pelicula vecina
+            if ( uValoraciones.containsKey(i.getIdPelicula()) ){                    
+                valoracionesVecinos.add(uValoraciones.get(i.getIdPelicula()));
+            }
+        }
+        
+        //Ahora la formula de Weighted Sum
+        if (!valoracionesVecinos.isEmpty()){
+            // PASO 3: Cálculo de la predicción.
+            double numerador = 0;
+            double denominador = 0;
+            long idPAux;
+            Similitud itemSim;
+            Iterator<Valoracion> it1 = valoracionesVecinos.iterator();
+            Valoracion v;
+
+            while(it1.hasNext()){
+                v = it1.next();
+                idPAux = v.getIdPelicula();
+                itemSim = buscarVecino(idPAux, vecinos);
+
+                numerador = numerador + itemSim.getSimilitud()*v.getPuntuacion();
+                denominador = denominador + itemSim.getSimilitud();
+
+            }
+
+            if (denominador != 0){
+                return numerador/denominador;
+            }else{
+                return 0;
+            }
+        }else{
+            return -1;
+        }
+        
+    }
+
     
     
     

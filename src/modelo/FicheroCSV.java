@@ -8,112 +8,51 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import modelo.algoritmos.AlgSimilitud;
-import modelo.persistencia.DAOPelicula;
-import modelo.persistencia.DAOUsuario;
-import modelo.persistencia.DAOValoracion;
-import modelo.persistencia.excepciones.ErrorInsertarPelicula;
-import modelo.persistencia.excepciones.ErrorInsertarUsuario;
-import modelo.persistencia.excepciones.ErrorInsertarValoracion;
 
 /**
- *
+ * Clase que encarga de leer los ficheros CSV e importarlos a memoria.
  * @author Jesús
  */
 class FicheroCSV{
     
     //Contenedores de usuarios, peliculas y valoraciones
-    private HashMap<String, Usuario> _usuarios;
-    private HashMap<Long, Pelicula> _peliculas;    
+    private Map<String, Usuario> _usuarios;
+    private Map<Long, Pelicula> _peliculas;    
     private List _valoraciones;
     
     /**
      * Constructor por defecto
      */
     FicheroCSV(){
-        _usuarios = new HashMap<>();
-        _peliculas = new HashMap<>();
+        _usuarios = new HashMap();
+        _peliculas = new HashMap();
         _valoraciones = new ArrayList();
     }
-    public void leerparaalgortimos(){
-        try {
-            leerFicheroPeliculas();
-            System.out.println(_peliculas.size());        
-                                AlgSimilitud algortimosSimilitud = new AlgSimilitud();
-
-
-            //PrimerTest
-            leerFicheroValoraciones("recursos/ratings3-1.csv");
-            leerFicheroValoraciones("recursos/ratings3-2.csv");
-            leerFicheroValoraciones("recursos/ratings3-3.csv");
-            leerFicheroValoraciones("recursos/ratings3-4.csv");
-            //Hacer modelo similitud
-            System.out.println("Leido del fichero");
-            HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno = algortimosSimilitud.getModeloSimilitudCoseno(500,_peliculas);
-                        System.out.println("Tabla creada");
-            Iterator<Map.Entry<Long, TreeSet<Similitud>>> iterator = modeloSimilitudCoseno.entrySet().iterator();
-            while(iterator.hasNext()){
-                Map.Entry<Long, TreeSet<Similitud>> next = iterator.next();
-                TreeSet<Similitud> value = next.getValue();
-                Long key = next.getKey();
-                //System.out.println("-----------------------------");
-               //System.out.println("fila id peli "+key);
-                Iterator<Similitud> iterator1 = value.iterator();
-                while (iterator1.hasNext()){
-                    Similitud next1 = iterator1.next();
-                    //System.out.println(next1.getIdPelicula()+" | "+next1.getSimilitud());
-                }
-            }
-/**
-            //Segundo Test
-            leerFicheroValoraciones("recursos/ratings3-1.csv");
-            leerFicheroValoraciones("recursos/ratings3-2.csv");
-            leerFicheroValoraciones("recursos/ratings3-3.csv");
-            leerFicheroValoraciones("recursos/ratings3-4.csv");
-            modeloSimilitud_byCoseno = algortimosSimilitud.
-            getModeloSimilitud_byCoseno(7, _usuarios,_peliculas);
-             */
-
-        } catch (ErrorLecturaFichero ex) {
-            Logger.getLogger(FicheroCSV.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-    /**
-     * Crea la EEDD desde los ficheros y las inserta en la BBDD
-     */
-    void importarDatos() throws ErrorLecturaFichero{
-        //Lee los ficheros de peliculas y valoraciones
+    
+    void leerCSVTest() throws ErrorLecturaFichero{
         leerFicheroPeliculas();
-        leerFicheroValoraciones("recursos/peliculas.csv");
-        System.out.println("Ficheros leidos correctamente \nInsertando en la BBDD...");
-        
-        try { 
-            //Inserta las EEDD en la BBDD
-            DAOValoracion.instancia().insert(_valoraciones);
-            System.out.println("Valoraciones insertadas.");
-            DAOPelicula.instancia().insert(_peliculas);
-            System.out.println("Peliculas insertadas.");
-            _peliculas.clear();
-            DAOUsuario.instancia().insert(_usuarios);
-            _usuarios.clear();
-            System.out.println("Usuarios insertados.");
-            _valoraciones.clear();
-
-        } catch ( ErrorInsertarValoracion | ErrorInsertarPelicula | ErrorInsertarUsuario ex) {
-            Logger.getLogger(FicheroCSV.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //Se leen los ficheros para los tests
+        leerFicheroValoraciones("recursos/ratings3-1.csv");
+        leerFicheroValoraciones("recursos/ratings3-2.csv");
+        leerFicheroValoraciones("recursos/ratings3-3.csv");
+        leerFicheroValoraciones("recursos/ratings3-4.csv");
     }
     
     /**
-     * Importa las peliculas de un fichero csv a la bbdd del sistema
+     * Lee los ficheros CSV y los guarda en memoria
+     * @throws ErrorLecturaFichero Error al leer el fichero
+     */
+    void leerCSV() throws ErrorLecturaFichero{
+        //Lee los ficheros de peliculas y valoraciones
+        leerFicheroPeliculas();
+        leerFicheroValoraciones("recursos/peliculas.csv");        
+    }
+    
+    /**
+     * Lee el fichero de peliculas y lo guarda en memoria
+     * @throws ErrorLecturaFichero Error al leer el fichero
      */
     private void leerFicheroPeliculas () throws ErrorLecturaFichero{
         
@@ -130,7 +69,7 @@ class FicheroCSV{
             while ((linea = br.readLine()) != null){
                 //Obtenemos los atributos de cada linea
                 String[] split = linea.split(",");
-                Map<String, Object> detalles = new HashMap<>();
+                Map<String, Object> detallesPelicula = new HashMap();
                 long ano, id;
                 
                 //Extraemos el id y el año de lanzamiento, comprobando que no 
@@ -147,13 +86,13 @@ class FicheroCSV{
                 }
                 
                 //Insertamos los atributos en el mapa
-                detalles.put("ano", ano);                
-                detalles.put("titulo",split[2].trim());
-                detalles.put("valoraciones", new HashMap<Long, Valoracion>());
-                detalles.put("suma_valoraciones", (long) 0);
+                detallesPelicula.put("ano", ano);                
+                detallesPelicula.put("titulo",split[2].trim());
+                detallesPelicula.put("valoraciones", new HashMap<Long, Valoracion>());
+                detallesPelicula.put("suma", (long) 0);
                 
                 //Creamos la pelicula, sin que se persista en la base de datos
-                Pelicula pelicula = new Pelicula(id, detalles);
+                Pelicula pelicula = new Pelicula(id, detallesPelicula);
                 _peliculas.put(id, pelicula);                  
             }
             
@@ -167,13 +106,13 @@ class FicheroCSV{
             } catch (IOException ex) {
                 throw new ErrorLecturaFichero();
             }
-        }
-        
+        }        
     }    
     
     /**
      * Lee el fichero de ratings y crea las valoraciones y las inserta 
      * en usuarios y peliculas 
+     * @throws ErrorLecturaFichero Error al leer el fichero
      */
     private void leerFicheroValoraciones (String nombre) throws ErrorLecturaFichero{
         
@@ -186,12 +125,10 @@ class FicheroCSV{
             //Leemos la primera linea donde contiene los titulos de las columnas
             String linea = br.readLine();            
             
-            int i = 0;
             //Leemos todas las peliculas del fichero
             while ((linea = br.readLine()) != null){
                 //Obtenemos los atributos de cada linea
                 String[] split = linea.split(",");
-                Map<String, Object> detalles = new HashMap<>();
                 long idPelicula;
                 int puntuacion;
                 
@@ -221,29 +158,30 @@ class FicheroCSV{
                 //Si no hubo error en la lectura del fichero añadimos la valoracion
                 if (idPelicula != -1 && puntuacion != -1){
                     if (_peliculas.containsKey(idPelicula)){
-                        //Creamos la valoracion
-                        detalles.put("idPelicula",idPelicula);
-                        detalles.put("idUsuario",idUsuario);
-                        detalles.put("valoracion",puntuacion);
                         Valoracion v = new Valoracion(puntuacion,idUsuario,idPelicula);
                         _valoraciones.add(v);
 
-                        //Obtenemos y modificamos la pelicula
+                        //Obtenemos y modificamos la pelicula actualizando la suma y la media
                         Pelicula pelicula = _peliculas.get(idPelicula);
                         Map mapaV = (Map<String, Valoracion>) pelicula.obtieneDetalles().
                                 obtieneDetalles().get("valoraciones");
                         mapaV.put(idUsuario, v);
-                        long suma = (long) pelicula.obtieneDetalles().obtieneDetalles().get("suma_valoraciones");
+                        long suma = (long) pelicula.obtieneDetalles().obtieneDetalles().get("suma");
                         suma = suma + puntuacion;
-                        pelicula.obtieneDetalles().obtieneDetalles().put("suma_valoraciones", suma);
-                        float media =  (float)suma / mapaV.size();
-                        pelicula.obtieneDetalles().obtieneDetalles().put("valoracion_media", media);  
+                        pelicula.obtieneDetalles().obtieneDetalles().put("suma", suma);
+                        double media =  (double)suma / mapaV.size();
+                        pelicula.obtieneDetalles().obtieneDetalles().put("media", media);  
 
-                        //Obtenemos y modificamos el usuario
+                        //Obtenemos y modificamos el usuario actualizando la suma y la media
                         Usuario usuario = _usuarios.get(idUsuario);
                         Map mapaV2 = (Map<Long, Valoracion>)usuario.obtieneDetalles().
                                 obtieneDetalles().get("valoraciones");
                         mapaV2.put(idPelicula,v);
+                        suma = (long) usuario.obtieneDetalles().obtieneDetalles().get("suma");
+                        suma = suma + puntuacion;
+                        usuario.obtieneDetalles().obtieneDetalles().put("suma", suma);
+                        media =  (double)suma / mapaV.size();
+                        usuario.obtieneDetalles().obtieneDetalles().put("media", media);
                     }                    
                 }
             }
@@ -261,29 +199,30 @@ class FicheroCSV{
         }
 
     }
-    
+
     /**
-     * Imprime por pantalla los resultados para comprobar que todo esta Ok
+     * Devuelve los usuarios extraidos del CSV
+     * @return Map<String, Usuario> con los usuarios encontrados
      */
-    void recuperarDato(){
-        Pelicula p = DAOPelicula.instancia().get((long)571);
-        DetallesPelicula detalles = p.obtieneDetalles();
-        System.out.println(detalles.obtieneDetalle("titulo") + "-- titulo");
-        System.out.println(detalles.obtieneDetalle("ano") + "-- ano");
-        System.out.println(detalles.obtieneDetalle("suma_valoraciones") + "-- suma_valoraciones");
-        System.out.println(detalles.obtieneDetalle("valoracion_media") + "-- valoracion_media");
-        Map<String, Valoracion> val = (Map<String, Valoracion>) p.obtieneDetalles().obtieneDetalle("valoraciones");
-        System.out.println(val.size() + "-- numero valoraciones recibidas.");
+    Map<String, Usuario> getUsuarios() {
+        return _usuarios;
+    }
 
-        Iterator<Map.Entry<String, Valoracion>> iterator = val.entrySet().iterator();
-        
-        while (iterator.hasNext()){
-            Valoracion v = iterator.next().getValue();
-            System.out.println("-------\n\t id pelicula: "+v.getIdPelicula());
-            System.out.println("\t id usuario: "+v.getIdUsuario());
-            System.out.println("\t valoracion: "+v.getPuntuacion());
-        }
 
+    /**
+     * Devuelve las peliculas extraidas del CSV
+     * @return Map<String, Pelicula> peliculas leidas
+     */
+    Map<Long, Pelicula> getPeliculas() {
+        return _peliculas;
+    }
+
+    /**
+     * Devuelve las valoraciones extraidas
+     * @return List Valoraciones leidas
+     */
+    List getValoraciones() {
+        return _valoraciones;
     }
     
 }

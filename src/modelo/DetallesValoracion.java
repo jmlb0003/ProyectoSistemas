@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * Clase que representa la encapsulacion de los atributos de las valoraciones
- * Los detalles disponibles son: fecha, valor,...
+ * NOSE UTILIZARA
  * @author 
  */
 public class DetallesValoracion implements Serializable {

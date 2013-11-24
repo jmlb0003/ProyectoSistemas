@@ -45,7 +45,7 @@ public class Valoracion implements Serializable {
         _idUsuario = idU;
     }
     
-        /**
+    /**
      * Constructor del objeto de Valoracion
      * @param p puntuacion de la valoracion
      * @param idU Id del usuario que realizo la valoracion

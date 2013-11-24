@@ -5,11 +5,12 @@ import java.util.Map;
 
 /**
  * Clase que representa la encapsulacion de los atributos de lasa peliculas
- * Los detalles disponibles son: id, valoraciones, media, fecha,....
+ * Los detalles disponibles son: titulo, valoraciones, ano, media, suma,....
  * @author
  */
 public class DetallesPelicula implements Serializable {
     //No puede ser de tipo final para poder meterlos en la base de datos
+    //Mapa con todos los atributos de la pelicula
     private Map<String, Object> _detalles;
         
     /**

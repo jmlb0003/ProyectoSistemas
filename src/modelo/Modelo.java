@@ -67,7 +67,7 @@ public class Modelo implements ModeloInterface{
         HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno = algSimilitud.getModeloSimilitudCoseno(20, peliculas);                
         tiempoEntrenamiento = System.currentTimeMillis() - tiempoEntrenamiento;
         pw.println("Prueba 1 Coseno. Entrenamiento: parte 1, 2,3,4. K = 20");
-        pw.println("Tiempo entrenamiento "+tiempoEntrenamiento);
+        pw.println("Tiempo entrenamiento   "+tiempoEntrenamiento);
         
         
         pw.println("MAE "+tiempoEntrenamiento);      

@@ -20,6 +20,7 @@ import modelo.*;
  */
 public class AlgPrediccion {
     
+    
     /**
      * Método para predecir la valoracion de un usuario sobre una pelicula. 
      * Se tendra en cuenta solo los vecinos mas cercanos y el algoritmo de IA+A.

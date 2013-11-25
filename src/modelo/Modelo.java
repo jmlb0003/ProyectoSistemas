@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -33,15 +34,15 @@ import modelo.persistencia.excepciones.ErrorInsertarValoracion;
 public class Modelo implements ModeloInterface{
     
     public Modelo(){
-        try {
+        /**try {
             GestorPersistencia.crearConexion();
         } catch (ErrorConexionBD ex) {
             Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         
     }
     
-public void aplicarAlgoritmos() throws ErrorLecturaFichero, ErrorGrabarModeloSimilitud{
+    public void aplicarAlgoritmosCoseno() throws ErrorLecturaFichero, ErrorGrabarModeloSimilitud{
         //Leemos el fichero csv para los Test
         FicheroCSV fichero = new FicheroCSV();
         
@@ -51,16 +52,16 @@ public void aplicarAlgoritmos() throws ErrorLecturaFichero, ErrorGrabarModeloSim
             //List<Long> peliculasTest = fichero.getPeliculasTest();
             List<String> clavesUsuariosTest = fichero.getClavesUsuariosTest();
             List<Usuario> usuariosTest = fichero.getUsuariosTest();
-            System.out.println("Ficheros leidos correctamente \nAplicando modelo de similitud del coseno...");     
 
             for (int k=20;k<=50;k=k+15){
                 //Aplicamos el algoritmo de similitud del coseno y lo grabamos en disco
                 long tiempoMS = System.currentTimeMillis();
-                HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno = AlgSimilitud.getModeloSimilitudCoseno(k, (List<Pelicula>) peliculas.values(), clavesUsuariosTest);                
+                HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno = AlgSimilitud.getModeloSimilitudCoseno(k, new ArrayList(peliculas.values()), clavesUsuariosTest);                
                 tiempoMS = System.currentTimeMillis() - tiempoMS;
-                System.out.println("Modelo de similitud creado.");
+
                 // Grabamos en disco el Modelo de Similitud
-                grabarModeloSimilitud(modeloSimilitudCoseno,"recursos/algoritmos/Coseno-"+k+"parte"+i,tiempoMS);
+                grabarModeloSimilitud(modeloSimilitudCoseno,"C:\\coleccion\\Coseno-"+k+"parte"+i,tiempoMS);
+                //imprimir(modeloSimilitudCoseno);
                 
                 int n[] = {0,2,4,8};
                 for (int m=0;m<4;m++){
@@ -69,12 +70,12 @@ public void aplicarAlgoritmos() throws ErrorLecturaFichero, ErrorGrabarModeloSim
                     double MAE = AlgEvaluacion.testIAmasA(n[m], modeloSimilitudCoseno,peliculas, usuariosTest);
                     tiempoIAA = System.currentTimeMillis() - tiempoIAA;
                     long tiempo = tiempoMS + tiempoIAA;
-
+                                        
                     //Grabamos los resultados de ejecucion del Test
-                    grabarResultados("recursos/algoritmos/Coseno"+k+"-IAmasA-"+n[m]+"parte-"+i+".txt", "Algoritmo del Coseno. k = " + k, 
+                    grabarResultados("C:\\coleccion\\Coseno"+k+"-IAmasA-"+n[m]+"parte-"+i+".txt", "Algoritmo del Coseno. k = " + k, 
                             "IA+A. n = "+n, tiempo, MAE );
                 }
-                System.out.println("prediccion IA+A");
+
                 //Aplicamos el algoritmo de prediccion IA+A
                 long tiempoWS = System.currentTimeMillis();        
                 double MAE = AlgEvaluacion.testWS(modeloSimilitudCoseno,usuariosTest);
@@ -82,7 +83,53 @@ public void aplicarAlgoritmos() throws ErrorLecturaFichero, ErrorGrabarModeloSim
                 long tiempo = tiempoMS + tiempoWS;
 
                 //Grabamos los resultados de ejecucion del Test
-                grabarResultados("recursos/algoritmos/Coseno"+k+"-WS-parte-"+i+".txt", "Algoritmo del Coseno. k = " + k, 
+                grabarResultados("C:\\coleccion\\Coseno"+k+"-WS-parte-"+i+".txt", "Algoritmo del Coseno. k = " + k, 
+                            "Algoritmo de prediccion WS.", tiempo, MAE );
+            }
+        }
+    }    
+    
+    public void aplicarAlgoritmosPearson() throws ErrorLecturaFichero, ErrorGrabarModeloSimilitud{
+        //Leemos el fichero csv para los Test
+        FicheroCSV fichero = new FicheroCSV();
+        
+        for (int i=1;i<=5;i++){
+            fichero.leerCSVTest(i);
+            Map<Long, Pelicula> peliculas = fichero.getPeliculas();
+            //List<Long> peliculasTest = fichero.getPeliculasTest();
+            List<String> clavesUsuariosTest = fichero.getClavesUsuariosTest();
+            List<Usuario> usuariosTest = fichero.getUsuariosTest();
+
+            for (int k=20;k<=50;k=k+15){
+                //Aplicamos el algoritmo de similitud de pearson y lo grabamos en disco
+                long tiempoMS = System.currentTimeMillis();
+                HashMap<Long, TreeSet<Similitud>> mSPearson = AlgSimilitud.getModeloSimilitudPearson(k, new ArrayList(peliculas.values()), clavesUsuariosTest);                
+                tiempoMS = System.currentTimeMillis() - tiempoMS;
+
+                // Grabamos en disco el Modelo de Similitud
+                grabarModeloSimilitud(mSPearson,"C:\\coleccion\\pearson-"+k+"parte"+i,tiempoMS);
+                
+                int n[] = {0,2,4,8};
+                for (int m=0;m<4;m++){
+                    //Aplicamos el algoritmo de prediccion IA+A
+                    long tiempoIAA = System.currentTimeMillis();        
+                    double MAE = AlgEvaluacion.testIAmasA(n[m], mSPearson,peliculas, usuariosTest);
+                    tiempoIAA = System.currentTimeMillis() - tiempoIAA;
+                    long tiempo = tiempoMS + tiempoIAA;
+                                        
+                    //Grabamos los resultados de ejecucion del Test
+                    grabarResultados("C:\\coleccion\\pearson"+k+"-IAmasA-"+n[m]+"parte-"+i+".txt", "Algoritmo del Pearson. k = " + k, 
+                            "IA+A. n = "+n, tiempo, MAE );
+                }
+
+                //Aplicamos el algoritmo de prediccion IA+A
+                long tiempoWS = System.currentTimeMillis();        
+                double MAE = AlgEvaluacion.testWS(mSPearson,usuariosTest);
+                tiempoWS = System.currentTimeMillis() - tiempoWS;
+                long tiempo = tiempoMS + tiempoWS;
+
+                //Grabamos los resultados de ejecucion del Test
+                grabarResultados("C:\\coleccion\\pearson"+k+"-WS-parte-"+i+".txt", "Algoritmo del Pearson. k = " + k, 
                             "Algoritmo de prediccion WS.", tiempo, MAE );
             }
         }
@@ -141,22 +188,22 @@ public void aplicarAlgoritmos() throws ErrorLecturaFichero, ErrorGrabarModeloSim
 
     private void grabarModeloSimilitud(HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno, 
             String ruta, long tiempo) throws ErrorGrabarModeloSimilitud {
-                
+        
         URL url = this.getClass().getClassLoader().getResource(ruta+".bin");
         //Crea el lector del archivo
         ObjectOutputStream oos =null;
             
         try{
-            //Crea el fichero y comprueba si existe, en ese caso lo sobrescribe
-            File f=new File(url.getPath());
+            //Crea el fichero y comprueba si existe
+            File f=new File(ruta+".bin");
             if (!f.exists()){
-                //Si no existe lo crea
-                f.createNewFile();
-            }
+                //Si no existe lo crea    
+                f.createNewFile();  
+            }            
             
             //Crea el lector del archivo y lo abre
             oos =new ObjectOutputStream(new FileOutputStream(f,false));
-            
+
             //Graba el modelo de similitud en el fichero
             oos.writeObject(modeloSimilitudCoseno);
             oos.writeObject(tiempo);
@@ -165,7 +212,9 @@ public void aplicarAlgoritmos() throws ErrorLecturaFichero, ErrorGrabarModeloSim
             throw new ErrorGrabarModeloSimilitud();
         }finally {
             try {
-                oos.close();
+                if (oos != null){
+                    oos.close();
+                }
             } catch (IOException ex) {
                 throw new ErrorGrabarModeloSimilitud();
             }
@@ -180,8 +229,12 @@ public void aplicarAlgoritmos() throws ErrorLecturaFichero, ErrorGrabarModeloSim
         File f;
         PrintWriter pw = null;
         try {
-          f = new File(url.getPath());
-          f.createNewFile();
+            //Crea el fichero y comprueba si existe
+            f=new File(ruta);
+            if (!f.exists()){
+                //Si no existe lo crea    
+                f.createNewFile();  
+            }    
           pw = new PrintWriter(f);
         } catch (IOException ex) {
             Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
@@ -196,5 +249,21 @@ public void aplicarAlgoritmos() throws ErrorLecturaFichero, ErrorGrabarModeloSim
         pw.println("MAE: "+MAE);
         
         pw.close();        
+    }
+    
+    void imprimir(HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno){
+        Iterator<Map.Entry<Long, TreeSet<Similitud>>> iterator = modeloSimilitudCoseno.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry<Long, TreeSet<Similitud>> next = iterator.next();
+            System.out.println("-------------------------------");
+            System.out.println("Pelicula: "+next.getKey());
+            TreeSet<Similitud> value = next.getValue();
+            Iterator<Similitud> iterator1 = value.iterator();
+            while (iterator1.hasNext()){
+                Similitud next1 = iterator1.next();
+                System.out.println("\tpelicula comparada: "+next1.getIdPelicula());
+                System.out.println("\tsimilitud: "+next1.getSimilitud());
+            }
+        }        
     }
 }

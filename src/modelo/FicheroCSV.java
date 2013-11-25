@@ -20,7 +20,6 @@ class FicheroCSV{
     //Contenedores de usuarios, peliculas y valoraciones
     private Map<String, Usuario> _usuarios;
     private Map<Long, Pelicula> _peliculas;
-    private List<Long> _peliculasTest;
     private List<Valoracion> _valoraciones;
     private Map<String,Usuario> _usuariosTest;
     
@@ -31,15 +30,18 @@ class FicheroCSV{
         _usuarios = new HashMap();
         _peliculas = new HashMap();
         _valoraciones = new ArrayList();
-        _peliculasTest = new ArrayList();
         _usuariosTest = new HashMap();
     }
     
+    /**
+     * Lee la parte de Test del fichero CSV
+     * @param particion particion que se debe leer
+     * @throws ErrorLecturaFichero Error en la lectura del fichero
+     */
     void leerCSVTest(int particion) throws ErrorLecturaFichero{
         _usuarios.clear();
         _peliculas.clear();
         _valoraciones.clear();
-        _peliculasTest.clear();
         _usuariosTest.clear();
         
         leerFicheroPeliculas();
@@ -85,9 +87,7 @@ class FicheroCSV{
 
                 leerFicheroValoracionesTest("recursos/csv/ratings3-4.csv");
                 break;
-        }
-                        
-                
+        }    
     }
     
     /**
@@ -134,7 +134,7 @@ class FicheroCSV{
                 }catch (NumberFormatException e){
                     id = -1;
                 }
-                
+
                 //Insertamos los atributos en el mapa
                 detallesPelicula.put("ano", ano);                
                 detallesPelicula.put("titulo",split[2].trim());
@@ -231,7 +231,7 @@ class FicheroCSV{
                         suma = (long) usuario.obtieneDetalles().obtieneDetalles().get("suma");
                         suma = suma + puntuacion;
                         usuario.obtieneDetalles().obtieneDetalles().put("suma", suma);
-                        media =  (double)suma / mapaV.size();
+                        media =  (double)suma / mapaV2.size();
                         usuario.obtieneDetalles().obtieneDetalles().put("media", media);
                     }                    
                 }
@@ -258,7 +258,6 @@ class FicheroCSV{
     Map<String, Usuario> getUsuarios() {
         return _usuarios;
     }
-
 
     /**
      * Devuelve las peliculas extraidas del CSV
@@ -295,14 +294,20 @@ class FicheroCSV{
                 //Obtenemos los atributos de cada linea
                 String[] split = linea.split(",");
                 long idPelicula;
+                int puntuacion;
                 
                 //Extraemos el id y el año de lanzamiento, comprobando que no 
                 //haya problemas en la conversion
                 try{
                     idPelicula = Long.parseLong(split[1].trim());
-                    _peliculasTest.add(idPelicula);
                 }catch (NumberFormatException e){
                     idPelicula = -1;
+                }     
+                
+                try{
+                    puntuacion = Integer.parseInt(split[2].trim());
+                }catch (NumberFormatException e){
+                    puntuacion = -1;
                 }
                 
                 String idUsuario = split[0];
@@ -314,7 +319,25 @@ class FicheroCSV{
                     Usuario usuario = new Usuario(idUsuario, detallesUsuario);                    
                     _usuariosTest.put(idUsuario, usuario);
                 }
-                       
+                
+                //Si no hubo error en la lectura del fichero añadimos la valoracion
+                if (idPelicula != -1 && puntuacion != -1){
+                    if (_peliculas.containsKey(idPelicula)){
+                        Valoracion v = new Valoracion(puntuacion,idUsuario,idPelicula);
+                        _valoraciones.add(v);
+
+                        //Obtenemos y modificamos el usuario actualizando la suma y la media
+                        Usuario usuario = _usuariosTest.get(idUsuario);
+                        Map mapaV2 = (Map<Long, Valoracion>)usuario.obtieneDetalles().
+                                obtieneDetalles().get("valoraciones");
+                        mapaV2.put(idPelicula,v);
+                        long suma = (long) usuario.obtieneDetalles().obtieneDetalles().get("suma");
+                        suma = suma + puntuacion;
+                        usuario.obtieneDetalles().obtieneDetalles().put("suma", suma);
+                        double media =  (double)suma / mapaV2.size();
+                        usuario.obtieneDetalles().obtieneDetalles().put("media", media);
+                    }                    
+                }                       
             }
             
         } catch (FileNotFoundException ex) {
@@ -329,15 +352,7 @@ class FicheroCSV{
             }
         }    
     }
-    
-    /**
-     * Devuelve una lista con las peliculas incluidas en la particion de test
-     * @return List<Long> peliculas de la particion de test
-     */
-    List<Long> getPeliculasTest() {
-        return _peliculasTest;
-    }
-    
+       
     /**
      * Devuelve una lista con las claves de los usuarios incluidos en la particion de test
      * @return List<String> Usuarios de la particion de test

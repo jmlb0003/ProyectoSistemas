@@ -9,7 +9,7 @@ import javax.persistence.Temporal;
 
 /**
  * Clase Valoracion
- * @author 
+ * @author Grupo 3
  */
 @Entity(name="Valoracion")
 

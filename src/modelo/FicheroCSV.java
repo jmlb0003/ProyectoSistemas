@@ -39,12 +39,12 @@ class FicheroCSV{
         leerFicheroPeliculas();
     
         //Se leen los ficheros para los tests
-        leerFicheroValoraciones("recursos/ratings3-1.csv");
-        leerFicheroValoraciones("recursos/ratings3-2.csv");
-        leerFicheroValoraciones("recursos/ratings3-3.csv");
-        leerFicheroValoraciones("recursos/ratings3-4.csv");
+        leerFicheroValoraciones("recursos/csv/ratings3-1.csv");
+        leerFicheroValoraciones("recursos/csv/ratings3-2.csv");
+        leerFicheroValoraciones("recursos/csv/ratings3-3.csv");
+        leerFicheroValoraciones("recursos/csv/ratings3-4.csv");
         
-        leerFicheroValoracionesTest("recursos/ratings3-5.csv");
+        leerFicheroValoracionesTest("recursos/csv/ratings3-5.csv");
     }
     
     /**
@@ -54,7 +54,7 @@ class FicheroCSV{
     void leerCSV() throws ErrorLecturaFichero{
         //Lee los ficheros de peliculas y valoraciones
         leerFicheroPeliculas();
-        leerFicheroValoraciones("recursos/ratings3.csv");        
+        leerFicheroValoraciones("recursos/csv/ratings3.csv");        
     }
     
     /**
@@ -67,7 +67,7 @@ class FicheroCSV{
         
         try {
             //Abrimos el fichero de peliculas
-            URL url = this.getClass().getClassLoader().getResource("recursos/peliculas.csv");
+            URL url = this.getClass().getClassLoader().getResource("recursos/csv/peliculas.csv");
             br = new BufferedReader(new InputStreamReader(url.openStream()));
             //Leemos la primera linea donde contiene los titulos de las columnas
             String linea = br.readLine();            
@@ -158,6 +158,7 @@ class FicheroCSV{
                     Map<String, Object> detallesUsuario = new HashMap<>();
                     detallesUsuario.put("clave", String.valueOf(idUsuario));                    
                     detallesUsuario.put("valoraciones", new HashMap<Long,Valoracion>());
+                    detallesUsuario.put("suma", (long)0);
                     Usuario usuario = new Usuario(idUsuario, detallesUsuario);                    
                     _usuarios.put(idUsuario, usuario);
                 }
@@ -265,6 +266,7 @@ class FicheroCSV{
                 if (!_usuariosTest.containsKey(idUsuario)){
                     Map<String, Object> detallesUsuario = new HashMap<>();
                     detallesUsuario.put("clave", String.valueOf(idUsuario));                    
+                    detallesUsuario.put("suma", (long)0);
                     detallesUsuario.put("valoraciones", new HashMap<Long,Valoracion>());
                     Usuario usuario = new Usuario(idUsuario, detallesUsuario);                    
                     _usuariosTest.put(idUsuario, usuario);
@@ -292,6 +294,14 @@ class FicheroCSV{
     List<Long> getPeliculasTest() {
         return _peliculasTest;
     }
+    
+    /**
+     * Devuelve una lista con las claves de los usuarios incluidos en la particion de test
+     * @return List<String> Usuarios de la particion de test
+     */
+    List<String> getClavesUsuariosTest() {
+        return new ArrayList(_usuariosTest.keySet());
+    }    
     
     /**
      * Devuelve una lista con los usuarios incluidos en la particion de test

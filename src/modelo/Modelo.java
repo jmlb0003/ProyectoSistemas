@@ -2,13 +2,10 @@ package modelo;
 
 import modelo.excepciones.ErrorGrabarModeloSimilitud;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -47,9 +44,10 @@ public class Modelo implements ModeloInterface{
     public void aplicarAlgoritmos() throws ErrorLecturaFichero, ErrorGrabarModeloSimilitud{
         //Leemos el fichero csv para los Test
         FicheroCSV fichero = new FicheroCSV();
-        fichero.leerCSVTest();
+        fichero.leerCSVTest(1);
         Map<Long, Pelicula> peliculas = fichero.getPeliculas();
-        List<Long> peliculasTest = fichero.getPeliculasTest();
+        //List<Long> peliculasTest = fichero.getPeliculasTest();
+        List<String> clavesUsuariosTest = fichero.getClavesUsuariosTest();
         List<Usuario> usuariosTest = fichero.getUsuariosTest();
         fichero = null;
         System.out.println("Ficheros leidos correctamente \nAplicando modelo de similitud del coseno...");     
@@ -59,11 +57,11 @@ public class Modelo implements ModeloInterface{
         //Aplicamos el algoritmo de similitud del coseno y lo grabamos en disco
         long tiempo = System.currentTimeMillis();
         HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno = AlgSimilitud.getModeloSimilitudCoseno(k,
-                peliculas, peliculasTest);                
+                peliculas, clavesUsuariosTest);                
         tiempo = System.currentTimeMillis() - tiempo;
 
         // Grabamos en disco el Modelo de Similitud
-        grabarModeloSimilitud(modeloSimilitudCoseno,"recursos/Coseno-"+k,tiempo);                
+        grabarModeloSimilitud(modeloSimilitudCoseno,"recursos/algoritmos/Coseno-"+k,tiempo);                
 
         //Aplicamos el algoritmo de prediccion IA+A
         long tiempoTest = System.currentTimeMillis();        
@@ -72,6 +70,7 @@ public class Modelo implements ModeloInterface{
         tiempo = tiempo + tiempoTest;
 
         //Grabamos los resultados de ejecucion del Test
+
         grabarResultados("recursos/CosenoIAmasA-"+k+".txt", "Algoritmo del Coseno. k = " + k, 
                 "IA+A. n = "+n, tiempo, MAE );
             

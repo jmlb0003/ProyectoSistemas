@@ -1,6 +1,10 @@
 package sgbdcine;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Modelo;
+import modelo.excepciones.ErrorGrabarModeloSimilitud;
+import modelo.excepciones.ErrorLecturaFichero;
 
 /**
  *
@@ -13,6 +17,13 @@ public class SGBDCine {
      */
     public static void main(String[] args) {
          Modelo m = new Modelo();
+        try {
+            m.aplicarAlgoritmos();
+        } catch (ErrorLecturaFichero ex) {
+            Logger.getLogger(SGBDCine.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ErrorGrabarModeloSimilitud ex) {
+            Logger.getLogger(SGBDCine.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

@@ -44,9 +44,9 @@ public class Modelo implements ModeloInterface{
     public void aplicarAlgoritmos() throws ErrorLecturaFichero, ErrorGrabarModeloSimilitud{
         //Leemos el fichero csv para los Test
         FicheroCSV fichero = new FicheroCSV();
-        fichero.leerCSVTest();
+        fichero.leerCSVTest(1);
         Map<Long, Pelicula> peliculas = fichero.getPeliculas();
-        List<Long> peliculasTest = fichero.getPeliculasTest();
+        //List<Long> peliculasTest = fichero.getPeliculasTest();
         List<String> clavesUsuariosTest = fichero.getClavesUsuariosTest();
         List<Usuario> usuariosTest = fichero.getUsuariosTest();
         fichero = null;

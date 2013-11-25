@@ -35,16 +35,59 @@ class FicheroCSV{
         _usuariosTest = new HashMap();
     }
     
-    void leerCSVTest() throws ErrorLecturaFichero{
-        leerFicheroPeliculas();
-    
-        //Se leen los ficheros para los tests
-        leerFicheroValoraciones("recursos/csv/ratings3-1.csv");
-        leerFicheroValoraciones("recursos/csv/ratings3-2.csv");
-        leerFicheroValoraciones("recursos/csv/ratings3-3.csv");
-        leerFicheroValoraciones("recursos/csv/ratings3-4.csv");
+    void leerCSVTest(int particion) throws ErrorLecturaFichero{
+        _usuarios.clear();
+        _peliculas.clear();
+        _valoraciones.clear();
+        _peliculasTest.clear();
+        _usuariosTest.clear();
         
-        leerFicheroValoracionesTest("recursos/csv/ratings3-5.csv");
+        leerFicheroPeliculas();
+        
+        switch(particion){
+            case 1:
+                leerFicheroValoraciones("recursos/csv/ratings3-1.csv");
+                leerFicheroValoraciones("recursos/csv/ratings3-2.csv");
+                leerFicheroValoraciones("recursos/csv/ratings3-3.csv");
+                leerFicheroValoraciones("recursos/csv/ratings3-4.csv");
+
+                leerFicheroValoracionesTest("recursos/csv/ratings3-5.csv");
+                break;
+            case 2:
+                leerFicheroValoraciones("recursos/csv/ratings3-2.csv");
+                leerFicheroValoraciones("recursos/csv/ratings3-3.csv");
+                leerFicheroValoraciones("recursos/csv/ratings3-4.csv");
+                leerFicheroValoraciones("recursos/csv/ratings3-5.csv");
+
+                leerFicheroValoracionesTest("recursos/csv/ratings3-1.csv");
+                break;            
+            case 3:
+                leerFicheroValoraciones("recursos/csv/ratings3-3.csv");
+                leerFicheroValoraciones("recursos/csv/ratings3-4.csv");
+                leerFicheroValoraciones("recursos/csv/ratings3-5.csv");
+                leerFicheroValoraciones("recursos/csv/ratings3-1.csv");
+
+                leerFicheroValoracionesTest("recursos/csv/ratings3-2.csv");
+                break;            
+            case 4:
+                leerFicheroValoraciones("recursos/csv/ratings3-4.csv");
+                leerFicheroValoraciones("recursos/csv/ratings3-5.csv");
+                leerFicheroValoraciones("recursos/csv/ratings3-1.csv");
+                leerFicheroValoraciones("recursos/csv/ratings3-2.csv");
+
+                leerFicheroValoracionesTest("recursos/csv/ratings3-3.csv");
+                break;
+            case 5:
+                leerFicheroValoraciones("recursos/csv/ratings3-5.csv");
+                leerFicheroValoraciones("recursos/csv/ratings3-1.csv");
+                leerFicheroValoraciones("recursos/csv/ratings3-2.csv");
+                leerFicheroValoraciones("recursos/csv/ratings3-3.csv");
+
+                leerFicheroValoracionesTest("recursos/csv/ratings3-4.csv");
+                break;
+        }
+                        
+                
     }
     
     /**

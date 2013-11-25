@@ -56,10 +56,9 @@ public void aplicarAlgoritmos() throws ErrorLecturaFichero, ErrorGrabarModeloSim
             for (int k=20;k<=50;k=k+15){
                 //Aplicamos el algoritmo de similitud del coseno y lo grabamos en disco
                 long tiempoMS = System.currentTimeMillis();
-                HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno = AlgSimilitud.getModeloSimilitudCoseno(k,
-                        peliculas, clavesUsuariosTest);                
+                HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno = AlgSimilitud.getModeloSimilitudCoseno(k, (List<Pelicula>) peliculas.values(), clavesUsuariosTest);                
                 tiempoMS = System.currentTimeMillis() - tiempoMS;
-
+                System.out.println("Modelo de similitud creado.");
                 // Grabamos en disco el Modelo de Similitud
                 grabarModeloSimilitud(modeloSimilitudCoseno,"recursos/algoritmos/Coseno-"+k+"parte"+i,tiempoMS);
                 
@@ -75,6 +74,7 @@ public void aplicarAlgoritmos() throws ErrorLecturaFichero, ErrorGrabarModeloSim
                     grabarResultados("recursos/algoritmos/Coseno"+k+"-IAmasA-"+n[m]+"parte-"+i+".txt", "Algoritmo del Coseno. k = " + k, 
                             "IA+A. n = "+n, tiempo, MAE );
                 }
+                System.out.println("prediccion IA+A");
                 //Aplicamos el algoritmo de prediccion IA+A
                 long tiempoWS = System.currentTimeMillis();        
                 double MAE = AlgEvaluacion.testWS(modeloSimilitudCoseno,usuariosTest);

@@ -26,15 +26,15 @@ public class AlgSimilitud {
      * Método calcular la similitud entre dos Películas utilizando el algoritmo del Coseno.
      * @param p1 Primera pelicula a comparar.
      * @param p2 Segunda película a comparar.
-     * @param test Lista de peliculas que han valorado los usuarios incluidas en 
-     * la particion de test. Deben descartarse.
+     * @param test Lista de usuarios con valoraciones incluidas en la particion 
+     *              de test. Deben descartarse.
      * @return Devuelve el valor de similitud con un real entre 0 y 1
     */
     private static double similitudCoseno(Pelicula p1, Pelicula p2, List<Long> test){        
         double suma1 = 0;
         double suma2 = 0;
         int val1, val2;
-        Long idPelicula;
+        Long idUsuario;
         double numerador = 0;
         
         Map<Long, Valoracion> valoracionesP1 = (Map<Long, Valoracion>) p1.obtieneDetalles().
@@ -51,14 +51,14 @@ public class AlgSimilitud {
         if (valoracionesP1.size() < valoracionesP2.size()){
             //Se recorren las valoraciones de la pelicula
             for (Entry<Long,Valoracion> e : valoracionesP1.entrySet()) {
-                idPelicula = e.getKey();
+                idUsuario = e.getKey();
                 
-                //############// 2. Descartamos los usuarios de la partición test
-                if (!test.contains(idPelicula)){
+                //############// 2. Descartamos los usuarios de la particion test
+                if (!test.contains(idUsuario)){
                     //Si la otra película ha sido valorada por el usuario
-                    if (valoracionesP2.containsKey(idPelicula)){  
+                    if (valoracionesP2.containsKey(idUsuario)){  
                         val1 = e.getValue().getPuntuacion();
-                        val2 = valoracionesP2.get(idPelicula).getPuntuacion();
+                        val2 = valoracionesP2.get(idUsuario).getPuntuacion();
 
                         suma1 = suma1 + val1 * val1;
                         suma2 = suma2 + val2 * val2;
@@ -70,15 +70,15 @@ public class AlgSimilitud {
             }
         }else{
             for (Entry<Long,Valoracion> e : valoracionesP2.entrySet()) {
-                idPelicula = e.getKey();
+                idUsuario = e.getKey();
                 
                 //############// 2. Descartamos los usuarios de la partición test
-                if (!test.contains(idPelicula)){
+                if (!test.contains(idUsuario)){
                 
                     //Si la otra película ha sido valorada por el usuario
-                    if (valoracionesP1.containsKey(idPelicula)){
+                    if (valoracionesP1.containsKey(idUsuario)){
                         val2 = e.getValue().getPuntuacion();
-                        val1 = valoracionesP1.get(idPelicula).getPuntuacion();
+                        val1 = valoracionesP1.get(idUsuario).getPuntuacion();
 
                         suma1 = suma1 + val1 * val1;
                         suma2 = suma2 + val2 * val2;
@@ -204,8 +204,8 @@ public class AlgSimilitud {
      * de similitud del Coeficiente de Correlacion de Pearson.
      * @param p1 Primera pelicula a comparar.
      * @param p2 Segunda película a comparar.
-     * @param test Lista de peliculas que han valorado los usuarios incluidas en 
-     * la particion de test. Deben descartarse.
+     * @param test Lista de usuarios con valoraciones incluidas en la particion 
+     *              de test. Deben descartarse.
      * @return Devuelve el valor de similitud con un real entre 0 y 1
      */
     private static double similitudPearson(Pelicula p1, Pelicula p2, List<Long> test){
@@ -213,7 +213,7 @@ public class AlgSimilitud {
         double suma1 = 0;
         double suma2 = 0;
         int val1, val2;
-        Long idPelicula;
+        Long idUsuario;
         double numerador = 0;
         double media1 = (double) p1.obtieneDetalles().obtieneDetalle("media");
         double media2 = (double) p2.obtieneDetalles().obtieneDetalle("media");
@@ -232,15 +232,15 @@ public class AlgSimilitud {
          */
         if (valoracionesP1.size() < valoracionesP2.size()){
             for (Entry<Long,Valoracion> e : valoracionesP1.entrySet()) {
-                idPelicula = e.getKey();
+                idUsuario = e.getKey();
                 
                 //############// 2. Descartamos los usuarios de la partición test
-                if (!test.contains(idPelicula)){
+                if (!test.contains(idUsuario)){
                     //Si la otra pelicula ha sido valorada por el usuario
-                    if (valoracionesP2.containsKey(idPelicula)){
+                    if (valoracionesP2.containsKey(idUsuario)){
                         //Realizamos los cálculos de similitud
                         val1 = e.getValue().getPuntuacion();
-                        val2 = valoracionesP2.get(idPelicula).getPuntuacion();
+                        val2 = valoracionesP2.get(idUsuario).getPuntuacion();
 
                         suma1 = suma1 + (val1 - media1)*(val1 - media1);
                         suma2 = suma2 + (val2 - media2)*(val2 - media2);
@@ -252,15 +252,15 @@ public class AlgSimilitud {
             }
         }else{
             for (Entry<Long,Valoracion> e : valoracionesP2.entrySet()) {
-                idPelicula = e.getKey();
+                idUsuario = e.getKey();
                 
                 //############// 2. Descartamos los usuarios de la partición test
-                if (!test.contains(idPelicula)){
+                if (!test.contains(idUsuario)){
                     //Si la otra pelicula ha sido valorada por el usuario
-                    if (valoracionesP1.containsKey(idPelicula)){
+                    if (valoracionesP1.containsKey(idUsuario)){
                         //Realizamos los cálculos de similitud
                         val2 = e.getValue().getPuntuacion();
-                        val1 = valoracionesP1.get(idPelicula).getPuntuacion();
+                        val1 = valoracionesP1.get(idUsuario).getPuntuacion();
 
                         suma1 = suma1 + (val1 - media1)*(val1 - media1);
                         suma2 = suma2 + (val2 - media2)*(val2 - media2);
@@ -298,7 +298,7 @@ public class AlgSimilitud {
      * la particion de test. Deben descartarse.
      * @return Devuelve el modelo de similitud de las peliculas.
     */
-    public static HashMap<Long, TreeSet<Similitud>> getModeloSimilitudPearson(int k, HashMap<Long,Pelicula> peliculas, ArrayList<Long> test/*, GestorPersistencia instancia*/) {
+    public static HashMap<Long, TreeSet<Similitud>> getModeloSimilitudPearson(int k, HashMap<Long,Pelicula> peliculas, ArrayList<Long> test) {
         // Estructura que representa el modelo de similitud (clave: id de pelicula; valor: lista de idPelicula-Similitud).
         HashMap<Long, TreeSet<Similitud>> modelo_similitud = new HashMap();
         // Variables auxiliares:

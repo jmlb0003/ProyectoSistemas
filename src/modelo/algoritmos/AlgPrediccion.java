@@ -46,7 +46,7 @@ public class AlgPrediccion {
         
         //Ahora la formula de la prediccion Item Average+Adjustment
         if (!valoracionesVecinos.isEmpty()){
-            // PASO 3: Cálculo de la prediccion.
+            //Calculo de la prediccion.
             double numerador = 0;
             double denominador = 0;
             Similitud similitud;

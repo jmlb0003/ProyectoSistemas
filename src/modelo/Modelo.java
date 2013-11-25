@@ -67,13 +67,13 @@ public class Modelo implements ModeloInterface{
 
         //Aplicamos el algoritmo de prediccion IA+A
         long tiempoTest = System.currentTimeMillis();        
-        Parametros param = AlgEvaluacion.testIAmasA(n, modeloSimilitudCoseno,peliculas, usuariosTest);
+        double MAE = AlgEvaluacion.testIAmasA(n, modeloSimilitudCoseno,peliculas, usuariosTest);
         tiempoTest = System.currentTimeMillis() - tiempoTest;
         tiempo = tiempo + tiempoTest;
 
         //Grabamos los resultados de ejecucion del Test
         grabarResultados("recursos/CosenoIAmasA-"+k+".txt", "Algoritmo del Coseno. k = " + k, 
-                "IA+A. n = "+n, tiempo, param );
+                "IA+A. n = "+n, tiempo, MAE );
             
     }
 
@@ -163,7 +163,7 @@ public class Modelo implements ModeloInterface{
     }
 
     private void grabarResultados(String ruta, String algSimilitud, String algPrediccion, 
-            long tiempo, Parametros parametros) {
+            long tiempo, double MAE) {
         
         URL url = this.getClass().getClassLoader().getResource(ruta);
         File f;
@@ -182,7 +182,7 @@ public class Modelo implements ModeloInterface{
         
         //Escribimos los resultados y cerramos el fichero
         pw.println("Tiempo en ejecutarse: "+tiempo+" ms.");        
-        pw.println("MAE: "+parametros.getMAE()+" | Cobertura: "+parametros.getCobertura());
+        pw.println("MAE: "+MAE);
         
         pw.close();        
     }

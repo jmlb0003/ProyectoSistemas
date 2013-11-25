@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -64,7 +65,8 @@ public class Modelo implements ModeloInterface{
         //Aplicamos el algoritmo de similitud del coseno para k = 20
         AlgSimilitud algSimilitud = new AlgSimilitud();
         long tiempoEntrenamiento = System.currentTimeMillis();
-        HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno = algSimilitud.getModeloSimilitudCoseno(20, peliculas);                
+        List l = new ArrayList(peliculas.values());
+        HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno = algSimilitud.getModeloSimilitudCoseno(20, peliculas.values());                
         tiempoEntrenamiento = System.currentTimeMillis() - tiempoEntrenamiento;
         pw.println("Prueba 1 Coseno. Entrenamiento: parte 1, 2,3,4. K = 20");
         pw.println("Tiempo entrenamiento   "+tiempoEntrenamiento);

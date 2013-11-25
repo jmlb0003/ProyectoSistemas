@@ -19,8 +19,10 @@ class FicheroCSV{
     
     //Contenedores de usuarios, peliculas y valoraciones
     private Map<String, Usuario> _usuarios;
-    private Map<Long, Pelicula> _peliculas;    
-    private List _valoraciones;
+    private Map<Long, Pelicula> _peliculas;
+    private List<Long> _peliculasTest;
+    private List<Valoracion> _valoraciones;
+    private Map<String,Usuario> _usuariosTest;
     
     /**
      * Constructor por defecto
@@ -29,15 +31,20 @@ class FicheroCSV{
         _usuarios = new HashMap();
         _peliculas = new HashMap();
         _valoraciones = new ArrayList();
+        _peliculasTest = new ArrayList();
+        _usuariosTest = new HashMap();
     }
     
     void leerCSVTest() throws ErrorLecturaFichero{
         leerFicheroPeliculas();
+    
         //Se leen los ficheros para los tests
         leerFicheroValoraciones("recursos/ratings3-1.csv");
         leerFicheroValoraciones("recursos/ratings3-2.csv");
         leerFicheroValoraciones("recursos/ratings3-3.csv");
         leerFicheroValoraciones("recursos/ratings3-4.csv");
+        
+        leerFicheroValoracionesTest("recursos/ratings3-5.csv");
     }
     
     /**
@@ -47,7 +54,7 @@ class FicheroCSV{
     void leerCSV() throws ErrorLecturaFichero{
         //Lee los ficheros de peliculas y valoraciones
         leerFicheroPeliculas();
-        leerFicheroValoraciones("recursos/peliculas.csv");        
+        leerFicheroValoraciones("recursos/ratings3.csv");        
     }
     
     /**
@@ -223,6 +230,75 @@ class FicheroCSV{
      */
     List getValoraciones() {
         return _valoraciones;
+    }
+
+    /**
+     * Extrae las peliculas de la particion de test del fichero de valoraciones
+     * @throws ErrorLecturaFichero Error al leer el fichero
+     */
+    private void leerFicheroValoracionesTest(String nombre) throws ErrorLecturaFichero {
+      BufferedReader br = null; 
+        
+        try {
+            //Abrimos el fichero de peliculas
+            URL url = this.getClass().getClassLoader().getResource(nombre);
+            br = new BufferedReader(new InputStreamReader(url.openStream()));
+            //Leemos la primera linea donde contiene los titulos de las columnas
+            String linea = br.readLine();            
+            
+            //Leemos todas las peliculas del fichero
+            while ((linea = br.readLine()) != null){
+                //Obtenemos los atributos de cada linea
+                String[] split = linea.split(",");
+                long idPelicula;
+                
+                //Extraemos el id y el año de lanzamiento, comprobando que no 
+                //haya problemas en la conversion
+                try{
+                    idPelicula = Long.parseLong(split[1].trim());
+                    _peliculasTest.add(idPelicula);
+                }catch (NumberFormatException e){
+                    idPelicula = -1;
+                }
+                
+                String idUsuario = split[0];
+                if (!_usuariosTest.containsKey(idUsuario)){
+                    Map<String, Object> detallesUsuario = new HashMap<>();
+                    detallesUsuario.put("clave", String.valueOf(idUsuario));                    
+                    detallesUsuario.put("valoraciones", new HashMap<Long,Valoracion>());
+                    Usuario usuario = new Usuario(idUsuario, detallesUsuario);                    
+                    _usuariosTest.put(idUsuario, usuario);
+                }
+                       
+            }
+            
+        } catch (FileNotFoundException ex) {
+            throw new ErrorLecturaFichero();
+        } catch (IOException ex) {
+            throw new ErrorLecturaFichero();
+        } finally {
+            try {
+                br.close();
+            } catch (IOException ex) {
+                throw new ErrorLecturaFichero();
+            }
+        }    
+    }
+    
+    /**
+     * Devuelve una lista con las peliculas incluidas en la particion de test
+     * @return List<Long> peliculas de la particion de test
+     */
+    List<Long> getPeliculasTest() {
+        return _peliculasTest;
+    }
+    
+    /**
+     * Devuelve una lista con los usuarios incluidos en la particion de test
+     * @return List<Usuario> Usuarios de la particion de test
+     */
+    List<Usuario> getUsuariosTest() {
+        return new ArrayList(_usuariosTest.values());
     }
     
 }

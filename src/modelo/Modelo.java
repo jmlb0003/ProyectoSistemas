@@ -1,11 +1,15 @@
 package modelo;
 
+import modelo.excepciones.ErrorGrabarModeloSimilitud;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +17,7 @@ import java.util.Map;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import modelo.algoritmos.AlgEvaluacion;
 import modelo.algoritmos.AlgSimilitud;
 import modelo.excepciones.ErrorLecturaFichero;
 import modelo.persistencia.DAOPelicula;
@@ -39,48 +44,39 @@ public class Modelo implements ModeloInterface{
         
     }
     
-    public void aplicarAlgoritmos(){
+    public void aplicarAlgoritmos() throws ErrorLecturaFichero, ErrorGrabarModeloSimilitud{
         //Leemos el fichero csv para los Test
         FicheroCSV fichero = new FicheroCSV();
         fichero.leerCSVTest();
         Map<Long, Pelicula> peliculas = fichero.getPeliculas();
-        Map<String, Usuario> usuarios = fichero.getUsuarios();
-        List valoraciones = fichero.getValoraciones(); 
-        
-        System.out.println("Ficheros leidos correctamente \nAplicando modelo de similitud del coseno...");       
-        URL url = this.getClass().getClassLoader().getResource("recursos/resultados.txt");
-        File f;
-        try {
-          f = new File(url.toURI());
-        } catch(URISyntaxException e) {
-          f = new File(url.getPath());
-        }
-        PrintWriter   pw = null;
-        try {
-            pw = new PrintWriter(f);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        List<Long> peliculasTest = fichero.getPeliculasTest();
+        List<Usuario> usuariosTest = fichero.getUsuariosTest();
+        fichero = null;
+        System.out.println("Ficheros leidos correctamente \nAplicando modelo de similitud del coseno...");     
+
+        int n = 10, k = 20;        
+
+        //Aplicamos el algoritmo de similitud del coseno y lo grabamos en disco
+        long tiempo = System.currentTimeMillis();
+        HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno = AlgSimilitud.getModeloSimilitudCoseno(k,
+                peliculas, peliculasTest);                
+        tiempo = System.currentTimeMillis() - tiempo;
+
+        // Grabamos en disco el Modelo de Similitud
+        grabarModeloSimilitud(modeloSimilitudCoseno,"recursos/Coseno-"+k,tiempo);                
+
+        //Aplicamos el algoritmo de prediccion IA+A
+        long tiempoTest = System.currentTimeMillis();        
+        Parametros param = AlgEvaluacion.testIAmasA(n, modeloSimilitudCoseno,peliculas, usuariosTest);
+        tiempoTest = System.currentTimeMillis() - tiempoTest;
+        tiempo = tiempo + tiempoTest;
+
+        //Grabamos los resultados de ejecucion del Test
+        grabarResultados("recursos/CosenoIAmasA-"+k+".txt", "Algoritmo del Coseno. k = " + k, 
+                "IA+A. n = "+n, tiempo, param );
             
-        //Aplicamos el algoritmo de similitud del coseno para k = 20
-        AlgSimilitud algSimilitud = new AlgSimilitud();
-        long tiempoEntrenamiento = System.currentTimeMillis();
-        List l = new ArrayList(peliculas.values());
-        HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno = algSimilitud.getModeloSimilitudCoseno(20, peliculas.values());                
-        tiempoEntrenamiento = System.currentTimeMillis() - tiempoEntrenamiento;
-        pw.println("Prueba 1 Coseno. Entrenamiento: parte 1, 2,3,4. K = 20");
-        pw.println("Tiempo entrenamiento   "+tiempoEntrenamiento);
-        
-        
-        pw.println("MAE "+tiempoEntrenamiento);      
-        //Aplicamos el algoritmo de similitud del coseno para k = 35
-        HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno1 = algSimilitud.getModeloSimilitudCoseno(35, peliculas);        
-        System.out.println("tiempo | MAE");
-        //Aplicamos el algoritmo de similitud del coseno para k = 50
-        HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno2 = algSimilitud.getModeloSimilitudCoseno(50, peliculas);        
-        System.out.println("tiempo | MAE");
-        
     }
+
     
     @Override
     public void cerrar() {
@@ -97,17 +93,12 @@ public class Modelo implements ModeloInterface{
         Map<Long, Pelicula> peliculas = fichero.getPeliculas();
         Map<String, Usuario> usuarios = fichero.getUsuarios();
         List valoraciones = fichero.getValoraciones();
-        
-        System.out.println("Ficheros leidos correctamente \nInsertando en la BBDD...");
-        
+                
         try { 
             //Inserta las EEDD en la BBDD
             DAOValoracion.instancia().insert(valoraciones);
-            System.out.println("Valoraciones insertadas.");
             DAOPelicula.instancia().insert(peliculas);
-            System.out.println("Peliculas insertadas.");
             DAOUsuario.instancia().insert(usuarios);
-            System.out.println("Usuarios insertados.");
 
         } catch ( ErrorInsertarValoracion | ErrorInsertarPelicula | ErrorInsertarUsuario ex) {
             Logger.getLogger(FicheroCSV.class.getName()).log(Level.SEVERE, null, ex);
@@ -120,10 +111,10 @@ public class Modelo implements ModeloInterface{
     void recuperarDato(){
         Pelicula p = DAOPelicula.instancia().get((long)571);
         DetallesPelicula detalles = p.obtieneDetalles();
-        System.out.println(detalles.obtieneDetalle("titulo") + "-- titulo");
-        System.out.println(detalles.obtieneDetalle("ano") + "-- ano");
-        System.out.println(detalles.obtieneDetalle("suma") + "-- suma_valoraciones");
-        System.out.println(detalles.obtieneDetalle("media") + "-- valoracion_media");
+        System.out.println(detalles.obtieneDetalle("titulo") + " -- titulo");
+        System.out.println(detalles.obtieneDetalle("ano") + " -- ano");
+        System.out.println(detalles.obtieneDetalle("suma") + " -- suma_valoraciones");
+        System.out.println(detalles.obtieneDetalle("media") + " -- valoracion_media");
         Map<String, Valoracion> val = (Map<String, Valoracion>) p.obtieneDetalles().obtieneDetalle("valoraciones");
         System.out.println(val.size() + "-- numero valoraciones recibidas.");
 
@@ -135,5 +126,64 @@ public class Modelo implements ModeloInterface{
             System.out.println("\t id usuario: "+v.getIdUsuario());
             System.out.println("\t valoracion: "+v.getPuntuacion());
         }
+    }
+
+    private void grabarModeloSimilitud(HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno, 
+            String ruta, long tiempo) throws ErrorGrabarModeloSimilitud {
+                
+        URL url = this.getClass().getClassLoader().getResource(ruta+".bin");
+        //Crea el lector del archivo
+        ObjectOutputStream oos =null;
+            
+        try{
+            //Crea el fichero y comprueba si existe, en ese caso lo sobrescribe
+            File f=new File(url.getPath());
+            if (!f.exists()){
+                //Si no existe lo crea
+                f.createNewFile();
+            }
+            
+            //Crea el lector del archivo y lo abre
+            oos =new ObjectOutputStream(new FileOutputStream(f,false));
+            
+            //Graba el modelo de similitud en el fichero
+            oos.writeObject(modeloSimilitudCoseno);
+            oos.writeObject(tiempo);
+        
+        }catch (IOException ex) {
+            throw new ErrorGrabarModeloSimilitud();
+        }finally {
+            try {
+                oos.close();
+            } catch (IOException ex) {
+                throw new ErrorGrabarModeloSimilitud();
+            }
+        }
+
+    }
+
+    private void grabarResultados(String ruta, String algSimilitud, String algPrediccion, 
+            long tiempo, Parametros parametros) {
+        
+        URL url = this.getClass().getClassLoader().getResource(ruta);
+        File f;
+        PrintWriter pw = null;
+        try {
+          f = new File(url.getPath());
+          f.createNewFile();
+          pw = new PrintWriter(f);
+        } catch (IOException ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }       
+        
+        pw.println("------------------------------------------------");
+        pw.println("Similitud: " + algSimilitud);
+        pw.println("Prediccion:" + algPrediccion);
+        
+        //Escribimos los resultados y cerramos el fichero
+        pw.println("Tiempo en ejecutarse: "+tiempo+" ms.");        
+        pw.println("MAE: "+parametros.getMAE()+" | Cobertura: "+parametros.getCobertura());
+        
+        pw.close();        
     }
 }

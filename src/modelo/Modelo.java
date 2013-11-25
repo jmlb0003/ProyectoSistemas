@@ -41,39 +41,51 @@ public class Modelo implements ModeloInterface{
         
     }
     
-    public void aplicarAlgoritmos() throws ErrorLecturaFichero, ErrorGrabarModeloSimilitud{
+public void aplicarAlgoritmos() throws ErrorLecturaFichero, ErrorGrabarModeloSimilitud{
         //Leemos el fichero csv para los Test
         FicheroCSV fichero = new FicheroCSV();
-        fichero.leerCSVTest(1);
-        Map<Long, Pelicula> peliculas = fichero.getPeliculas();
-        //List<Long> peliculasTest = fichero.getPeliculasTest();
-        List<String> clavesUsuariosTest = fichero.getClavesUsuariosTest();
-        List<Usuario> usuariosTest = fichero.getUsuariosTest();
-        fichero = null;
-        System.out.println("Ficheros leidos correctamente \nAplicando modelo de similitud del coseno...");     
+        
+        for (int i=1;i<=5;i++){
+            fichero.leerCSVTest(i);
+            Map<Long, Pelicula> peliculas = fichero.getPeliculas();
+            //List<Long> peliculasTest = fichero.getPeliculasTest();
+            List<String> clavesUsuariosTest = fichero.getClavesUsuariosTest();
+            List<Usuario> usuariosTest = fichero.getUsuariosTest();
+            System.out.println("Ficheros leidos correctamente \nAplicando modelo de similitud del coseno...");     
 
-        int n = 10, k = 20;        
+            for (int k=20;k<=50;k=k+15){
+                //Aplicamos el algoritmo de similitud del coseno y lo grabamos en disco
+                long tiempoMS = System.currentTimeMillis();
+                HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno = AlgSimilitud.getModeloSimilitudCoseno(k,
+                        peliculas, clavesUsuariosTest);                
+                tiempoMS = System.currentTimeMillis() - tiempoMS;
 
-        //Aplicamos el algoritmo de similitud del coseno y lo grabamos en disco
-        long tiempo = System.currentTimeMillis();
-        HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno = AlgSimilitud.getModeloSimilitudCoseno(k,
-                peliculas, clavesUsuariosTest);                
-        tiempo = System.currentTimeMillis() - tiempo;
+                // Grabamos en disco el Modelo de Similitud
+                grabarModeloSimilitud(modeloSimilitudCoseno,"recursos/algoritmos/Coseno-"+k+"parte"+i,tiempoMS);
+                
+                int n[] = {0,2,4,8};
+                for (int m=0;m<4;m++){
+                    //Aplicamos el algoritmo de prediccion IA+A
+                    long tiempoIAA = System.currentTimeMillis();        
+                    double MAE = AlgEvaluacion.testIAmasA(n[m], modeloSimilitudCoseno,peliculas, usuariosTest);
+                    tiempoIAA = System.currentTimeMillis() - tiempoIAA;
+                    long tiempo = tiempoMS + tiempoIAA;
 
-        // Grabamos en disco el Modelo de Similitud
-        grabarModeloSimilitud(modeloSimilitudCoseno,"recursos/algoritmos/Coseno-"+k,tiempo);                
+                    //Grabamos los resultados de ejecucion del Test
+                    grabarResultados("recursos/algoritmos/Coseno"+k+"-IAmasA-"+n[m]+"parte-"+i+".txt", "Algoritmo del Coseno. k = " + k, 
+                            "IA+A. n = "+n, tiempo, MAE );
+                }
+                //Aplicamos el algoritmo de prediccion IA+A
+                long tiempoWS = System.currentTimeMillis();        
+                double MAE = AlgEvaluacion.testWS(modeloSimilitudCoseno,usuariosTest);
+                tiempoWS = System.currentTimeMillis() - tiempoWS;
+                long tiempo = tiempoMS + tiempoWS;
 
-        //Aplicamos el algoritmo de prediccion IA+A
-        long tiempoTest = System.currentTimeMillis();        
-        double MAE = AlgEvaluacion.testIAmasA(n, modeloSimilitudCoseno,peliculas, usuariosTest);
-        tiempoTest = System.currentTimeMillis() - tiempoTest;
-        tiempo = tiempo + tiempoTest;
-
-        //Grabamos los resultados de ejecucion del Test
-
-        grabarResultados("recursos/CosenoIAmasA-"+k+".txt", "Algoritmo del Coseno. k = " + k, 
-                "IA+A. n = "+n, tiempo, MAE );
-            
+                //Grabamos los resultados de ejecucion del Test
+                grabarResultados("recursos/algoritmos/Coseno"+k+"-WS-parte-"+i+".txt", "Algoritmo del Coseno. k = " + k, 
+                            "Algoritmo de prediccion WS.", tiempo, MAE );
+            }
+        }
     }
 
     

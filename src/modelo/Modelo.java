@@ -3,6 +3,7 @@ package modelo;
 import modelo.excepciones.ErrorGrabarModeloSimilitud;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
@@ -22,7 +23,6 @@ import modelo.persistencia.DAOPelicula;
 import modelo.persistencia.DAOUsuario;
 import modelo.persistencia.DAOValoracion;
 import modelo.persistencia.GestorPersistencia;
-import modelo.persistencia.excepciones.ErrorConexionBD;
 import modelo.persistencia.excepciones.ErrorInsertarPelicula;
 import modelo.persistencia.excepciones.ErrorInsertarUsuario;
 import modelo.persistencia.excepciones.ErrorInsertarValoracion;
@@ -49,7 +49,6 @@ public class Modelo implements ModeloInterface{
         for (int i=1;i<=5;i++){
             fichero.leerCSVTest(i);
             Map<Long, Pelicula> peliculas = fichero.getPeliculas();
-            //List<Long> peliculasTest = fichero.getPeliculasTest();
             List<String> clavesUsuariosTest = fichero.getClavesUsuariosTest();
             List<Usuario> usuariosTest = fichero.getUsuariosTest();
 
@@ -60,8 +59,7 @@ public class Modelo implements ModeloInterface{
                 tiempoMS = System.currentTimeMillis() - tiempoMS;
 
                 // Grabamos en disco el Modelo de Similitud
-                grabarModeloSimilitud(modeloSimilitudCoseno,"C:\\coleccion\\Coseno-"+k+"parte"+i,tiempoMS);
-                //imprimir(modeloSimilitudCoseno);
+                grabarModeloSimilitud(modeloSimilitudCoseno,"C:\\coleccion\\Coseno-"+k+"parte"+i+".bin",tiempoMS);
                 
                 int n[] = {0,2,4,8};
                 for (int m=0;m<4;m++){
@@ -72,8 +70,8 @@ public class Modelo implements ModeloInterface{
                     long tiempo = tiempoMS + tiempoIAA;
                                         
                     //Grabamos los resultados de ejecucion del Test
-                    grabarResultados("C:\\coleccion\\Coseno"+k+"-IAmasA-"+n[m]+"parte-"+i+".txt", "Algoritmo del Coseno. k = " + k, 
-                            "IA+A. n = "+n, tiempo, MAE );
+                    grabarResultados("Particion: "+i, "Algoritmo del Coseno. k = " + k, 
+                            "IA+A. n = "+n[m], tiempo, MAE );
                 }
 
                 //Aplicamos el algoritmo de prediccion IA+A
@@ -83,7 +81,7 @@ public class Modelo implements ModeloInterface{
                 long tiempo = tiempoMS + tiempoWS;
 
                 //Grabamos los resultados de ejecucion del Test
-                grabarResultados("C:\\coleccion\\Coseno"+k+"-WS-parte-"+i+".txt", "Algoritmo del Coseno. k = " + k, 
+                grabarResultados("Particion: "+i, "Algoritmo del Coseno. k = " + k, 
                             "Algoritmo de prediccion WS.", tiempo, MAE );
             }
         }
@@ -96,7 +94,6 @@ public class Modelo implements ModeloInterface{
         for (int i=1;i<=5;i++){
             fichero.leerCSVTest(i);
             Map<Long, Pelicula> peliculas = fichero.getPeliculas();
-            //List<Long> peliculasTest = fichero.getPeliculasTest();
             List<String> clavesUsuariosTest = fichero.getClavesUsuariosTest();
             List<Usuario> usuariosTest = fichero.getUsuariosTest();
 
@@ -105,9 +102,9 @@ public class Modelo implements ModeloInterface{
                 long tiempoMS = System.currentTimeMillis();
                 HashMap<Long, TreeSet<Similitud>> mSPearson = AlgSimilitud.getModeloSimilitudPearson(k, new ArrayList(peliculas.values()), clavesUsuariosTest);                
                 tiempoMS = System.currentTimeMillis() - tiempoMS;
-
+               // imprimir(mSPearson);
                 // Grabamos en disco el Modelo de Similitud
-                grabarModeloSimilitud(mSPearson,"C:\\coleccion\\pearson-"+k+"parte"+i,tiempoMS);
+                grabarModeloSimilitud(mSPearson,"C:\\coleccion\\pearson-"+k+"parte"+i+".bin",tiempoMS);
                 
                 int n[] = {0,2,4,8};
                 for (int m=0;m<4;m++){
@@ -118,8 +115,8 @@ public class Modelo implements ModeloInterface{
                     long tiempo = tiempoMS + tiempoIAA;
                                         
                     //Grabamos los resultados de ejecucion del Test
-                    grabarResultados("C:\\coleccion\\pearson"+k+"-IAmasA-"+n[m]+"parte-"+i+".txt", "Algoritmo del Pearson. k = " + k, 
-                            "IA+A. n = "+n, tiempo, MAE );
+                    grabarResultados("Particion: "+i, "Algoritmo del Pearson. k = " + k, 
+                            "IA+A. n = "+n[m], tiempo, MAE );
                 }
 
                 //Aplicamos el algoritmo de prediccion IA+A
@@ -129,7 +126,7 @@ public class Modelo implements ModeloInterface{
                 long tiempo = tiempoMS + tiempoWS;
 
                 //Grabamos los resultados de ejecucion del Test
-                grabarResultados("C:\\coleccion\\pearson"+k+"-WS-parte-"+i+".txt", "Algoritmo del Pearson. k = " + k, 
+                grabarResultados("Particion: "+i, "Algoritmo del Pearson. k = " + k, 
                             "Algoritmo de prediccion WS.", tiempo, MAE );
             }
         }
@@ -189,13 +186,13 @@ public class Modelo implements ModeloInterface{
     private void grabarModeloSimilitud(HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno, 
             String ruta, long tiempo) throws ErrorGrabarModeloSimilitud {
         
-        URL url = this.getClass().getClassLoader().getResource(ruta+".bin");
+        URL url = this.getClass().getClassLoader().getResource(ruta);
         //Crea el lector del archivo
         ObjectOutputStream oos =null;
             
         try{
             //Crea el fichero y comprueba si existe
-            File f=new File(ruta+".bin");
+            File f=new File(ruta);
             if (!f.exists()){
                 //Si no existe lo crea    
                 f.createNewFile();  
@@ -222,25 +219,23 @@ public class Modelo implements ModeloInterface{
 
     }
 
-    private void grabarResultados(String ruta, String algSimilitud, String algPrediccion, 
+    private void grabarResultados(String particion, String algSimilitud, String algPrediccion, 
             long tiempo, double MAE) {
         
-        URL url = this.getClass().getClassLoader().getResource(ruta);
+        URL url = this.getClass().getClassLoader().getResource("recursos/algoritmos/resultados.txt");
         File f;
         PrintWriter pw = null;
         try {
             //Crea el fichero y comprueba si existe
-            f=new File(ruta);
-            if (!f.exists()){
-                //Si no existe lo crea    
-                f.createNewFile();  
-            }    
-          pw = new PrintWriter(f);
+            f=new File(url.getPath());
+   
+            pw = new PrintWriter(new FileWriter(f,true));
         } catch (IOException ex) {
             Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
         }       
         
         pw.println("------------------------------------------------");
+        pw.println(particion);
         pw.println("Similitud: " + algSimilitud);
         pw.println("Prediccion:" + algPrediccion);
         

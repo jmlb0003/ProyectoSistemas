@@ -18,6 +18,7 @@ public class SGBDCine {
     public static void main(String[] args) {
          Modelo m = new Modelo();
         try {
+            m.aplicarAlgoritmosCoseno();
             m.aplicarAlgoritmosPearson();
         } catch (ErrorLecturaFichero ex) {
             Logger.getLogger(SGBDCine.class.getName()).log(Level.SEVERE, null, ex);

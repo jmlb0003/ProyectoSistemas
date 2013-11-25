@@ -37,7 +37,6 @@ public class AlgEvaluacion {
         int valoracionReal, numEstimaciones = 0;
         TreeSet<Similitud> vecinos;
 
-
         // Iteramos sobre cada usuario
         while (iteradorUsuarios.hasNext()){
             // Obtenemos el usuario y sus valoraciones
@@ -54,23 +53,21 @@ public class AlgEvaluacion {
                 vecinos = modeloSimilitud.get(idPelicula);
                 //Aplicamos el algoritmo de prediccion del IA+A
                 valoracionEstimada = AlgPrediccion.calcularPrediccionIAmasA(n, usuario, mediaPelicula,vecinos);                
-
+                
                 // Comprobamos si realizo la prediccion
                 if (valoracionEstimada != -1){
                     //Obtenemos la valoracion real para la pelicula
                     valoracionReal = e.getValue().getPuntuacion();
                     // Calculamos la diferencia entre la valoracion y la añadimos al MAE
                     diferencia = valoracionEstimada - valoracionReal*1.0;
-
                     MAE = MAE + Math.abs(diferencia);
                                         
                     //Aumentamos el numero de estimaciones posibles
-                    numEstimaciones += valoracionesUsuario.size();
+                    numEstimaciones++;
                 }
             }   
 
         }
-
         // Actualiza el numero de estimaciones realizadas y el MAE
         if (numEstimaciones != 0){
             return (MAE/(numEstimaciones*1.0));
@@ -89,6 +86,7 @@ public class AlgEvaluacion {
      * @return Devuelve el valor MAE tras la ejecucion del algoritmo Weighted Sum.
      */
     public static double testWS(HashMap<Long,TreeSet<Similitud>> modeloSimilitud, List<Usuario> usuariosTest) {
+        
         // Variables auxiliares:
         Iterator<Usuario> itUsuarios = usuariosTest.iterator();
         Usuario u;
@@ -97,15 +95,13 @@ public class AlgEvaluacion {
         double MAE = 0, diferencia;
         int valoracionReal,numEstimaciones=0;
         TreeSet<Similitud> vecinos;
-        int numEstimacionesImposibles = 0, numEstimacionesPosibles = 0;
         
         
         // 1. Recorremos cada usuario de la particion test.
         while (itUsuarios.hasNext()){
             u = itUsuarios.next();            
             HashMap<Long, Valoracion> valoracionesUsuario = (HashMap<Long, Valoracion>) 
-                    u.obtieneDetalles().obtieneDetalle("valoraciones");
-            
+                    u.obtieneDetalles().obtieneDetalle("valoraciones");            
             
              for (Entry<Long,Valoracion> e : valoracionesUsuario.entrySet()) {
                  idPelicula = e.getValue().getIdPelicula();
@@ -124,9 +120,9 @@ public class AlgEvaluacion {
                     diferencia = valoracionEstimada - valoracionReal*1.0;
 
                     MAE = MAE + Math.abs(diferencia);
-                    
+
                     //Aumentamos el numero de estimaciones posibles
-                    numEstimaciones += valoracionesUsuario.size();
+                    numEstimaciones++;
                  }
              }
         }

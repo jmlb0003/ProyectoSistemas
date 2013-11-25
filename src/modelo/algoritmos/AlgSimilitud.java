@@ -6,7 +6,6 @@
 
 package modelo.algoritmos;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,18 +100,17 @@ public class AlgSimilitud {
             return 0;
         }
         
-    }
-    
-    
+    }    
     
     /**
      * Metodo calcular el modelo de similitud o tabla de similitud entre peliculas
      * utilizando el algoritmo de similitud del coseno.
      * @param k Numero de vecinos mas cercanos que se tienen en cuenta.
      * @param peliculas Conjunto de peliculas de las que se calcula la similitud.
+     * @param usuariosTest
      * @return Devuelve el modelo de similitud de las peliculas.
     */    
-    public static HashMap<Long, TreeSet<Similitud>> getModeloSimilitudCoseno(int k, Map<Long,Pelicula> peliculas, 
+    public static HashMap<Long, TreeSet<Similitud>> getModeloSimilitudCoseno(int k, List<Pelicula> peliculas, 
             List<String> usuariosTest) {
         /**
          * La estructura en la que almacenamos el modelo de similitud es:
@@ -120,26 +118,26 @@ public class AlgSimilitud {
          * valor: similitudes con cada pelicula pares (idPelicula-Similitud)
          */
         HashMap<Long, TreeSet<Similitud>> modelo_similitud = new HashMap();
-        
         TreeSet<Similitud> fila1, fila2;
         Pelicula it1, it2;
         long id1, id2;
         double similitud;
-        long nPelis = peliculas.size();        
+        long nPelis = peliculas.size();
+        
         ///Iterator<Entry<Long, Pelicula>> iterator = peliculas.entrySet().iterator();
         ///while (iterator.hasNext()){
 
-        for (long i=1; i<nPelis; ++i){
+        for (int i=0; i<nPelis; ++i){
             ///System.out.println(" pelicula "+i+" de "+numPeliculas);
             ///###// 1.1: Sacar la película numero i. Nota: estudiar si se pueden sacar todas de golpe.
             ///Pelicula it1 = getPeliculaBD_byPos(instancia, i);
             ///Entry<Long, Pelicula> entrada = iterator.next();
-            it1 = peliculas.get(i);
+            it1 = (Pelicula) peliculas.get(i);
             id1 = it1.obtieneID();
             
-            ///Iterator<Entry<Long, Pelicula>> iterator2 = new Iterator<Entry<Long, Pelicula>>();
+            ///Iterator<Entry<Long, Petlicula>> iterator2 = new Iterator<Entry<Long, Pelicula>>();
             
-            for (long j=i+1; j<nPelis; ++j){
+            for (int j=i+1; j<nPelis; ++j){
                 ///###// 1.2: Sacar la película numero j vv.
                 ///Pelicula it2 = getPeliculaBD_byPos(instancia, j);
                 ///Entry<Long, Pelicula> entrada2 = iterator2.next();
@@ -299,7 +297,7 @@ public class AlgSimilitud {
      * la particion de test. Deben descartarse.
      * @return Devuelve el modelo de similitud de las peliculas.
     */
-    public static HashMap<Long, TreeSet<Similitud>> getModeloSimilitudPearson(int k, Map<Long,Pelicula> peliculas, 
+    public static HashMap<Long, TreeSet<Similitud>> getModeloSimilitudPearson(int k, List<Pelicula> peliculas, 
             List<String> usuariosTest) {
         // Estructura que representa el modelo de similitud (clave: id de pelicula; valor: lista de idPelicula-Similitud).
         HashMap<Long, TreeSet<Similitud>> modelo_similitud = new HashMap();
@@ -312,14 +310,14 @@ public class AlgSimilitud {
         
         
         
-        for (long i=0; i<nPelis; ++i){
+        for (int i=0; i<nPelis; ++i){
             //System.out.println(" pelicula "+i+" de "+numPeliculas);
             //###// 1.1: Sacar la película numero i. Nota: estudiar si se pueden sacar todas de golpe.
             //Pelicula it1 = getPeliculaBD_byPos(instancia, i);
             it1 = peliculas.get(i);
             id1 = it1.obtieneID();
             
-            for (long j=i+1; j<nPelis; ++j){
+            for (int j=i+1; j<nPelis; ++j){
                 //###// 1.2: Sacar la película numero j.
                 //Pelicula it2 = getPeliculaBD_byPos(instancia, j);
                 it2 = peliculas.get(j);

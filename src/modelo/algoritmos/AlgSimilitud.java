@@ -8,6 +8,7 @@ package modelo.algoritmos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
@@ -29,7 +30,7 @@ public class AlgSimilitud {
      * la particion de test. Deben descartarse.
      * @return Devuelve el valor de similitud con un real entre 0 y 1
     */
-    private double similitudCoseno(Pelicula p1, Pelicula p2, ArrayList<Long> test){        
+    private static double similitudCoseno(Pelicula p1, Pelicula p2, List<Long> test){        
         double suma1 = 0;
         double suma2 = 0;
         int val1, val2;
@@ -111,7 +112,7 @@ public class AlgSimilitud {
      * @param peliculas Conjunto de peliculas de las que se calcula la similitud.
      * @return Devuelve el modelo de similitud de las peliculas.
     */    
-    public HashMap<Long, TreeSet<Similitud>> getModeloSimilitudCoseno(int k, HashMap<Long,Pelicula> peliculas, ArrayList<Long> test) {
+    public static HashMap<Long, TreeSet<Similitud>> getModeloSimilitudCoseno(int k, Map<Long,Pelicula> peliculas, List<Long> test) {
         /**
          * La estructura en la que almacenamos el modelo de similitud es:
          * clave: id de pelicula.
@@ -207,7 +208,7 @@ public class AlgSimilitud {
      * la particion de test. Deben descartarse.
      * @return Devuelve el valor de similitud con un real entre 0 y 1
      */
-    private double similitudPearson(Pelicula p1, Pelicula p2, ArrayList<Long> test){
+    private static double similitudPearson(Pelicula p1, Pelicula p2, List<Long> test){
         // Variables auxiliares:
         double suma1 = 0;
         double suma2 = 0;
@@ -297,7 +298,7 @@ public class AlgSimilitud {
      * la particion de test. Deben descartarse.
      * @return Devuelve el modelo de similitud de las peliculas.
     */
-    public HashMap<Long, TreeSet<Similitud>> getModeloSimilitudPearson(int k, HashMap<Long,Pelicula> peliculas, ArrayList<Long> test/*, GestorPersistencia instancia*/) {
+    public static HashMap<Long, TreeSet<Similitud>> getModeloSimilitudPearson(int k, HashMap<Long,Pelicula> peliculas, ArrayList<Long> test/*, GestorPersistencia instancia*/) {
         // Estructura que representa el modelo de similitud (clave: id de pelicula; valor: lista de idPelicula-Similitud).
         HashMap<Long, TreeSet<Similitud>> modelo_similitud = new HashMap();
         // Variables auxiliares:

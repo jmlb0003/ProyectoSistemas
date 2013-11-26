@@ -1,5 +1,6 @@
 package modelo;
 
+import modelo.excepciones.ErrorGrabarResultadosTest;
 import modelo.excepciones.ErrorGrabarModeloSimilitud;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,12 +11,9 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import modelo.algoritmos.AlgEvaluacion;
 import modelo.algoritmos.AlgSimilitud;
 import modelo.excepciones.ErrorLecturaFichero;
@@ -42,41 +40,52 @@ public class Modelo implements ModeloInterface{
         
     }
     
-    public void aplicarAlgoritmosCoseno() throws ErrorLecturaFichero, ErrorGrabarModeloSimilitud{
-        //Leemos el fichero csv para los Test
+    /**
+     * Aplica los algortimos de similitud del coseno y los de prediccion WS e IA+A
+     * @throws ErrorLecturaFichero
+     * @throws ErrorGrabarModeloSimilitud
+     * @throws ErrorGrabarResultadosTest 
+     */
+    public void aplicarAlgoritmosCoseno() throws ErrorLecturaFichero, ErrorGrabarModeloSimilitud, ErrorGrabarResultadosTest{
+        //Crea el fichero lector de CSV
         FicheroCSV fichero = new FicheroCSV();
         
         for (int i=1;i<=5;i++){
+            // Lee las particiones correspondientes del CSV y obtiene las diferentes
+            // EEDD necesarias
             fichero.leerCSVTest(i);
             Map<Long, Pelicula> peliculas = fichero.getPeliculas();
             List<String> clavesUsuariosTest = fichero.getClavesUsuariosTest();
             List<Usuario> usuariosTest = fichero.getUsuariosTest();
 
+            //Aplica los algoritmos de similitud para los diferentes valores de K
             for (int k=20;k<=50;k=k+15){
-                //Aplicamos el algoritmo de similitud del coseno y lo grabamos en disco
+                
+                // Aplicamos el algoritmo de similitud del coseno
                 long tiempoMS = System.currentTimeMillis();
-                HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno = AlgSimilitud.getModeloSimilitudCoseno(k, new ArrayList(peliculas.values()), clavesUsuariosTest);                
+                HashMap<Long, TreeSet<Similitud>> mSimilitudCoseno = AlgSimilitud.getModeloSimilitudCoseno(k, new ArrayList(peliculas.values()), clavesUsuariosTest);                
                 tiempoMS = System.currentTimeMillis() - tiempoMS;
 
                 // Grabamos en disco el Modelo de Similitud
-                grabarModeloSimilitud(modeloSimilitudCoseno,"C:\\coleccion\\Coseno-"+k+"parte"+i+".bin",tiempoMS);
-                
+                grabarModeloSimilitud(mSimilitudCoseno,"modelosSimilitud\\Coseno-"+k+"parte"+i+".bin",tiempoMS);
+                                    
+                // Aplicamos el algoritmo de prediccion IA+A para los diferentes valores de n
                 int n[] = {0,2,4,8};
                 for (int m=0;m<4;m++){
-                    //Aplicamos el algoritmo de prediccion IA+A
+                    // Realiza el test 
                     long tiempoIAA = System.currentTimeMillis();        
-                    double MAE = AlgEvaluacion.testIAmasA(n[m], modeloSimilitudCoseno,peliculas, usuariosTest);
+                    double MAE = AlgEvaluacion.testIAmasA(n[m], mSimilitudCoseno,peliculas, usuariosTest);
                     tiempoIAA = System.currentTimeMillis() - tiempoIAA;
                     long tiempo = tiempoMS + tiempoIAA;
                                         
-                    //Grabamos los resultados de ejecucion del Test
+                    // Grabamos los resultados de ejecucion del test
                     grabarResultados("Particion: "+i, "Algoritmo del Coseno. k = " + k, 
                             "IA+A. n = "+n[m], tiempo, MAE );
                 }
 
-                //Aplicamos el algoritmo de prediccion IA+A
+                // Aplicamos el algoritmo de prediccion WS
                 long tiempoWS = System.currentTimeMillis();        
-                double MAE = AlgEvaluacion.testWS(modeloSimilitudCoseno,usuariosTest);
+                double MAE = AlgEvaluacion.testWS(mSimilitudCoseno,usuariosTest);
                 tiempoWS = System.currentTimeMillis() - tiempoWS;
                 long tiempo = tiempoMS + tiempoWS;
 
@@ -87,45 +96,56 @@ public class Modelo implements ModeloInterface{
         }
     }    
     
-    public void aplicarAlgoritmosPearson() throws ErrorLecturaFichero, ErrorGrabarModeloSimilitud{
-        //Leemos el fichero csv para los Test
+    /**
+     * Aplica los algoritmos de similitud de Pearson, los de IA+A y WS
+     * @throws ErrorLecturaFichero
+     * @throws ErrorGrabarModeloSimilitud
+     * @throws ErrorGrabarResultadosTest 
+     */
+    public void aplicarAlgoritmosPearson() throws ErrorLecturaFichero, ErrorGrabarModeloSimilitud, ErrorGrabarResultadosTest{
+        //Crea el fichero lector de CSV
         FicheroCSV fichero = new FicheroCSV();
         
         for (int i=1;i<=5;i++){
+            // Lee las particiones correspondientes del CSV y obtiene las diferentes
+            // EEDD necesarias
             fichero.leerCSVTest(i);
             Map<Long, Pelicula> peliculas = fichero.getPeliculas();
             List<String> clavesUsuariosTest = fichero.getClavesUsuariosTest();
             List<Usuario> usuariosTest = fichero.getUsuariosTest();
 
+            //Aplica los algoritmos de similitud para los diferentes valores de K
             for (int k=20;k<=50;k=k+15){
-                //Aplicamos el algoritmo de similitud de pearson y lo grabamos en disco
+                
+                // Aplicamos el algoritmo de similitud de Pearson
                 long tiempoMS = System.currentTimeMillis();
                 HashMap<Long, TreeSet<Similitud>> mSPearson = AlgSimilitud.getModeloSimilitudPearson(k, new ArrayList(peliculas.values()), clavesUsuariosTest);                
                 tiempoMS = System.currentTimeMillis() - tiempoMS;
-               // imprimir(mSPearson);
+
                 // Grabamos en disco el Modelo de Similitud
-                grabarModeloSimilitud(mSPearson,"C:\\coleccion\\pearson-"+k+"parte"+i+".bin",tiempoMS);
+                grabarModeloSimilitud(mSPearson,"modelosSimilitud\\pearson-"+k+"parte"+i+".bin",tiempoMS);
                 
+                // Aplicamos el algoritmo de prediccion IA+A para los diferentes valores de n
                 int n[] = {0,2,4,8};
                 for (int m=0;m<4;m++){
-                    //Aplicamos el algoritmo de prediccion IA+A
+                    // Realiza el test 
                     long tiempoIAA = System.currentTimeMillis();        
                     double MAE = AlgEvaluacion.testIAmasA(n[m], mSPearson,peliculas, usuariosTest);
                     tiempoIAA = System.currentTimeMillis() - tiempoIAA;
                     long tiempo = tiempoMS + tiempoIAA;
                                         
-                    //Grabamos los resultados de ejecucion del Test
+                    //Grabamos los resultados de ejecucion del test
                     grabarResultados("Particion: "+i, "Algoritmo del Pearson. k = " + k, 
                             "IA+A. n = "+n[m], tiempo, MAE );
                 }
 
-                //Aplicamos el algoritmo de prediccion IA+A
+                //Aplicamos el algoritmo de prediccion WS
                 long tiempoWS = System.currentTimeMillis();        
                 double MAE = AlgEvaluacion.testWS(mSPearson,usuariosTest);
                 tiempoWS = System.currentTimeMillis() - tiempoWS;
                 long tiempo = tiempoMS + tiempoWS;
 
-                //Grabamos los resultados de ejecucion del Test
+                //Grabamos los resultados de ejecucion del test
                 grabarResultados("Particion: "+i, "Algoritmo del Pearson. k = " + k, 
                             "Algoritmo de prediccion WS.", tiempo, MAE );
             }
@@ -141,7 +161,9 @@ public class Modelo implements ModeloInterface{
     /**
     * Crea la EEDD desde los ficheros y las inserta en la BBDD
     */
-    void importarDatos() throws ErrorLecturaFichero{
+    void importarDatos() throws ErrorLecturaFichero, ErrorInsertarValoracion, 
+            ErrorInsertarPelicula, ErrorInsertarUsuario{
+        
         //Creamos el lector de CSV, leemos y obtenemos las EEDD
         FicheroCSV fichero = new FicheroCSV();
         fichero.leerCSV();
@@ -149,50 +171,30 @@ public class Modelo implements ModeloInterface{
         Map<String, Usuario> usuarios = fichero.getUsuarios();
         List valoraciones = fichero.getValoraciones();
                 
-        try { 
-            //Inserta las EEDD en la BBDD
-            DAOValoracion.instancia().insert(valoraciones);
-            DAOPelicula.instancia().insert(peliculas);
-            DAOUsuario.instancia().insert(usuarios);
-
-        } catch ( ErrorInsertarValoracion | ErrorInsertarPelicula | ErrorInsertarUsuario ex) {
-            Logger.getLogger(FicheroCSV.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //Inserta las EEDD en la BBDD
+        DAOValoracion.instancia().insert(valoraciones);
+        DAOPelicula.instancia().insert(peliculas);
+        DAOUsuario.instancia().insert(usuarios);
+    
     }
     
     /**
-     * Imprime por pantalla los resultados para comprobar que todo esta Ok
+     * Graba en disco el modelo de similitud obtenido en la ejecucion del test
+     * @param modeloSimilitud Modelo de similitud a almacenar
+     * @param ruta Ruta donde grabar el nuevo fichero
+     * @param tiempo Tiempo en obtener el modelo
+     * @throws ErrorGrabarModeloSimilitud 
      */
-    void recuperarDato(){
-        Pelicula p = DAOPelicula.instancia().get((long)571);
-        DetallesPelicula detalles = p.obtieneDetalles();
-        System.out.println(detalles.obtieneDetalle("titulo") + " -- titulo");
-        System.out.println(detalles.obtieneDetalle("ano") + " -- ano");
-        System.out.println(detalles.obtieneDetalle("suma") + " -- suma_valoraciones");
-        System.out.println(detalles.obtieneDetalle("media") + " -- valoracion_media");
-        Map<String, Valoracion> val = (Map<String, Valoracion>) p.obtieneDetalles().obtieneDetalle("valoraciones");
-        System.out.println(val.size() + "-- numero valoraciones recibidas.");
-
-        Iterator<Map.Entry<String, Valoracion>> iterator = val.entrySet().iterator();
-        
-        while (iterator.hasNext()){
-            Valoracion v = iterator.next().getValue();
-            System.out.println("-------\n\t id pelicula: "+v.getIdPelicula());
-            System.out.println("\t id usuario: "+v.getIdUsuario());
-            System.out.println("\t valoracion: "+v.getPuntuacion());
-        }
-    }
-
-    private void grabarModeloSimilitud(HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno, 
+    private void grabarModeloSimilitud(HashMap<Long, TreeSet<Similitud>> modeloSimilitud,
             String ruta, long tiempo) throws ErrorGrabarModeloSimilitud {
         
-        URL url = this.getClass().getClassLoader().getResource(ruta);
         //Crea el lector del archivo
         ObjectOutputStream oos =null;
             
         try{
             //Crea el fichero y comprueba si existe
             File f=new File(ruta);
+
             if (!f.exists()){
                 //Si no existe lo crea    
                 f.createNewFile();  
@@ -202,7 +204,7 @@ public class Modelo implements ModeloInterface{
             oos =new ObjectOutputStream(new FileOutputStream(f,false));
 
             //Graba el modelo de similitud en el fichero
-            oos.writeObject(modeloSimilitudCoseno);
+            oos.writeObject(modeloSimilitud);
             oos.writeObject(tiempo);
         
         }catch (IOException ex) {
@@ -219,19 +221,27 @@ public class Modelo implements ModeloInterface{
 
     }
 
+    /**
+     * Graba en disco los resultados de la ejecucion de un determinado test
+     * @param particion Numero de la combinacion de las particiones
+     * @param algSimilitud Algortimo de similitud utilizado en la ejecucion
+     * @param algPrediccion Algortimo de prediccion utilizado en el test
+     * @param tiempo Tiempo en la ejecucion del test
+     * @param MAE MAE del test
+     * @throws ErrorGrabarResultadosTest 
+     */
     private void grabarResultados(String particion, String algSimilitud, String algPrediccion, 
-            long tiempo, double MAE) {
+            long tiempo, double MAE) throws ErrorGrabarResultadosTest {
         
         URL url = this.getClass().getClassLoader().getResource("recursos/algoritmos/resultados.txt");
         File f;
         PrintWriter pw = null;
         try {
             //Crea el fichero y comprueba si existe
-            f=new File(url.getPath());
-   
+            f=new File(url.getPath());   
             pw = new PrintWriter(new FileWriter(f,true));
         } catch (IOException ex) {
-            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ErrorGrabarResultadosTest();
         }       
         
         pw.println("------------------------------------------------");
@@ -244,21 +254,5 @@ public class Modelo implements ModeloInterface{
         pw.println("MAE: "+MAE);
         
         pw.close();        
-    }
-    
-    void imprimir(HashMap<Long, TreeSet<Similitud>> modeloSimilitudCoseno){
-        Iterator<Map.Entry<Long, TreeSet<Similitud>>> iterator = modeloSimilitudCoseno.entrySet().iterator();
-        while (iterator.hasNext()){
-            Map.Entry<Long, TreeSet<Similitud>> next = iterator.next();
-            System.out.println("-------------------------------");
-            System.out.println("Pelicula: "+next.getKey());
-            TreeSet<Similitud> value = next.getValue();
-            Iterator<Similitud> iterator1 = value.iterator();
-            while (iterator1.hasNext()){
-                Similitud next1 = iterator1.next();
-                System.out.println("\tpelicula comparada: "+next1.getIdPelicula());
-                System.out.println("\tsimilitud: "+next1.getSimilitud());
-            }
-        }        
-    }
+    }    
 }

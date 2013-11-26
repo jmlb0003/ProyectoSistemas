@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.Modelo;
 import modelo.excepciones.ErrorGrabarModeloSimilitud;
+import modelo.excepciones.ErrorGrabarResultadosTest;
 import modelo.excepciones.ErrorLecturaFichero;
 
 /**
@@ -18,10 +19,9 @@ public class SGBDCine {
     public static void main(String[] args) {
          Modelo m = new Modelo();
         try {
+            m.aplicarAlgoritmosCoseno();
             m.aplicarAlgoritmosPearson();
-        } catch (ErrorLecturaFichero ex) {
-            Logger.getLogger(SGBDCine.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ErrorGrabarModeloSimilitud ex) {
+        } catch (ErrorLecturaFichero | ErrorGrabarModeloSimilitud | ErrorGrabarResultadosTest ex) {
             Logger.getLogger(SGBDCine.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

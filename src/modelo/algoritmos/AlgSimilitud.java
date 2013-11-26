@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package modelo.algoritmos;
 
 import java.util.HashMap;
@@ -195,8 +189,7 @@ public class AlgSimilitud {
 
         
         return modelo_similitud;
-    }
-    
+    }    
     
     /**
      * Método calcular la similitud entre dos Películas utilizando el algoritmo 
@@ -286,8 +279,7 @@ public class AlgSimilitud {
         }
         
     }
-    
-    
+        
     /**
      * Metodo calcular el modelo de similitud o tabla de similitud entre peliculas
      * utilizando el algoritmo de similitud de correlacion de Pearson.
@@ -307,8 +299,6 @@ public class AlgSimilitud {
         double similitud;
         Pelicula it1, it2;
         long nPelis = peliculas.size();
-        
-        
         
         for (int i=0; i<nPelis; ++i){
             //System.out.println(" pelicula "+i+" de "+numPeliculas);

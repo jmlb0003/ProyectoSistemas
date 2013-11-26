@@ -140,6 +140,7 @@ class FicheroCSV{
                 detallesPelicula.put("titulo",split[2].trim());
                 detallesPelicula.put("valoraciones", new HashMap<Long, Valoracion>());
                 detallesPelicula.put("suma", (long) 0);
+                detallesPelicula.put("media", (double) 0.0);
                 
                 //Creamos la pelicula, sin que se persista en la base de datos
                 Pelicula pelicula = new Pelicula(id, detallesPelicula);

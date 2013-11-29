@@ -1,6 +1,6 @@
 package modelo.persistencia;
 
-import modelo.persistencia.excepciones.ErrorConexionBD;
+import modelo.persistencia.excepciones.ErrorConexionBBDD;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -11,12 +11,12 @@ public class GestorPersistencia {
     
     private static GestorPersistencia instancia = null;
     
-    private GestorPersistencia() throws ErrorConexionBD {
+    private GestorPersistencia() throws ErrorConexionBBDD {
         try {
             emf = Persistence.createEntityManagerFactory("SGBDCinePU");
             em = emf.createEntityManager();
         }catch  (Exception e){
-            throw new ErrorConexionBD();
+            throw new ErrorConexionBBDD();
         }        
     }
     
@@ -24,7 +24,7 @@ public class GestorPersistencia {
         return em;
     }
         
-    public static void crearConexion() throws ErrorConexionBD {
+    public static void crearConexion() throws ErrorConexionBBDD {
         if (instancia == null) {
                 instancia = new GestorPersistencia();
         }

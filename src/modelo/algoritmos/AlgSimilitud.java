@@ -35,20 +35,16 @@ public class AlgSimilitud {
         Map<String, Valoracion> valoracionesP2 = (Map<String, Valoracion>) p2.obtieneDetalles().
                 obtieneDetalle("valoraciones");
                 
-        /**
-         * 1- Recorremos la pelicula que tiene menos valoraciones para ahorrar 
-         *    calculos
-         * 2- Si la otra pelicula tambien ha sido valorada por el usuario se 
-         *    aplica la formula de similitud
-         */
+        // Recorremos la peliculas, si comparada con otra pelicula ambas han 
+        // sido valoradas por el usuario se aplica la formula de similitud
         if (valoracionesP1.size() < valoracionesP2.size()){
             //Se recorren las valoraciones de la pelicula
             for (Entry<String,Valoracion> e : valoracionesP1.entrySet()) {
                 idUsuario = e.getKey();
                 
-                //############// 2. Descartamos los usuarios de la partición test
+                //Descartamos los usuarios de la partición test
                 if (!usuariosTest.contains(idUsuario)){
-                    //Si la otra película ha sido valorada por el usuario
+                    //La pelicula ha sido valorada por el usuario
                     if (valoracionesP2.containsKey(idUsuario)){  
                         val1 = e.getValue().getPuntuacion();
                         val2 = valoracionesP2.get(idUsuario).getPuntuacion();
@@ -58,18 +54,19 @@ public class AlgSimilitud {
 
                         numerador = numerador + val1 * val2;
                     }
-                    //SI no ha sido valorada, no se tiene en cuenta
+                    //Si no ha sido valorada no se tiene en cuenta
                 }
             }
         }else{
             for (Entry<String,Valoracion> e : valoracionesP2.entrySet()) {
                 idUsuario = e.getValue().getIdUsuario();
                 
-                //############// 2. Descartamos los usuarios de la partición test
+                //Descartamos los usuarios de la partición test
                 if (!usuariosTest.contains(idUsuario)){
                 
-                    //Si la otra película ha sido valorada por el usuario
+                    //La pelicula ha sido valorada por el usuario
                     if (valoracionesP1.containsKey(idUsuario)){
+                        //Realizamos los cálculos de similitud
                         val2 = e.getValue().getPuntuacion();
                         val1 = valoracionesP1.get(idUsuario).getPuntuacion();
 
@@ -78,7 +75,7 @@ public class AlgSimilitud {
 
                         numerador = numerador + val1 * val2;
                     }
-                    //SI no ha sido valorada, no se tiene en cuenta
+                    //Si no ha sido valorada no se tiene en cuenta
                 }
             }
         }
@@ -106,59 +103,46 @@ public class AlgSimilitud {
     */    
     public static HashMap<Long, TreeSet<Similitud>> getModeloSimilitudCoseno(int k, List<Pelicula> peliculas, 
             List<String> usuariosTest) {
-        /**
-         * La estructura en la que almacenamos el modelo de similitud es:
-         * clave: id de pelicula.
-         * valor: similitudes con cada pelicula pares (idPelicula-Similitud)
-         */
+        // EEDD del modelo de similitud es 
+        // clave: id de pelicula.
+        // valor: similitudes con cada pelicula pares (idPelicula-Similitud)
         HashMap<Long, TreeSet<Similitud>> modelo_similitud = new HashMap();
         TreeSet<Similitud> fila1, fila2;
         Pelicula it1, it2;
         long id1, id2;
         double similitud;
         long nPelis = peliculas.size();
-        
-        ///Iterator<Entry<Long, Pelicula>> iterator = peliculas.entrySet().iterator();
-        ///while (iterator.hasNext()){
 
-        for (int i=0; i<nPelis; ++i){
-            ///System.out.println(" pelicula "+i+" de "+numPeliculas);
-            ///###// 1.1: Sacar la película numero i. Nota: estudiar si se pueden sacar todas de golpe.
-            ///Pelicula it1 = getPeliculaBD_byPos(instancia, i);
-            ///Entry<Long, Pelicula> entrada = iterator.next();
+        for (int i=0; i<nPelis; ++i){ 
+            // Obtiene la pelicula i
             it1 = (Pelicula) peliculas.get(i);
-            id1 = it1.obtieneID();
-            
-            ///Iterator<Entry<Long, Petlicula>> iterator2 = new Iterator<Entry<Long, Pelicula>>();
+            id1 = it1.obtieneID(); 
             
             for (int j=i+1; j<nPelis; ++j){
-                ///###// 1.2: Sacar la película numero j vv.
-                ///Pelicula it2 = getPeliculaBD_byPos(instancia, j);
-                ///Entry<Long, Pelicula> entrada2 = iterator2.next();
+                // Obtiene la pelicula j
                 it2 = peliculas.get(j);
                 id2 = it2.obtieneID();
            
-                //Calculamos la similitud entre it1 e it2.
+                // Calculamos la similitud entre ambas peliculas
                 similitud = similitudCoseno(it1, it2, usuariosTest);
-                ///System.out.println(id1 + " " + id2 + " | " + similitud);
-                /// 1.3: Guardar la similitud en una estructura.
-                    //### 1.3: En el modelo definitivo, la similitud se guardará en la base de datos.
-                    //###//Similitud s1 = new Similitud(it1.id,it2.id,similitud);
-                ///     NOTA: Hay que guardar, a la vez, tanto la similitud sim(id1,id2) como sim (id2,id1)
-                //Si ya hay valores de similitud para it1 se mete en la fila que ya hay
+
+                // Guardamos la similitud entre ambas peliculas
                 if (modelo_similitud.containsKey(id1)){                    
-                    fila1 =  modelo_similitud.get(id1); //Saca la fila existente
-                    fila1.add(new Similitud(id2,similitud)); //Le añade la similitud
-                    //Si se ha superado el numero de vecinos establecido, se quita el ultimo
+                    fila1 =  modelo_similitud.get(id1); 
+                    fila1.add(new Similitud(id2,similitud)); 
+                    
+                    //Si se ha superado el numero de vecinos, k, se elimina el ultimo
                     if (fila1.size() > k){
                         fila1.remove(fila1.last());
                     }
                     
-                    //Añadimos ahora sim(id2,id1). Si esta la fila se añade ahi y si no se crea una nueva
+                    // Hacemos lo mismo con la pelicula j, para que se actualice la similitud entre
+                    // ambas peliculas
                     if (modelo_similitud.containsKey(id2)){
                         fila2 =  modelo_similitud.get(id2); 
                         fila2.add(new Similitud(id1,similitud));
-                        //Si se ha superado el numero de vecinos establecido, se quita el ultimo
+    
+                        //Si se ha superado el numero de vecinos, k, se elimina el ultimo
                         if (fila2.size() > k){
                             fila2.remove(fila2.last());
                         }
@@ -167,15 +151,15 @@ public class AlgSimilitud {
                         modelo_similitud.get(id2).add(new Similitud(id1,similitud));
                     }
                 }else{
-                    //Si no hay valores de similitud para it1 metemos la nueva fila
+                    // Creamos la nueva fila y le añadimos la nueva similitud calculada
                     modelo_similitud.put(id1, new TreeSet<Similitud>());
-                    //y le metemos la similitud que hemos calculado
                     modelo_similitud.get(id1).add(new Similitud(id2,similitud));
                     
                     if (modelo_similitud.containsKey(id2)){
                         fila2 =  modelo_similitud.get(id2);
                         fila2.add(new Similitud(id1,similitud));
-                        //Si se ha superado el numero de vecinos establecido, se quita el ultimo
+    
+                        //Si se ha superado el numero de vecinos, k, se elimina el ultimo
                         if (fila2.size() > k){
                             fila2.remove(fila2.last());
                         }
@@ -214,23 +198,18 @@ public class AlgSimilitud {
                 obtieneDetalle("valoraciones");
         Map<String, Valoracion> valoracionesP2 = (Map<String, Valoracion>) p2.obtieneDetalles().
                 obtieneDetalle("valoraciones");
-        
-        
-        /**
-         * 1- Recorremos la pelicula que tiene menos valoraciones para ahorrar 
-         *    calculos
-         * 2- Si la otra pelicula tambien ha sido valorada por el usuario se 
-         *    aplica la formula de similitud
-         */
+                
+        // Recorremos la peliculas, si comparada con otra pelicula ambas han 
+        // sido valoradas por el usuario se aplica la formula de similitud
         if (valoracionesP1.size() < valoracionesP2.size()){
+            //Se recorren las valoraciones de la pelicula
             for (Entry<String,Valoracion> e : valoracionesP1.entrySet()) {
                 idUsuario = e.getKey();
                 
-                //############// 2. Descartamos los usuarios de la partición test
+                //Descartamos los usuarios de la partición test
                 if (!usuarioTest.contains(idUsuario)){
-                    //Si la otra pelicula ha sido valorada por el usuario
+                    //La pelicula ha sido valorada por el usuario
                     if (valoracionesP2.containsKey(idUsuario)){
-                        //Realizamos los cálculos de similitud
                         val1 = e.getValue().getPuntuacion();
                         val2 = valoracionesP2.get(idUsuario).getPuntuacion();
 
@@ -246,9 +225,9 @@ public class AlgSimilitud {
             for (Entry<String,Valoracion> e : valoracionesP2.entrySet()) {
                 idUsuario = e.getKey();
                 
-                //############// 2. Descartamos los usuarios de la partición test
+                //Descartamos los usuarios de la partición test
                 if (!usuarioTest.contains(idUsuario)){
-                    //Si la otra pelicula ha sido valorada por el usuario
+                    //La pelicula ha sido valorada por el usuario
                     if (valoracionesP1.containsKey(idUsuario)){
                         //Realizamos los cálculos de similitud
                         val2 = e.getValue().getPuntuacion();
@@ -291,7 +270,10 @@ public class AlgSimilitud {
     */
     public static HashMap<Long, TreeSet<Similitud>> getModeloSimilitudPearson(int k, List<Pelicula> peliculas, 
             List<String> usuariosTest) {
-        // Estructura que representa el modelo de similitud (clave: id de pelicula; valor: lista de idPelicula-Similitud).
+        
+        // EEDD del modelo de similitud es 
+        // clave: id de pelicula.
+        // valor: similitudes con cada pelicula pares (idPelicula-Similitud)
         HashMap<Long, TreeSet<Similitud>> modelo_similitud = new HashMap();
         // Variables auxiliares:
         TreeSet<Similitud> fila1, fila2;
@@ -301,39 +283,35 @@ public class AlgSimilitud {
         long nPelis = peliculas.size();
         
         for (int i=0; i<nPelis; ++i){
-            //System.out.println(" pelicula "+i+" de "+numPeliculas);
-            //###// 1.1: Sacar la película numero i. Nota: estudiar si se pueden sacar todas de golpe.
-            //Pelicula it1 = getPeliculaBD_byPos(instancia, i);
+            // Obtiene la pelicula i
             it1 = peliculas.get(i);
             id1 = it1.obtieneID();
             
             for (int j=i+1; j<nPelis; ++j){
-                //###// 1.2: Sacar la película numero j.
-                //Pelicula it2 = getPeliculaBD_byPos(instancia, j);
+                // Obtiene la pelicula j
                 it2 = peliculas.get(j);
                 id2 = it2.obtieneID();
                 
-                //Calculamos la similitud entre it1 e it2.
+                // Calculamos la similitud entre ambas peliculas
                 similitud = similitudPearson(it1, it2, usuariosTest);
                 
-                /// 1.3: Guardar la similitud en una estructura.
-                    //### 1.3: En el modelo definitivo, la similitud se guardará en la base de datos.
-                    //###//Similitud s1 = new Similitud(it1.id,it2.id,similitud);
-                ///     NOTA: Hay que guardar, a la vez, tanto la similitud sim(id1,id2) como sim (id2,id1)
-                //Si ya hay valores de similitud para it1 se mete en la fila que ya hay
+                // Guardamos la similitud entre ambas peliculas
                 if (modelo_similitud.containsKey(id1)){
-                    fila1 =  modelo_similitud.get(id1); //Saca la fila existente
-                    fila1.add(new Similitud(id2,similitud)); //Le añade la similitud
-                    //Si se ha superado el numero de vecinos establecido, se quita el ultimo
+                    fila1 =  modelo_similitud.get(id1); 
+                    fila1.add(new Similitud(id2,similitud));
+                    
+                    //Si se ha superado el numero de vecinos, k, se elimina el ultimo
                     if (fila1.size() > k){
                         fila1.remove(fila1.last());
                     }
                     
-                    //Añadimos ahora sim(id2,id1). Si esta la fila se añade ahi y si no se crea una nueva
+                    // Hacemos lo mismo con la pelicula j, para que se actualice la similitud entre
+                    // ambas peliculas
                     if (modelo_similitud.containsKey(id2)){
                         fila2 =  modelo_similitud.get(id2);
                         fila2.add(new Similitud(id1,similitud));
-                        //Si se ha superado el numero de vecinos establecido, se quita el ultimo
+
+                        //Si se ha superado el numero de vecinos, k, se elimina el ultimo
                         if (fila2.size() > k){
                             fila2.remove(fila2.last());
                         }
@@ -342,15 +320,14 @@ public class AlgSimilitud {
                         modelo_similitud.get(id2).add(new Similitud(id1,similitud));
                     }
                 }else{
-                    //Si no hay valores de similitud para it1 metemos la nueva fila
+                    // Creamos la nueva fila y le añadimos la nueva similitud calculada
                     modelo_similitud.put(id1, new TreeSet<Similitud>());
-                    //y le metemos la similitud que hemos calculado
                     modelo_similitud.get(id1).add(new Similitud(id2,similitud));
                     
                     if (modelo_similitud.containsKey(id2)){
                         fila2 =  modelo_similitud.get(id2);
                         fila2.add(new Similitud(id1,similitud));
-                        //Si se ha superado el numero de vecinos establecido, se quita el ultimo
+                        //Si se ha superado el numero de vecinos, k, se elimina el ultimo
                         if (fila2.size() > k){
                             fila2.remove(fila2.last());
                         }

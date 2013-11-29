@@ -21,22 +21,23 @@ import modelo.persistencia.DAOPelicula;
 import modelo.persistencia.DAOUsuario;
 import modelo.persistencia.DAOValoracion;
 import modelo.persistencia.GestorPersistencia;
+import modelo.persistencia.excepciones.ErrorConexionBBDD;
 import modelo.persistencia.excepciones.ErrorInsertarPelicula;
 import modelo.persistencia.excepciones.ErrorInsertarUsuario;
 import modelo.persistencia.excepciones.ErrorInsertarValoracion;
 
 /**
- *
+ * Clase modelo que implementa ModeloInterface y
+ * que sera el gestor de todo el modelo del sistema
  * @author Jesus
  */
 public class Modelo implements ModeloInterface{
     
+    /**
+     * Constructor de la clase, se encargara de comenzar la conexion con ls BBDD
+     */
     public Modelo(){
-        /**try {
-            GestorPersistencia.crearConexion();
-        } catch (ErrorConexionBD ex) {
-            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+
         
     }
     
@@ -152,15 +153,25 @@ public class Modelo implements ModeloInterface{
         }
     }
 
-    
+    /**
+     * Cierra la conexion con la BBDD
+     */
     @Override
     public void cerrar() {
         GestorPersistencia.desconectar();
     }
     
     /**
-    * Crea la EEDD desde los ficheros y las inserta en la BBDD
-    */
+     * Crea la conexion con la BBDD
+     * @throws ErrorConexionBBDD Error al realizar la conexion con la BBDD
+     */
+    public void crearConexionBBDD() throws ErrorConexionBBDD{
+        GestorPersistencia.crearConexion();
+    }
+    
+    /**
+     * Crea la EEDD desde los ficheros y las inserta en la BBDD
+     */
     void importarDatos() throws ErrorLecturaFichero, ErrorInsertarValoracion, 
             ErrorInsertarPelicula, ErrorInsertarUsuario{
         
@@ -233,12 +244,11 @@ public class Modelo implements ModeloInterface{
     private void grabarResultados(String particion, String algSimilitud, String algPrediccion, 
             long tiempo, double MAE) throws ErrorGrabarResultadosTest {
         
-        URL url = this.getClass().getClassLoader().getResource("recursos/algoritmos/resultados.txt");
         File f;
         PrintWriter pw = null;
         try {
             //Crea el fichero y comprueba si existe
-            f=new File(url.getPath());   
+            f=new File("resultados\\resultados.txt");   
             pw = new PrintWriter(new FileWriter(f,true));
         } catch (IOException ex) {
             throw new ErrorGrabarResultadosTest();

@@ -51,22 +51,10 @@ public class Similitud implements Comparable<Similitud>, Serializable{
     }
 
     /**
-     * Establece el identificador de la pelicual
-     * @param _idPelicula 
-     *
-    public void setIdPelicula(long _idPelicula) {
-        this._idPelicula = _idPelicula;
-    }*/
-
-    /**
      * Devuelve la similitud con la pelicula
      */
     public double getSimilitud() {
         return _similitud;
     }
-
-    /**public void setSimilitud(double _similitud) {
-        this._similitud = _similitud;
-    }*/
     
 }

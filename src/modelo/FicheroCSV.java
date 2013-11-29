@@ -34,7 +34,7 @@ class FicheroCSV{
     }
     
     /**
-     * Lee la parte de Test del fichero CSV
+     * Lee el fichero CSV para realizar las pruebas de los algoritmos
      * @param particion particion que se debe leer
      * @throws ErrorLecturaFichero Error en la lectura del fichero
      */
@@ -91,7 +91,7 @@ class FicheroCSV{
     }
     
     /**
-     * Lee los ficheros CSV y los guarda en memoria
+     * Lee los ficheros CSV y guarda las EEDD en memoria
      * @throws ErrorLecturaFichero Error al leer el fichero
      */
     void leerCSV() throws ErrorLecturaFichero{

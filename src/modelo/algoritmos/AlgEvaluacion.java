@@ -22,7 +22,7 @@ public class AlgEvaluacion {
      * @param n Valor de n para aplicarlo al enfoque dados-n del algoritmo IA+A.
      *          Si el valor de n es 0 se usara el enfoque todos menos 1.
      * @param modeloSimilitud Tabla de similitud
-     * @param peliculas Lista de peliculas sobre la que realizar el Test
+     * @param peliculas Mapa de peliculas sobre la que realizar el Test
      * @param usuariosTest Lista de usuarios sobre la que realizar el Test
      * @return Devuelve el valor MAE tras la ejecucion del algoritmo IA+A.
      */

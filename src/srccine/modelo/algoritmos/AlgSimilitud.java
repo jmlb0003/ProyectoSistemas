@@ -26,17 +26,17 @@ public class AlgSimilitud {
      * @return Devuelve el valor de similitud con un real entre 0 y 1
     */
     private static double similitudCoseno(Pelicula p1, Pelicula p2, List<String> usuariosTest){        
-        double suma1 = 0;
-        double suma2 = 0;
+        double suma1 = 0.0;
+        double suma2 = 0.0;
         int val1, val2;
         String idUsuario;
-        double numerador = 0;
+        double numerador = 0.0;
         
         Map<String, Valoracion> valoracionesP1 = (Map<String, Valoracion>) p1.obtieneDetalles().
                 obtieneDetalle("valoraciones");
         Map<String, Valoracion> valoracionesP2 = (Map<String, Valoracion>) p2.obtieneDetalles().
                 obtieneDetalle("valoraciones");
-                
+        System.out.println(valoracionesP1.size());        
         // Recorremos la peliculas, si comparada con otra pelicula ambas han 
         // sido valoradas por el usuario se aplica la formula de similitud
         if (valoracionesP1.size() < valoracionesP2.size()){
@@ -84,7 +84,8 @@ public class AlgSimilitud {
         
         if (suma1 != 0 && suma2 !=0){
             double sim = numerador / (Math.sqrt(suma1) * Math.sqrt(suma2));
-            
+            System.out.println("suma 1 "+suma1);
+            System.out.println("suma 2 "+suma1);
             if (sim > 1){
                 return 1;
             }
@@ -100,11 +101,11 @@ public class AlgSimilitud {
      * utilizando el algoritmo de similitud del coseno.
      * @param k Numero de vecinos mas cercanos que se tienen en cuenta.
      * @param peliculas Conjunto de peliculas de las que se calcula la similitud.
-     * @param usuariosTest
+     * @param usuarios
      * @return Devuelve el modelo de similitud de las peliculas.
     */    
     public static HashMap<Long, TreeSet<Similitud>> getModeloSimilitudCoseno(int k, List<Pelicula> peliculas, 
-            List<String> usuariosTest) {
+            List<String> usuarios) {
         // EEDD del modelo de similitud es 
         // clave: id de pelicula.
         // valor: similitudes con cada pelicula pares (idPelicula-Similitud)
@@ -126,7 +127,7 @@ public class AlgSimilitud {
                 id2 = it2.obtieneID();
            
                 // Calculamos la similitud entre ambas peliculas
-                similitud = similitudCoseno(it1, it2, usuariosTest);
+                similitud = similitudCoseno(it1, it2, usuarios);
 
                 // Guardamos la similitud entre ambas peliculas
                 if (modelo_similitud.containsKey(id1)){                    
@@ -182,11 +183,11 @@ public class AlgSimilitud {
      * de similitud del Coeficiente de Correlacion de Pearson.
      * @param p1 Primera pelicula a comparar.
      * @param p2 Segunda película a comparar.
-     * @param usuarioTest Lista de peliculas que han valorado los usuarios incluidas en 
+     * @param usuarios Lista de peliculas que han valorado los usuarios incluidas en 
      * la particion de test. Deben descartarse.
      * @return Devuelve el valor de similitud con un real entre 0 y 1
      */
-    private static double similitudPearson(Pelicula p1, Pelicula p2, List<String> usuarioTest){
+    private static double similitudPearson(Pelicula p1, Pelicula p2, List<String> usuarios){
         // Variables auxiliares:
         double suma1 = 0;
         double suma2 = 0;
@@ -209,7 +210,7 @@ public class AlgSimilitud {
                 idUsuario = e.getKey();
                 
                 //Descartamos los usuarios de la partición test
-                if (!usuarioTest.contains(idUsuario)){
+                if (!usuarios.contains(idUsuario)){
                     //La pelicula ha sido valorada por el usuario
                     if (valoracionesP2.containsKey(idUsuario)){
                         val1 = e.getValue().getPuntuacion();
@@ -228,7 +229,7 @@ public class AlgSimilitud {
                 idUsuario = e.getKey();
                 
                 //Descartamos los usuarios de la partición test
-                if (!usuarioTest.contains(idUsuario)){
+                if (!usuarios.contains(idUsuario)){
                     //La pelicula ha sido valorada por el usuario
                     if (valoracionesP1.containsKey(idUsuario)){
                         //Realizamos los cálculos de similitud

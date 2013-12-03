@@ -39,11 +39,13 @@ public class AlgPrediccion {
         
         //Se recorren las peliculas vecinas para quedarnos solamente con las
         //que hayan sido votados por el usuario actual
-        for(Similitud i : vecinos){
+        for(Similitud s : vecinos){
             //Si el usuario ha valorado a la pelicula vecina
-            if ( uValoraciones.containsKey(i.getIdPelicula()) ){
-                valoracionesVecinos.add(uValoraciones.get(i.getIdPelicula()));
-            }
+            if ( uValoraciones.containsKey(s.getIdPelicula()) ){
+                valoracionesVecinos.add(uValoraciones.get(s.getIdPelicula()));
+                if (s.getSimilitud()!=0.0){ System.out.println("SIMI "+s.getSimilitud());
+                System.out.println("id pe "+s.getIdPelicula());
+            }}
         }
         
         //Ahora la formula de la prediccion Item Average+Adjustment

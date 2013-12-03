@@ -1,11 +1,14 @@
 package srccine.modelo.persistencia;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import srccine.modelo.persistencia.excepciones.ErrorBorrarUsuario;
 import srccine.modelo.persistencia.excepciones.ErrorInsertarUsuario;
 import srccine.modelo.persistencia.excepciones.ErrorActualizarUsuario;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import srccine.modelo.Usuario;
 
 /**
@@ -142,5 +145,18 @@ public class DAOUsuario {
             em.clear();
             throw new ErrorInsertarUsuario();
         }    
+    }
+    public Map<String,Usuario> getUsuarios() {
+        EntityManager em=GestorPersistencia.instancia().getEntityManager();
+
+        Map<String,Usuario> map = new HashMap(); 
+                
+        Query consulta = em.createQuery("SELECT u FROM Usuario u ");
+        List usuarios = consulta.getResultList();
+        for (Iterator it = usuarios.iterator(); it.hasNext();) {
+            Usuario u = (Usuario) it.next();
+            map.put(u.obtieneID(),u);
+        }
+        return map;
     }
 }

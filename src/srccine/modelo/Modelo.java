@@ -16,8 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import srccine.modelo.algoritmos.AlgPrediccion;
 import srccine.modelo.algoritmos.AlgSimilitud;
 import srccine.modelo.excepciones.ErrorLecturaFichero;
@@ -69,18 +67,26 @@ public class Modelo implements ModeloInterface{
             importarDatos();
         }else{
             // Carga el modelo de similitud desde disco
-            cargarModeloSimilitud();
+            cargarModeloSimilitud();//1344086
             _peliculas = DAOPelicula.instancia().getPeliculas();
-            Usuario u = DAOUsuario.instancia().get("537425");
-            TreeSet<Recomendacion> recibirRecomendaciones = recibirRecomendaciones(u);
-            Iterator<Recomendacion> iterator = recibirRecomendaciones.iterator();
-            System.out.println("guay: "+recibirRecomendaciones.size());
+            Map<String, Usuario> usuarios = DAOUsuario.instancia().getUsuarios();
+            Usuario usuario = DAOUsuario.instancia().get("1344086");
+            _modeloSimilitud = AlgSimilitud.getModeloSimilitudCoseno(K, new ArrayList<>(_peliculas.values()), new ArrayList<>(usuarios.keySet()));
+            //for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
+             //   String string = entry.getKey();
+               // Usuario usuario = entry.getValue();
+                TreeSet<Recomendacion> recibirRecomendaciones = recibirRecomendaciones(usuario);
+                Iterator<Recomendacion> iterator = recibirRecomendaciones.iterator();
+                System.out.println("Usuario: 1344086 | Recomendaciones recibidas: "+recibirRecomendaciones.size());
 
             while (iterator.hasNext()) {
                 Recomendacion recomendacion = iterator.next();
                 System.out.println("peli: "+ recomendacion.getPelicula().obtieneID());
                 System.out.println("v: "+ recomendacion.getValoracion());
             }
+
+                
+            //}
         }
     }
     
@@ -204,21 +210,21 @@ public class Modelo implements ModeloInterface{
         HashMap<Long, Valoracion> valoraciones = (HashMap<Long, Valoracion>) usuario.
                 obtieneDetalles().obtieneDetalle("valoraciones");
         
-        List<Long> predecibles = new ArrayList();
+       // List<Long> predecibles = new ArrayList();
         
-        for (Map.Entry<Long,Pelicula> e : _peliculas.entrySet()) {            
-            if (!valoraciones.containsKey(e.getKey())){
+        /*for (Map.Entry<Long,Pelicula> e : _peliculas.entrySet()) {            
+            if (!predecibles.contains(e.getKey())&&!valoraciones.containsKey(e.getKey())){
                 predecibles.add(e.getKey());
             }
-        }
+        }*/
 
         TreeSet<Recomendacion> recomendaciones = new TreeSet();
-        for (Iterator it = predecibles.iterator(); it.hasNext();) {
-            long id = (Long) it.next();
-            Pelicula pelicula = _peliculas.get(id);
+        for (Map.Entry<Long,Pelicula> e : _peliculas.entrySet()) {            
+            long id = (Long) e.getKey();
+            Pelicula pelicula = e.getValue();//_peliculas.get(id);
             double media = (Double) pelicula.obtieneDetalles().
                     obtieneDetalle("media");
-            
+            //System.out.println("id peli "+id);
             double prediccion = AlgPrediccion.calcularPrediccionIAmasA(N,
                     usuario, media, _modeloSimilitud.get(id));
             

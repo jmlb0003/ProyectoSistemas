@@ -41,15 +41,14 @@ public class AlgEvaluacion {
         while (iteradorUsuarios.hasNext()){
             // Obtenemos el usuario y sus valoraciones
             usuario = iteradorUsuarios.next();
-            HashMap<Long, Valoracion> valoracionesUsuario = (HashMap<Long, Valoracion>) 
-                    usuario.obtieneDetalles().obtieneDetalle("valoraciones");
+            Map<Long, Valoracion> valoracionesUsuario = usuario.obtieneValoraciones();
 
             // Iteramos sobre cada valoracion del usuario
             for (Entry<Long,Valoracion> e : valoracionesUsuario.entrySet()) {                
 
                 // Obtenemos el Id, media y vecinos de cada pelicula
                 idPelicula = e.getKey();
-                mediaPelicula = (double) peliculas.get(idPelicula).obtieneDetalles().obtieneDetalle("media");
+                mediaPelicula = (double) peliculas.get(idPelicula).obtieneMedia();
                 vecinos = modeloSimilitud.get(idPelicula);
                 //Aplicamos el algoritmo de prediccion del IA+A
                 valoracionEstimada = AlgPrediccion.calcularPrediccionIAmasA(n, usuario, mediaPelicula,vecinos);                
@@ -94,16 +93,14 @@ public class AlgEvaluacion {
         double valoracionEstimada,dif;
         double MAE = 0, diferencia;
         int valoracionReal,numEstimaciones=0;
-        TreeSet<Similitud> vecinos;
-        
+        TreeSet<Similitud> vecinos;        
         
         // 1. Recorremos cada usuario de la particion test.
         while (itUsuarios.hasNext()){
             u = itUsuarios.next();            
-            HashMap<Long, Valoracion> valoracionesUsuario = (HashMap<Long, Valoracion>) 
-                    u.obtieneDetalles().obtieneDetalle("valoraciones");            
+            Map<Long, Valoracion> valoracionesUsuario = u.obtieneValoraciones();
             
-             for (Entry<Long,Valoracion> e : valoracionesUsuario.entrySet()) {
+            for (Entry<Long,Valoracion> e : valoracionesUsuario.entrySet()) {
                  idPelicula = e.getValue().getIdPelicula();
                  
                  // 3. Calculamos la valoracion real y la estimada.

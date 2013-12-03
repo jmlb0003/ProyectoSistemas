@@ -67,7 +67,8 @@ public class Modelo implements ModeloInterface{
             ErrorInsertarUsuario, ErrorGrabarModeloSimilitud{
         
         crearConexionBBDD();
-        // Comprueba si la base de datos esta vacia
+        importarDatos();
+        /*// Comprueba si la base de datos esta vacia
         if (DAOPelicula.instancia().getNumPeliculas()==0){
             // importa el conjunto de datos desde ficheros
             importarDatos();
@@ -77,7 +78,7 @@ public class Modelo implements ModeloInterface{
             _peliculas = DAOPelicula.instancia().getPeliculas();
             Usuario usuario = DAOUsuario.instancia().get("1344086");
             TreeSet<Recomendacion> recibirRecomendaciones = recibirRecomendaciones(usuario);
-            usuario.obtieneDetalles().obtieneDetalles().put("recomendaciones", recibirRecomendaciones);
+            usuario.anadeRecomendaciones(recibirRecomendaciones);
             
             try {
                 DAOUsuario.instancia().update(usuario);
@@ -85,8 +86,7 @@ public class Modelo implements ModeloInterface{
                 Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
             }
             Usuario get = DAOUsuario.instancia().get("1344086");
-            TreeSet<Recomendacion> obtieneDetalle = (TreeSet<Recomendacion>) get.obtieneDetalles().
-                    obtieneDetalle("recomendaciones");
+            TreeSet<Recomendacion> obtieneDetalle = get.obtieneRecomendaciones();
             
             Iterator<Recomendacion> iterator = obtieneDetalle.iterator();
             System.out.println("Usuario: 1344086 | Recomendaciones recibidas: "+recibirRecomendaciones.size());
@@ -97,7 +97,7 @@ public class Modelo implements ModeloInterface{
                 System.out.println("v: "+ recomendacion.getValoracion());
             }              
             
-        }
+        }*/
     }
     
     /**
@@ -217,9 +217,7 @@ public class Modelo implements ModeloInterface{
     
     private TreeSet<Recomendacion> recibirRecomendaciones(Usuario usuario){
         
-        HashMap<Long, Valoracion> valoraciones = (HashMap<Long, Valoracion>) usuario.
-                obtieneDetalles().obtieneDetalle("valoraciones");
-        
+        Map<Long, Valoracion> valoraciones = usuario.obtieneValoraciones();        
         List<Long> predecibles = new ArrayList();
         
         for (Map.Entry<Long,Pelicula> e : _peliculas.entrySet()) {            
@@ -232,16 +230,15 @@ public class Modelo implements ModeloInterface{
         for (Iterator<Long> it = predecibles.iterator(); it.hasNext();) {
             long id = (Long) it.next();
             Pelicula pelicula = _peliculas.get(id);
-            double media = (Double) pelicula.obtieneDetalles().
-                    obtieneDetalle("media");
+            double media = pelicula.obtieneMedia();
             double prediccion = AlgPrediccion.calcularPrediccionIAmasA(N,
                     usuario, media, _modeloSimilitud.get(id));
             
             if (prediccion!=-1){
-                recomendaciones.add(new Recomendacion(pelicula,prediccion));
+                recomendaciones.add(new Recomendacion(pelicula,prediccion));                
                 if (recomendaciones.size()>NUM_RECOMENDACIONES){
                     recomendaciones.remove(recomendaciones.last());
-                }
+                }                
             }
         }
         

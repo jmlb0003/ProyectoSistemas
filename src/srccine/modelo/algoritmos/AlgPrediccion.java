@@ -34,8 +34,7 @@ public class AlgPrediccion {
         //k-vecinos mas cercanos a idPelicula
         ArrayList<Valoracion> valoracionesVecinos = new ArrayList();
         //Valoraciones del usuario actual (u)
-        Map<Long, Valoracion> uValoraciones = 
-                (Map<Long, Valoracion>) u.obtieneDetalles().obtieneDetalles().get("valoraciones");
+        Map<Long, Valoracion> uValoraciones = u.obtieneValoraciones();
         
         //Se recorren las peliculas vecinas para quedarnos solamente con las
         //que hayan sido votados por el usuario actual
@@ -85,7 +84,7 @@ public class AlgPrediccion {
             }
             // FIN ENFOQUE DADOS-N
             
-            double mediaU = (double) u.obtieneDetalles().obtieneDetalle("media");
+            double mediaU = (double) u.obtieneMedia();
             //A partir de aquí FORMULA de IA+A
             Iterator<Valoracion> it1 = valoracionesVecinos.iterator();
             
@@ -126,8 +125,7 @@ public class AlgPrediccion {
         // Estructura con solamente las valoraciones que un usuario ha realizado sobre los k vecinos mas cercanos a idPelicula
         ArrayList<Valoracion> valoracionesVecinos = new ArrayList();
         //Valoraciones del usuario actual (usuario)
-        Map<Long, Valoracion> uValoraciones = 
-                (Map<Long, Valoracion>) usuario.obtieneDetalles().obtieneDetalles().get("valoraciones");
+        Map<Long, Valoracion> uValoraciones = usuario.obtieneValoraciones();
         
         //Se recorren las peliculas vecinas para quedarnos solamente con las
         //que hayan sido votados por el usuario actual

@@ -3,9 +3,12 @@ package srccine.modelo;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeSet;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  * Clase Usuario
@@ -14,9 +17,19 @@ import javax.persistence.Id;
 @Entity(name="Usuario")
 public class Usuario implements Serializable{
     @Id
-    private String _id;       
+    private String _id;
+
+    private long _suma;
+
+    private double _media;
+    
     @Column(columnDefinition = "LONGBLOB")
     private DetallesUsuario _detalles;
+    
+    @OneToMany(cascade= CascadeType.ALL)
+    private Map<Long,Valoracion> _valoraciones;
+
+    private TreeSet<Recomendacion> _recomendaciones;  
 
     /**
      * Constructor por defecto
@@ -24,6 +37,10 @@ public class Usuario implements Serializable{
     public Usuario() {
         _id = "";
         _detalles = null;
+        _suma = 0;
+        _media = 0.0;
+        _valoraciones = new HashMap();
+        _recomendaciones = new TreeSet();
     }
     
     /**
@@ -33,7 +50,11 @@ public class Usuario implements Serializable{
      */
     public Usuario(String id, Map detalles) {
         _id = id;
+        _suma = 0;
+        _media = 0.0;
         _detalles = new DetallesUsuario(detalles);
+        _valoraciones = new HashMap ();
+        _recomendaciones = new TreeSet();
     }
     
     /**
@@ -76,5 +97,35 @@ public class Usuario implements Serializable{
      */
     public String obtieneID(){
         return _id;
+    }
+    
+    public void anadirValoracion(Long id, Valoracion v){        
+        _valoraciones.put(id, v);
+        _suma += v.getPuntuacion();
+        _media = (double) _suma / _valoraciones.size();                
+    }
+    
+    public Valoracion obtieneValoracion(Long id){
+        return _valoraciones.get(id);
+    }
+    
+    public int numValoraciones(){
+        return _valoraciones.size();
+    }    
+    
+    public double obtieneMedia(){
+        return _media;
+    }
+    
+    public Map<Long,Valoracion> obtieneValoraciones( ){
+        return _valoraciones;
+    }
+    
+    public void anadeRecomendaciones(TreeSet<Recomendacion> recomendaciones){
+        _recomendaciones = recomendaciones;
+    }
+    
+    public TreeSet<Recomendacion> obtieneRecomendaciones(){
+        return _recomendaciones;
     }
 }

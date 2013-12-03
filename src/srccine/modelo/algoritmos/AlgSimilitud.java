@@ -31,10 +31,8 @@ public class AlgSimilitud {
         String idUsuario;
         double numerador = 0.0;
         
-        Map<String, Valoracion> valoracionesP1 = (Map<String, Valoracion>) p1.obtieneDetalles().
-                obtieneDetalle("valoraciones");
-        Map<String, Valoracion> valoracionesP2 = (Map<String, Valoracion>) p2.obtieneDetalles().
-                obtieneDetalle("valoraciones");
+        Map<String, Valoracion> valoracionesP1 = p1.obtieneValoraciones();
+        Map<String, Valoracion> valoracionesP2 = p2.obtieneValoraciones();
 
         // Recorremos la peliculas, si comparada con otra pelicula ambas han 
         // sido valoradas por el usuario se aplica la formula de similitud
@@ -184,13 +182,11 @@ public class AlgSimilitud {
         int val1, val2;
         String idUsuario;
         double numerador = 0;
-        double media1 = (double) p1.obtieneDetalles().obtieneDetalle("media");
-        double media2 = (double) p2.obtieneDetalles().obtieneDetalle("media");
+        double media1 = p1.obtieneMedia();
+        double media2 = p2.obtieneMedia();
         
-        Map<String, Valoracion> valoracionesP1 = (Map<String, Valoracion>) p1.obtieneDetalles().
-                obtieneDetalle("valoraciones");
-        Map<String, Valoracion> valoracionesP2 = (Map<String, Valoracion>) p2.obtieneDetalles().
-                obtieneDetalle("valoraciones");
+        Map<String, Valoracion> valoracionesP1 = p1.obtieneValoraciones();
+        Map<String, Valoracion> valoracionesP2 = p2.obtieneValoraciones();
                 
         // Recorremos la peliculas, si comparada con otra pelicula ambas han 
         // sido valoradas por el usuario se aplica la formula de similitud
@@ -334,5 +330,4 @@ public class AlgSimilitud {
         
         return modelo_similitud;
     }
-
 }

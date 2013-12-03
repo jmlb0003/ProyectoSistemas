@@ -6,6 +6,7 @@ import srccine.modelo.Modelo;
 import srccine.modelo.excepciones.ErrorGrabarModeloSimilitud;
 import srccine.modelo.excepciones.ErrorGrabarResultadosTest;
 import srccine.modelo.excepciones.ErrorLecturaFichero;
+import srccine.modelo.persistencia.ErrorLeerModeloSimilitud;
 import srccine.modelo.persistencia.excepciones.ErrorConexionBBDD;
 import srccine.modelo.persistencia.excepciones.ErrorInsertarPelicula;
 import srccine.modelo.persistencia.excepciones.ErrorInsertarUsuario;
@@ -23,7 +24,7 @@ public class SRCCine {
     public static void main(String[] args) {
         try {
             Modelo m = new Modelo();
-            m.importarDatos();
+            m.inicializar();
         } catch ( ErrorGrabarModeloSimilitud ex) {
             Logger.getLogger(SRCCine.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ErrorInsertarValoracion ex) {
@@ -35,6 +36,8 @@ public class SRCCine {
         } catch (ErrorConexionBBDD ex) {
             Logger.getLogger(SRCCine.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ErrorLecturaFichero ex) {
+            Logger.getLogger(SRCCine.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ErrorLeerModeloSimilitud ex) {
             Logger.getLogger(SRCCine.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

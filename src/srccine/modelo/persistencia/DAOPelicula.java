@@ -1,11 +1,14 @@
 package srccine.modelo.persistencia;
 
+import java.util.HashMap;
 import srccine.modelo.persistencia.excepciones.ErrorActualizarPelicula;
 import srccine.modelo.persistencia.excepciones.ErrorBorrarPelicula;
 import srccine.modelo.persistencia.excepciones.ErrorInsertarPelicula;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import srccine.modelo.Pelicula;
 
 /**
@@ -149,5 +152,27 @@ public class DAOPelicula {
             throw new ErrorInsertarPelicula();
         }
     }
+
+    public long getNumPeliculas() {
+         //Obtiene la instancia del EntityManager del gestor de persistenciaa
+        EntityManager em=GestorPersistencia.instancia().getEntityManager();
+        
+        //Busca el partido creando un query
+        Query num = em.createQuery("select COUNT(*) from Pelicula");
+        return (Long) num.getSingleResult();
+    }
     
+    public Map<Long,Pelicula> getPeliculas() {
+                EntityManager em=GestorPersistencia.instancia().getEntityManager();
+
+        Map<Long,Pelicula> map = new HashMap(); 
+                
+        Query consulta = em.createQuery("SELECT p FROM Pelicula p ");
+        List peliculas = consulta.getResultList();
+        for (Iterator it = peliculas.iterator(); it.hasNext();) {
+            Pelicula p = (Pelicula) it.next();
+            map.put(p.obtieneID(), p);
+        }
+        return map;
+    }
 }

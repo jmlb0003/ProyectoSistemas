@@ -29,7 +29,7 @@ public class AlgPrediccion {
      * @return Devuelve la prediccion de la valoracion o -1 si no se ha 
      *          podido predecir
     */
-    static double calcularPrediccionIAmasA(int n, Usuario u, double mediaPelicula, TreeSet<Similitud> vecinos) {
+    public static double calcularPrediccionIAmasA(int n, Usuario u, double mediaPelicula, TreeSet<Similitud> vecinos) {
         //Lista de las Valoraciones que el usuario ha realizado sobre los 
         //k-vecinos mas cercanos a idPelicula
         ArrayList<Valoracion> valoracionesVecinos = new ArrayList();
@@ -41,7 +41,7 @@ public class AlgPrediccion {
         //que hayan sido votados por el usuario actual
         for(Similitud i : vecinos){
             //Si el usuario ha valorado a la pelicula vecina
-            if ( uValoraciones.containsKey(i.getIdPelicula()) ){                    
+            if ( uValoraciones.containsKey(i.getIdPelicula()) ){
                 valoracionesVecinos.add(uValoraciones.get(i.getIdPelicula()));
             }
         }
@@ -122,7 +122,7 @@ public class AlgPrediccion {
      * @return Devuelve la prediccion de la valoracion o -1 si no se ha 
      *          podido predecir
      */
-    static double calcularPrediccionWS(Usuario usuario, TreeSet<Similitud> vecinos) {
+    public static double calcularPrediccionWS(Usuario usuario, TreeSet<Similitud> vecinos) {
         // Estructura con solamente las valoraciones que un usuario ha realizado sobre los k vecinos mas cercanos a idPelicula
         ArrayList<Valoracion> valoracionesVecinos = new ArrayList();
         //Valoraciones del usuario actual (usuario)

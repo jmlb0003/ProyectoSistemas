@@ -1,0 +1,900 @@
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 529756 ms.
+MAE: 1.0644782726117612
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 529704 ms.
+MAE: 0.9022845095074578
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 529712 ms.
+MAE: 0.7703466894493921
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 529698 ms.
+MAE: 0.7985601640462338
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 529712 ms.
+MAE: 1.0213533739175877
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 547099 ms.
+MAE: 1.0397703319779086
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 547090 ms.
+MAE: 0.9321821268976068
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 547084 ms.
+MAE: 0.8602151942577622
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 547087 ms.
+MAE: 0.7857092641593839
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 547071 ms.
+MAE: 1.0019368460473252
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 564581 ms.
+MAE: 1.021245179425736
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 564571 ms.
+MAE: 0.9583270153193311
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 564561 ms.
+MAE: 0.8531320617685748
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 564557 ms.
+MAE: 0.7688739645800915
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 564551 ms.
+MAE: 0.9879195789791813
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 544443 ms.
+MAE: 1.0873510064642993
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 544434 ms.
+MAE: 0.9764511215748702
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 544433 ms.
+MAE: 0.8650215303999661
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 544432 ms.
+MAE: 0.7492847301113684
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 544422 ms.
+MAE: 1.0579461526665463
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 564122 ms.
+MAE: 1.0490336894840309
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 564113 ms.
+MAE: 0.9800065292178418
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 564106 ms.
+MAE: 0.8774251578802562
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 564103 ms.
+MAE: 0.7951912796679148
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 564094 ms.
+MAE: 1.0263367887990154
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 587061 ms.
+MAE: 1.0327425208474057
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 587036 ms.
+MAE: 0.9772215971548817
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 587039 ms.
+MAE: 0.8891231249593465
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 587032 ms.
+MAE: 0.8091443104070121
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 587029 ms.
+MAE: 1.0110321687715245
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 529810 ms.
+MAE: 1.1196221910670632
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 529795 ms.
+MAE: 1.1089554172827814
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 529793 ms.
+MAE: 1.0644862244221713
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 529792 ms.
+MAE: 0.9932750445719543
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 529777 ms.
+MAE: 1.0518900139572824
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 563955 ms.
+MAE: 1.0831352111637649
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 563941 ms.
+MAE: 1.0723925482984364
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 563938 ms.
+MAE: 1.0475902465035705
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 563938 ms.
+MAE: 1.0722954310055879
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 563921 ms.
+MAE: 1.021208307780029
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 588316 ms.
+MAE: 1.0597329290199828
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 588304 ms.
+MAE: 1.0372801809579766
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 588297 ms.
+MAE: 1.002108538351853
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 588296 ms.
+MAE: 1.0453418166132384
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 588278 ms.
+MAE: 0.9985173263368785
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 550639 ms.
+MAE: 1.1463558106549046
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 550637 ms.
+MAE: 1.1046929700250112
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 550626 ms.
+MAE: 1.0991240350238314
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 550626 ms.
+MAE: 1.0969341375369341
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 550616 ms.
+MAE: 1.0743469914048578
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 580602 ms.
+MAE: 1.102647354387604
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 580590 ms.
+MAE: 1.0834566589100785
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 580588 ms.
+MAE: 1.0106651591576006
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 580596 ms.
+MAE: 1.0524286963576248
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 580570 ms.
+MAE: 1.0389397313871898
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 596490 ms.
+MAE: 1.0771670408775258
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 596480 ms.
+MAE: 1.0732631377842634
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 596471 ms.
+MAE: 1.012514237631768
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 596469 ms.
+MAE: 1.0176858724082445
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 596454 ms.
+MAE: 1.0190774224223345
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 544040 ms.
+MAE: 1.1224485894883072
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 544030 ms.
+MAE: 1.2942632075639393
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 544029 ms.
+MAE: 1.435261371522072
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 544027 ms.
+MAE: 1.4566366975904337
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Coseno. k = 20
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 544013 ms.
+MAE: 1.035814312825844
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 574239 ms.
+MAE: 1.0681188977381308
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 574226 ms.
+MAE: 1.1578117235952268
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 574229 ms.
+MAE: 1.2840587376029224
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 574221 ms.
+MAE: 1.4809579707920935
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Coseno. k = 35
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 574204 ms.
+MAE: 1.000682923161791
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 559293 ms.
+MAE: 1.0479471149807125
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 559268 ms.
+MAE: 1.093486469130822
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 559267 ms.
+MAE: 1.1426218112101394
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 559266 ms.
+MAE: 1.3811044091452467
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Coseno. k = 50
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 559250 ms.
+MAE: 0.9865208484064044
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 462015 ms.
+MAE: 1.0572701741396646
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 462008 ms.
+MAE: 0.9086856807763891
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 462005 ms.
+MAE: 0.7757300372892378
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 462005 ms.
+MAE: 0.7974404854316288
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 461996 ms.
+MAE: 1.0175978936344645
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 489868 ms.
+MAE: 1.032961374285497
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 489849 ms.
+MAE: 0.9438913556132655
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 489849 ms.
+MAE: 0.8335806101655427
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 489845 ms.
+MAE: 0.7598465580270538
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 489828 ms.
+MAE: 1.0026849687870965
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 508820 ms.
+MAE: 1.0097360755066862
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 508794 ms.
+MAE: 0.9534265066713249
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 508792 ms.
+MAE: 0.8578415548103084
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 508789 ms.
+MAE: 0.7592318562026625
+------------------------------------------------
+Particion: 1
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 508773 ms.
+MAE: 0.9818327262537189
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 739205 ms.
+MAE: 1.0695023169979192
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 739196 ms.
+MAE: 0.9578858615026618
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 739195 ms.
+MAE: 0.8590397988272432
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 739199 ms.
+MAE: 0.8905730410259245
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 739180 ms.
+MAE: 1.0475218238174828
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 768619 ms.
+MAE: 1.0537278441732854
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 768610 ms.
+MAE: 0.9839146326479292
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 768600 ms.
+MAE: 0.8930445816785582
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 768599 ms.
+MAE: 0.8020931065325198
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 768584 ms.
+MAE: 1.0359114282681647
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 789907 ms.
+MAE: 1.036352979198733
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 789880 ms.
+MAE: 0.9919634073094286
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 789879 ms.
+MAE: 0.9070526195697152
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 789876 ms.
+MAE: 0.8242161862018156
+------------------------------------------------
+Particion: 2
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 789870 ms.
+MAE: 1.0156562109673588
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 723016 ms.
+MAE: 1.1211161124296887
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 723006 ms.
+MAE: 1.1302171083431325
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 723003 ms.
+MAE: 1.1210229245442116
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 723002 ms.
+MAE: 1.011138038298942
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 722990 ms.
+MAE: 1.0497768045823725
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 754328 ms.
+MAE: 1.082388842135223
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 754320 ms.
+MAE: 1.0735641534316036
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 754308 ms.
+MAE: 1.0652492156722462
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 754309 ms.
+MAE: 1.0856656164903449
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 754294 ms.
+MAE: 1.0139068261850113
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 775573 ms.
+MAE: 1.0594998772300521
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 775568 ms.
+MAE: 1.037036730313533
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 775552 ms.
+MAE: 1.0138981162974012
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 775549 ms.
+MAE: 1.0436347661187397
+------------------------------------------------
+Particion: 3
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 775537 ms.
+MAE: 0.9982260945346076
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 723106 ms.
+MAE: 1.1369655206184426
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 723088 ms.
+MAE: 1.115247398000302
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 723086 ms.
+MAE: 1.0483717042305458
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 723090 ms.
+MAE: 0.8590161722322015
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 723074 ms.
+MAE: 1.071035895914747
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 752284 ms.
+MAE: 1.0946922982857268
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 752270 ms.
+MAE: 1.0960690371384074
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 752267 ms.
+MAE: 1.01743343197176
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 752265 ms.
+MAE: 1.0282976002687134
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 752259 ms.
+MAE: 1.0419060275798588
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 769194 ms.
+MAE: 1.0765093576215305
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 769184 ms.
+MAE: 1.056814310890473
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 769173 ms.
+MAE: 1.0143605281835755
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 769168 ms.
+MAE: 1.0072144054343313
+------------------------------------------------
+Particion: 4
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 769156 ms.
+MAE: 1.0256807995310204
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 718787 ms.
+MAE: 1.1086141181434517
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 718776 ms.
+MAE: 1.2716862134901483
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 718774 ms.
+MAE: 1.3795385616978018
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 718772 ms.
+MAE: 1.4528018404644285
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Pearson. k = 20
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 718761 ms.
+MAE: 1.0320457160322183
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 749265 ms.
+MAE: 1.071733755231754
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 749250 ms.
+MAE: 1.1396107648873064
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 749255 ms.
+MAE: 1.2452756092327848
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 749247 ms.
+MAE: 1.4800364489841389
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Pearson. k = 35
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 749232 ms.
+MAE: 1.0143256713949023
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 0
+Tiempo en ejecutarse: 767122 ms.
+MAE: 1.0528790328053108
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 2
+Tiempo en ejecutarse: 767107 ms.
+MAE: 1.086934896087267
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 4
+Tiempo en ejecutarse: 767098 ms.
+MAE: 1.1452794419744246
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:IA+A. n = 8
+Tiempo en ejecutarse: 767098 ms.
+MAE: 1.414890901753428
+------------------------------------------------
+Particion: 5
+Similitud: Algoritmo del Pearson. k = 50
+Prediccion:Algoritmo de prediccion WS.
+Tiempo en ejecutarse: 767084 ms.
+MAE: 1.0024084560188056

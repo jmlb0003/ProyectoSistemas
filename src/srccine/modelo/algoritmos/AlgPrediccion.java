@@ -43,9 +43,7 @@ public class AlgPrediccion {
             //Si el usuario ha valorado a la pelicula vecina
             if ( uValoraciones.containsKey(s.getIdPelicula()) ){
                 valoracionesVecinos.add(uValoraciones.get(s.getIdPelicula()));
-                if (s.getSimilitud()!=0.0){ System.out.println("SIMI "+s.getSimilitud());
-                System.out.println("id pe "+s.getIdPelicula());
-            }}
+            }
         }
         
         //Ahora la formula de la prediccion Item Average+Adjustment

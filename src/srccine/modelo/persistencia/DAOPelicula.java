@@ -175,4 +175,19 @@ public class DAOPelicula {
         }
         return map;
     }
+    /**    
+    public Map<Long,Pelicula> getMediaPeliculas() {
+                
+        EntityManager em=GestorPersistencia.instancia().getEntityManager();
+
+        Map<Long,Pelicula> map = new HashMap(); 
+                
+        Query consulta = em.createQuery("SELECT p._media FROM Pelicula p ");
+        List medias = consulta.getResultList();
+        for (Iterator it = medias.iterator(); it.hasNext();) {
+            double m = (Double) it.next();
+            map.put(m.obtieneID(), m);
+        }
+        return map;
+    }*/
 }

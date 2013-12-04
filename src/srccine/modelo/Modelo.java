@@ -25,6 +25,7 @@ import srccine.modelo.persistencia.DAOPelicula;
 import srccine.modelo.persistencia.DAOUsuario;
 import srccine.modelo.persistencia.DAOValoracion;
 import srccine.modelo.persistencia.GestorPersistencia;
+import srccine.modelo.persistencia.excepciones.ErrorActualizarUsuario;
 import srccine.modelo.persistencia.excepciones.ErrorConexionBBDD;
 import srccine.modelo.persistencia.excepciones.ErrorInsertarPelicula;
 import srccine.modelo.persistencia.excepciones.ErrorInsertarUsuario;
@@ -37,10 +38,13 @@ import srccine.modelo.persistencia.excepciones.ErrorInsertarValoracion;
  */
 public class Modelo implements ModeloInterface{
     
+    public static final int K = 50;
+    public static final int N = 4;
+    public static final int NUM_RECOMENDACIONES = 100;
+    
     private HashMap<Long, TreeSet<Similitud>> _modeloSimilitud;    
-    private static final int K = 50;
-    private static final int N = 4;
-    private Map<Long,Pelicula> _peliculas;
+    private Map<Long,Pelicula> _peliculas;    
+    private List<ObservadorNuevoUsuario> _observadores;
     
     public Modelo(){
         _modeloSimilitud = null;
@@ -69,18 +73,29 @@ public class Modelo implements ModeloInterface{
             importarDatos();
         }else{
             // Carga el modelo de similitud desde disco
-            cargarModeloSimilitud();
+            cargarModeloSimilitud();//1344086
             _peliculas = DAOPelicula.instancia().getPeliculas();
-            Usuario u = DAOUsuario.instancia().get("537425");
-            TreeSet<Recomendacion> recibirRecomendaciones = recibirRecomendaciones(u);
-            Iterator<Recomendacion> iterator = recibirRecomendaciones.iterator();
-            System.out.println("guay: "+recibirRecomendaciones.size());
+            Usuario usuario = DAOUsuario.instancia().get("1344086");
+            TreeSet<Recomendacion> recibirRecomendaciones = recibirRecomendaciones(usuario);
+            usuario.anadeRecomendaciones(recibirRecomendaciones);
+            /**
+            try {
+                DAOUsuario.instancia().update(usuario);
+            } catch (ErrorActualizarUsuario ex) {
+                Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Usuario get = DAOUsuario.instancia().get("1344086");
+            TreeSet<Recomendacion> obtieneDetalle = get.obtieneRecomendaciones();
+            
+            Iterator<Recomendacion> iterator = obtieneDetalle.iterator();
+            System.out.println("Usuario: 1344086 | Recomendaciones recibidas: "+recibirRecomendaciones.size());
 
             while (iterator.hasNext()) {
                 Recomendacion recomendacion = iterator.next();
                 System.out.println("peli: "+ recomendacion.getPelicula().obtieneID());
                 System.out.println("v: "+ recomendacion.getValoracion());
-            }
+            }  */            
+            
         }
     }
     
@@ -120,9 +135,9 @@ public class Modelo implements ModeloInterface{
 
         // Calculamos el modelo de similitud con el coeficiente del coseno
         // y lo grabamos en disco
-        _modeloSimilitud = AlgSimilitud.getModeloSimilitudCoseno(K, new ArrayList(peliculas.values()), new ArrayList(usuarios.keySet()));                
+        _modeloSimilitud = AlgSimilitud.getModeloSimilitudCoseno(K, new ArrayList(peliculas.values()));                
         grabarModeloSimilitud(_modeloSimilitud);
-        
+
         //Inserta las EEDD en la BBDD
         DAOValoracion.instancia().insert(valoraciones);
         DAOPelicula.instancia().insert(peliculas);
@@ -201,33 +216,37 @@ public class Modelo implements ModeloInterface{
     
     private TreeSet<Recomendacion> recibirRecomendaciones(Usuario usuario){
         
-        HashMap<Long, Valoracion> valoraciones = (HashMap<Long, Valoracion>) usuario.
-                obtieneDetalles().obtieneDetalle("valoraciones");
-        
+        Map<Long, Valoracion> valoraciones = usuario.obtieneValoraciones();        
         List<Long> predecibles = new ArrayList();
         
         for (Map.Entry<Long,Pelicula> e : _peliculas.entrySet()) {            
-            if (!valoraciones.containsKey(e.getKey())){
+            if (!predecibles.contains(e.getKey())&&!valoraciones.containsKey(e.getKey())){
                 predecibles.add(e.getKey());
             }
         }
 
         TreeSet<Recomendacion> recomendaciones = new TreeSet();
-        for (Iterator it = predecibles.iterator(); it.hasNext();) {
+        for (Iterator<Long> it = predecibles.iterator(); it.hasNext();) {
             long id = (Long) it.next();
             Pelicula pelicula = _peliculas.get(id);
-            double media = (Double) pelicula.obtieneDetalles().
-                    obtieneDetalle("media");
-            
+            double media = pelicula.obtieneMedia();
             double prediccion = AlgPrediccion.calcularPrediccionIAmasA(N,
                     usuario, media, _modeloSimilitud.get(id));
             
             if (prediccion!=-1){
-                recomendaciones.add(new Recomendacion(pelicula,prediccion));
+                recomendaciones.add(new Recomendacion(pelicula,prediccion));                
+                if (recomendaciones.size()>NUM_RECOMENDACIONES){
+                    recomendaciones.remove(recomendaciones.last());
+                }                
             }
         }
         
         return recomendaciones;        
     }
 
+    private void notificarObservadorNuevoUsurio(){
+        for (ObservadorNuevoUsuario o : _observadores) {
+            o.usuarioNuevoRegistrado();            
+        }
+    }
 }

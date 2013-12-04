@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  * Clase Pelicula
@@ -19,6 +20,13 @@ public class Pelicula implements Serializable{
     //Detalles y atributos de la pelicula
     @Column(columnDefinition = "LONGBLOB") 
     private DetallesPelicula _detalles;
+    
+    private long _suma;
+
+    private double _media;
+    
+    @OneToMany
+    private Map<String,Valoracion> _valoraciones;
 
     /**
      * Constructor por defecto
@@ -26,6 +34,9 @@ public class Pelicula implements Serializable{
     public Pelicula() { 
         _id = 0;
         _detalles = null;
+        _suma = 0;
+        _media = 0.0;
+        _valoraciones = new HashMap();
     }
 
     /**
@@ -35,7 +46,10 @@ public class Pelicula implements Serializable{
      */
     public Pelicula(long id, Map detalles ) {
         _id = id;
-        _detalles = new DetallesPelicula(detalles);
+        _detalles = new DetallesPelicula(detalles);        
+        _suma = 0;
+        _media = 0.0;
+        _valoraciones = new HashMap();
     }    
     
     /**
@@ -79,5 +93,27 @@ public class Pelicula implements Serializable{
     public Long obtieneID(){
         return _id;
     }
+        
+    public void anadeValoracion(String id, Valoracion v){        
+        _valoraciones.put(id, v);
+        _suma += v.getPuntuacion();
+        _media = (double) _suma / _valoraciones.size();                
+    }
     
+    public Valoracion obtieneValoracion(String id){
+        return _valoraciones.get(id);
+    }    
+    
+    public Map<String,Valoracion> obtieneValoraciones( ){
+        return _valoraciones;
+    }    
+    
+    public int numValoraciones(){
+        return _valoraciones.size();
+    }
+
+    public double obtieneMedia() {
+        return _media;
+    }
+
 }

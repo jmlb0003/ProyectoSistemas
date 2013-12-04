@@ -28,7 +28,7 @@ public class Usuario implements Serializable{
     
     @OneToMany(cascade= CascadeType.ALL)
     private Map<Long,Valoracion> _valoraciones;
-
+    @Column(columnDefinition = "LONGBLOB")
     private TreeSet<Recomendacion> _recomendaciones;  
 
     /**

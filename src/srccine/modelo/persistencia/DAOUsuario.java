@@ -159,4 +159,24 @@ public class DAOUsuario {
         }
         return map;
     }
+
+    public void update(Map<String, Usuario> usuarios) throws ErrorActualizarUsuario {
+        //Obtiene la instancia del EntityManager del gestor de persistenciaa
+        EntityManager em=GestorPersistencia.instancia().getEntityManager();
+        try{
+            //Comienza la transaccion
+            em.getTransaction().begin();
+            for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
+                Usuario usuario = entry.getValue();
+                //Actualiza el objeto en la base de datos
+                em.merge(usuario);
+            }
+            //Realiza la operacion
+            em.getTransaction().commit();
+        }catch (Exception ex){
+            em.clear();
+            ex.printStackTrace();
+            throw new ErrorActualizarUsuario();
+        }
+    }
 }

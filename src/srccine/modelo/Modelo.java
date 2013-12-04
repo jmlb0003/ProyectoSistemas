@@ -40,7 +40,7 @@ public class Modelo implements ModeloInterface{
     
     public static final int K = 50;
     public static final int N = 4;
-    public static final int NUM_RECOMENDACIONES = 100;
+    public static final int NUM_RECOMENDACIONES = 20;
     
     private HashMap<Long, TreeSet<Similitud>> _modeloSimilitud;    
     private Map<Long,Pelicula> _peliculas;    
@@ -67,34 +67,15 @@ public class Modelo implements ModeloInterface{
             ErrorInsertarUsuario, ErrorGrabarModeloSimilitud{
         
         crearConexionBBDD();
+        
         // Comprueba si la base de datos esta vacia
         if (DAOPelicula.instancia().getNumPeliculas()==0){
             // importa el conjunto de datos desde ficheros
             importarDatos();
         }else{
             // Carga el modelo de similitud desde disco
-            cargarModeloSimilitud();//1344086
-            _peliculas = DAOPelicula.instancia().getPeliculas();
-            Usuario usuario = DAOUsuario.instancia().get("1344086");
-            TreeSet<Recomendacion> recibirRecomendaciones = recibirRecomendaciones(usuario);
-            usuario.anadeRecomendaciones(recibirRecomendaciones);
-            /**
-            try {
-                DAOUsuario.instancia().update(usuario);
-            } catch (ErrorActualizarUsuario ex) {
-                Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            Usuario get = DAOUsuario.instancia().get("1344086");
-            TreeSet<Recomendacion> obtieneDetalle = get.obtieneRecomendaciones();
-            
-            Iterator<Recomendacion> iterator = obtieneDetalle.iterator();
-            System.out.println("Usuario: 1344086 | Recomendaciones recibidas: "+recibirRecomendaciones.size());
-
-            while (iterator.hasNext()) {
-                Recomendacion recomendacion = iterator.next();
-                System.out.println("peli: "+ recomendacion.getPelicula().obtieneID());
-                System.out.println("v: "+ recomendacion.getValoracion());
-            }  */            
+            cargarModeloSimilitud();          
+            inicializarRecomendaicones();
             
         }
     }
@@ -141,8 +122,7 @@ public class Modelo implements ModeloInterface{
         //Inserta las EEDD en la BBDD
         DAOValoracion.instancia().insert(valoraciones);
         DAOPelicula.instancia().insert(peliculas);
-        DAOUsuario.instancia().insert(usuarios);
-    
+        DAOUsuario.instancia().insert(usuarios);    
     }
     
     /**
@@ -248,5 +228,23 @@ public class Modelo implements ModeloInterface{
         for (ObservadorNuevoUsuario o : _observadores) {
             o.usuarioNuevoRegistrado();            
         }
+    }
+    
+    private void inicializarRecomendaicones(){
+        _peliculas = DAOPelicula.instancia().getPeliculas();
+        Map<String, Usuario> usuarios = DAOUsuario.instancia().getUsuarios();
+        for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
+            String string = entry.getKey();
+            Usuario usuario = entry.getValue();
+            TreeSet<Recomendacion> recibirRecomendaciones = recibirRecomendaciones(usuario);
+            usuario.anadeRecomendaciones(recibirRecomendaciones);
+               
+        }
+        try {
+            DAOUsuario.instancia().update(usuarios);
+        } catch (ErrorActualizarUsuario ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
     }
 }

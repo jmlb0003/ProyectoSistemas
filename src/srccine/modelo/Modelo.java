@@ -67,8 +67,7 @@ public class Modelo implements ModeloInterface{
             ErrorInsertarUsuario, ErrorGrabarModeloSimilitud{
         
         crearConexionBBDD();
-        importarDatos();
-        /*// Comprueba si la base de datos esta vacia
+        // Comprueba si la base de datos esta vacia
         if (DAOPelicula.instancia().getNumPeliculas()==0){
             // importa el conjunto de datos desde ficheros
             importarDatos();
@@ -79,7 +78,7 @@ public class Modelo implements ModeloInterface{
             Usuario usuario = DAOUsuario.instancia().get("1344086");
             TreeSet<Recomendacion> recibirRecomendaciones = recibirRecomendaciones(usuario);
             usuario.anadeRecomendaciones(recibirRecomendaciones);
-            
+            /**
             try {
                 DAOUsuario.instancia().update(usuario);
             } catch (ErrorActualizarUsuario ex) {
@@ -95,9 +94,9 @@ public class Modelo implements ModeloInterface{
                 Recomendacion recomendacion = iterator.next();
                 System.out.println("peli: "+ recomendacion.getPelicula().obtieneID());
                 System.out.println("v: "+ recomendacion.getValoracion());
-            }              
+            }  */            
             
-        }*/
+        }
     }
     
     /**
@@ -138,7 +137,7 @@ public class Modelo implements ModeloInterface{
         // y lo grabamos en disco
         _modeloSimilitud = AlgSimilitud.getModeloSimilitudCoseno(K, new ArrayList(peliculas.values()));                
         grabarModeloSimilitud(_modeloSimilitud);
-        
+
         //Inserta las EEDD en la BBDD
         DAOValoracion.instancia().insert(valoraciones);
         DAOPelicula.instancia().insert(peliculas);

@@ -128,4 +128,14 @@ public class Usuario implements Serializable{
     public TreeSet<Recomendacion> obtieneRecomendaciones(){
         return _recomendaciones;
     }
+    
+    public void actualizarValoracion(Long idPelicula, Valoracion v){
+        _suma -=  _valoraciones.get(idPelicula).getPuntuacion();
+        _suma += v.getPuntuacion();
+        
+        _valoraciones.put(idPelicula, v);//Reemplaza al antiguo
+        
+        _media = _suma / _valoraciones.size();
+        
+    }
 }

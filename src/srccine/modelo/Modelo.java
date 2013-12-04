@@ -247,4 +247,24 @@ public class Modelo implements ModeloInterface{
         }
             
     }
+    
+    
+    /**
+     * Funcion para actualizar la valoracion que un usuario tiene sobre una pelicula
+     * @param u
+     * @param p
+     * @param v 
+     */
+    public void actualizarValoracion(Usuario u, Pelicula p, Valoracion v) {
+/*****************************************************************************/
+///HAy que borrar o modificar de la BD la valoracion antigua y actualizar fecha y demas///
+/****************************************************************************/
+        
+        //En el usuario modificar valoracion antigua y cambiarla
+        u.actualizarValoracion(p.obtieneID(), v);
+        
+        //En la pelicula modificar valoracion antigua y cambiarla        
+        p.actualizarValoracion(u.obtieneID(), v);
+        
+    }
 }

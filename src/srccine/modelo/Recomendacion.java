@@ -7,14 +7,32 @@
 package srccine.modelo;
 
 import java.io.Serializable;
+import java.util.Comparator;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author Jesus
  */
-public class Recomendacion implements Comparable<Recomendacion>, Serializable{
+@Entity (name="Recomendacion")
+public class Recomendacion implements Comparable<Recomendacion>, Serializable, Comparator<Recomendacion>{
+    @Id
+    @GeneratedValue
+    private long _id;
+    
+    @OneToOne(cascade=CascadeType.ALL)
     private Pelicula _pelicula;
+    
     private double _valoracion;
+
+    public Recomendacion() {
+        _pelicula = null;
+        _valoracion = 0.0;
+    }
 
     Recomendacion(Pelicula pelicula, double prediccion) {
         _pelicula = pelicula;
@@ -46,6 +64,20 @@ public class Recomendacion implements Comparable<Recomendacion>, Serializable{
 
     public double getValoracion() {
         return _valoracion;
+    }
+
+    @Override
+    public int compare(Recomendacion o1, Recomendacion o2) {
+        if(o1._valoracion < o2._valoracion){
+            return 1;
+        }
+        if (o1._valoracion > o2._valoracion){
+            return -1;
+        }
+        if (o1._valoracion == o2._valoracion && o1._pelicula.obtieneID() != o2._pelicula.obtieneID()){
+            return 1;
+        }
+        return 0;
     }
     
 }

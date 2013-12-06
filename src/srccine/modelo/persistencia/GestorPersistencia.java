@@ -16,7 +16,7 @@ public class GestorPersistencia {
             emf = Persistence.createEntityManagerFactory("SGBDCinePU");
             em = emf.createEntityManager();
         }catch  (Exception e){
-            throw new ErrorConexionBBDD();
+e.printStackTrace();            throw new ErrorConexionBBDD();
         }        
     }
     

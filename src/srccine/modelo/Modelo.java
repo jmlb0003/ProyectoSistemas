@@ -258,4 +258,46 @@ public class Modelo implements ModeloInterface{
         p.actualizarValoracion(u.obtieneID(), v);
         
     }
+    
+    @Override
+    public void actualizarUsuario(Usuario u) throws ErrorActualizarUsuario {
+        DAOUsuario.instancia().update(u);
+    }
+
+    @Override
+    public void actualizarValoracion(Valoracion v) throws ErrorActualizarValoracion {
+        DAOValoracion.instancia().update(v);
+    }
+
+    @Override
+    public void actualizarRecomendacion(Recomendacion r) throws ErrorActualizarRecomendacion{
+        DAORecomendacion.instancia().update(r);
+    }
+
+    @Override
+    public void anadeValoracion(Valoracion v) throws ErrorInsertarValoracion{
+        DAOValoracion.instancia().insert(v);
+    }
+
+    @Override
+    public void anadeUsuario(Usuario u) throws ErrorInsertarUsuario {
+        DAOUsuario.instancia().insert(u);
+        notificarObservadorNuevoUsuario();
+    }
+
+    @Override
+    public Usuario buscaUsuario(String idUsuario) {
+        return  DAOUsuario.instancia().get(idUsuario);
+    }
+
+    @Override
+    public List buscaPeliculas(String criteriosBusqueda) {
+        return DAOPelicula.instancia().get(criteriosBusqueda);
+    }
+
+    @Override
+    public void registrarObservadorNuevoUsuario(ObservadorNuevoUsuario o) {
+        _observadores.add(o);
+    }
+    
 }

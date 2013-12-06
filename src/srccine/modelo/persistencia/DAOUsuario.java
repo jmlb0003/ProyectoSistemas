@@ -175,7 +175,6 @@ public class DAOUsuario {
             em.getTransaction().commit();
         }catch (Exception ex){
             em.clear();
-            ex.printStackTrace();
             throw new ErrorActualizarUsuario();
         }
     }

@@ -5,6 +5,7 @@
     <class>srccine.modelo.Pelicula</class>
     <class>srccine.modelo.Usuario</class>
     <class>srccine.modelo.Valoracion</class>
+    <class>srccine.modelo.Recomendacion</class>
     <properties>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/srccine?zeroDateTimeBehavior=convertToNull"/>

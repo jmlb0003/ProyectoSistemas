@@ -3,14 +3,8 @@ package srccine.aplicacion;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import srccine.modelo.Modelo;
-import srccine.modelo.excepciones.ErrorGrabarModeloSimilitud;
-import srccine.modelo.excepciones.ErrorGrabarResultadosTest;
-import srccine.modelo.excepciones.ErrorLecturaFichero;
-import srccine.modelo.persistencia.ErrorLeerModeloSimilitud;
-import srccine.modelo.persistencia.excepciones.ErrorConexionBBDD;
-import srccine.modelo.persistencia.excepciones.ErrorInsertarPelicula;
-import srccine.modelo.persistencia.excepciones.ErrorInsertarUsuario;
-import srccine.modelo.persistencia.excepciones.ErrorInsertarValoracion;
+import srccine.modelo.excepciones.*;
+import srccine.modelo.persistencia.excepciones.*;
 
 /**
  *
@@ -38,6 +32,8 @@ public class SRCCine {
         } catch (ErrorLecturaFichero ex) {
             Logger.getLogger(SRCCine.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ErrorLeerModeloSimilitud ex) {
+            Logger.getLogger(SRCCine.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ErrorInsertarRecomendacion ex) {
             Logger.getLogger(SRCCine.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

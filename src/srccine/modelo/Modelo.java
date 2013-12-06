@@ -1,7 +1,5 @@
 package srccine.modelo;
 
-import srccine.modelo.persistencia.ErrorLeerModeloSimilitud;
-import srccine.modelo.excepciones.ErrorGrabarModeloSimilitud;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,21 +13,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import srccine.modelo.algoritmos.AlgPrediccion;
-import srccine.modelo.algoritmos.AlgSimilitud;
-import srccine.modelo.excepciones.ErrorLecturaFichero;
-import srccine.modelo.persistencia.DAOPelicula;
-import srccine.modelo.persistencia.DAOUsuario;
-import srccine.modelo.persistencia.DAOValoracion;
-import srccine.modelo.persistencia.GestorPersistencia;
-import srccine.modelo.persistencia.excepciones.ErrorActualizarUsuario;
-import srccine.modelo.persistencia.excepciones.ErrorConexionBBDD;
-import srccine.modelo.persistencia.excepciones.ErrorInsertarPelicula;
-import srccine.modelo.persistencia.excepciones.ErrorInsertarUsuario;
-import srccine.modelo.persistencia.excepciones.ErrorInsertarValoracion;
+import srccine.modelo.algoritmos.*;
+import srccine.modelo.excepciones.*;
+import srccine.modelo.persistencia.*;
+import srccine.modelo.persistencia.excepciones.*;
 
 /**
  * Clase modelo que implementa ModeloInterface y
@@ -54,7 +43,7 @@ public class Modelo implements ModeloInterface{
     /**
      * Constructor de la clase, se encargara de comenzar la conexion con ls BBDD
      * @throws srccine.modelo.persistencia.excepciones.ErrorConexionBBDD
-     * @throws srccine.modelo.persistencia.ErrorLeerModeloSimilitud
+     * @throws srccine.modelo.excepciones.ErrorLeerModeloSimilitud
      * @throws srccine.modelo.excepciones.ErrorLecturaFichero
      * @throws srccine.modelo.persistencia.excepciones.ErrorInsertarValoracion
      * @throws srccine.modelo.persistencia.excepciones.ErrorInsertarPelicula
@@ -64,19 +53,17 @@ public class Modelo implements ModeloInterface{
     @Override
     public void inicializar() throws ErrorConexionBBDD, ErrorLeerModeloSimilitud, 
             ErrorLecturaFichero, ErrorInsertarValoracion, ErrorInsertarPelicula, 
-            ErrorInsertarUsuario, ErrorGrabarModeloSimilitud{
+            ErrorInsertarUsuario, ErrorGrabarModeloSimilitud, ErrorInsertarRecomendacion{
         
         crearConexionBBDD();
-        
+
         // Comprueba si la base de datos esta vacia
         if (DAOPelicula.instancia().getNumPeliculas()==0){
             // importa el conjunto de datos desde ficheros
             importarDatos();
         }else{
             // Carga el modelo de similitud desde disco
-            cargarModeloSimilitud();          
-            inicializarRecomendaicones();
-            
+            cargarModeloSimilitud();                      
         }
     }
     
@@ -104,25 +91,41 @@ public class Modelo implements ModeloInterface{
      * @throws srccine.modelo.persistencia.excepciones.ErrorInsertarUsuario
      * @throws srccine.modelo.excepciones.ErrorGrabarModeloSimilitud
      */
-    private void importarDatos() throws ErrorLecturaFichero, ErrorInsertarValoracion, 
-            ErrorInsertarPelicula, ErrorInsertarUsuario, ErrorGrabarModeloSimilitud{
+    private void importarDatos() throws ErrorLecturaFichero, ErrorInsertarValoracion, ErrorInsertarRecomendacion,
+            ErrorInsertarPelicula, ErrorInsertarUsuario, ErrorGrabarModeloSimilitud, ErrorLeerModeloSimilitud{
         
         //Creamos el lector de CSV, leemos y obtenemos las EEDD
         FicheroCSV fichero = new FicheroCSV();
         fichero.leerCSV();
-        Map<Long, Pelicula> peliculas = fichero.getPeliculas();
+        _peliculas = fichero.getPeliculas();
         Map<String, Usuario> usuarios = fichero.getUsuarios();
         List valoraciones = fichero.getValoraciones();
-
+            
         // Calculamos el modelo de similitud con el coeficiente del coseno
         // y lo grabamos en disco
-        _modeloSimilitud = AlgSimilitud.getModeloSimilitudCoseno(K, new ArrayList(peliculas.values()));                
+        _modeloSimilitud = AlgSimilitud.getModeloSimilitudCoseno(K, new ArrayList(_peliculas.values()));
         grabarModeloSimilitud(_modeloSimilitud);
-
+        
+        for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
+            Usuario usuario = entry.getValue();
+            SortedSet<Recomendacion> recibirRecomendaciones = recibirRecomendaciones(usuario);
+            usuario.anadeRecomendaciones(recibirRecomendaciones);               
+        }
+        
+        List<Recomendacion> l = new ArrayList();
+        for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
+            String string = entry.getKey();
+            Usuario usuario = entry.getValue();
+            TreeSet<Recomendacion> recibirRecomendaciones = (TreeSet<Recomendacion>) recibirRecomendaciones(usuario);
+            usuario.anadeRecomendaciones(recibirRecomendaciones);
+            l.addAll(recibirRecomendaciones.descendingSet());               
+        }
+        
         //Inserta las EEDD en la BBDD
-        DAOValoracion.instancia().insert(valoraciones);
-        DAOPelicula.instancia().insert(peliculas);
-        DAOUsuario.instancia().insert(usuarios);    
+        DAOValoracion.instancia().insert(valoraciones);       
+        DAOPelicula.instancia().insert(_peliculas);        
+        DAORecomendacion.instancia().insert(l);       
+        DAOUsuario.instancia().insert(usuarios);
     }
     
     /**
@@ -194,7 +197,8 @@ public class Modelo implements ModeloInterface{
         }
     }
     
-    private TreeSet<Recomendacion> recibirRecomendaciones(Usuario usuario){
+    @Override
+    public SortedSet<Recomendacion> recibirRecomendaciones(Usuario usuario){
         
         Map<Long, Valoracion> valoraciones = usuario.obtieneValoraciones();        
         List<Long> predecibles = new ArrayList();
@@ -224,28 +228,15 @@ public class Modelo implements ModeloInterface{
         return recomendaciones;        
     }
 
-    private void notificarObservadorNuevoUsurio(){
+    private void notificarObservadorNuevoUsuario(){
         for (ObservadorNuevoUsuario o : _observadores) {
             o.usuarioNuevoRegistrado();            
         }
-    }
+    }    
     
-    private void inicializarRecomendaicones(){
-        _peliculas = DAOPelicula.instancia().getPeliculas();
-        Map<String, Usuario> usuarios = DAOUsuario.instancia().getUsuarios();
-        for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
-            String string = entry.getKey();
-            Usuario usuario = entry.getValue();
-            TreeSet<Recomendacion> recibirRecomendaciones = recibirRecomendaciones(usuario);
-            usuario.anadeRecomendaciones(recibirRecomendaciones);
-               
-        }
-        try {
-            DAOUsuario.instancia().update(usuarios);
-        } catch (ErrorActualizarUsuario ex) {
-            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            
+    @Override
+    public void actualizarPelicula(Pelicula p) throws ErrorActualizarPelicula {
+        DAOPelicula.instancia().update(p);
     }
     
     

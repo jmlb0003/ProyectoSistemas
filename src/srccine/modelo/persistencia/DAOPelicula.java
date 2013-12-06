@@ -162,7 +162,7 @@ public class DAOPelicula {
         return (Long) num.getSingleResult();
     }
     
-    public Map<Long,Pelicula> getPeliculas() {
+    public Map<Long,Pelicula> get() {
                 EntityManager em=GestorPersistencia.instancia().getEntityManager();
 
         Map<Long,Pelicula> map = new HashMap(); 
@@ -174,7 +174,15 @@ public class DAOPelicula {
             map.put(p.obtieneID(), p);
         }
         return map;
+    }    
+    
+    public List get(String titulo) {
+        EntityManager em=GestorPersistencia.instancia().getEntityManager();
+                
+        Query consulta = em.createQuery("SELECT p FROM Pelicula p ");
+        return consulta.getResultList();
     }
+    
     /**    
     public Map<Long,Pelicula> getMediaPeliculas() {
                 
@@ -190,4 +198,5 @@ public class DAOPelicula {
         }
         return map;
     }*/
+    
 }

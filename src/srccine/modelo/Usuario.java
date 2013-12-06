@@ -3,12 +3,15 @@ package srccine.modelo;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 
 /**
  * Clase Usuario
@@ -28,8 +31,10 @@ public class Usuario implements Serializable{
     
     @OneToMany(cascade= CascadeType.ALL)
     private Map<Long,Valoracion> _valoraciones;
-    @Column(columnDefinition = "LONGBLOB")
-    private TreeSet<Recomendacion> _recomendaciones;  
+    
+    @OneToMany
+    @Sort(type=SortType.COMPARATOR, comparator = Recomendacion.class)
+    private SortedSet<Recomendacion> _recomendaciones;  
 
     /**
      * Constructor por defecto
@@ -121,11 +126,11 @@ public class Usuario implements Serializable{
         return _valoraciones;
     }
     
-    public void anadeRecomendaciones(TreeSet<Recomendacion> recomendaciones){
+    public void anadeRecomendaciones(SortedSet<Recomendacion> recomendaciones){
         _recomendaciones = recomendaciones;
     }
     
-    public TreeSet<Recomendacion> obtieneRecomendaciones(){
+    public SortedSet<Recomendacion> obtieneRecomendaciones(){
         return _recomendaciones;
     }
     

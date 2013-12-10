@@ -1,7 +1,7 @@
-
 package srccine.controlador;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -10,9 +10,13 @@ import srccine.modelo.DetallesUsuario;
 import srccine.modelo.ModeloInterface;
 import srccine.modelo.Pelicula;
 import srccine.modelo.Usuario;
+import srccine.modelo.Valoracion;
 import srccine.modelo.excepciones.ErrorGrabarModeloSimilitud;
 import srccine.modelo.excepciones.ErrorLecturaFichero;
 import srccine.modelo.excepciones.ErrorLeerModeloSimilitud;
+import srccine.modelo.persistencia.excepciones.ErrorActualizarPelicula;
+import srccine.modelo.persistencia.excepciones.ErrorActualizarUsuario;
+import srccine.modelo.persistencia.excepciones.ErrorActualizarValoracion;
 import srccine.modelo.persistencia.excepciones.ErrorConexionBBDD;
 import srccine.modelo.persistencia.excepciones.ErrorInsertarPelicula;
 import srccine.modelo.persistencia.excepciones.ErrorInsertarRecomendacion;
@@ -26,8 +30,7 @@ import srccine.vista.VistaInterface;
  * @author José
  */
 public class Controlador implements ControladorInterface {
-    
-    
+       
     private ModeloInterface _modelo;    //Modelo sobre el que trabaja el controlador
     
     private VistaInterface _vista;  //Vista con la que trabaja este controlador
@@ -40,7 +43,6 @@ public class Controlador implements ControladorInterface {
     private Usuario usuarioIdentificado;
     
     private List<Pelicula> _peliculasBuscadas;
-    
     
     //Observadores
     private List<ObservadorPeliculaSeleccionada> _observadoresPeliculaSeleccionada;
@@ -60,8 +62,7 @@ public class Controlador implements ControladorInterface {
             _modelo.inicializar();
             
             usuarioIdentificado = null;    
-            _peliculasBuscadas = new ArrayList<>();
-            
+            _peliculasBuscadas = new ArrayList<>();            
             
             //Inicializar observadores
             _observadoresPeliculaSeleccionada = new ArrayList<>();
@@ -79,26 +80,51 @@ public class Controlador implements ControladorInterface {
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
     /****************************************************/
     /**************Funciones de la interfaz**************/
-    /****************************************************/
-    
+    /****************************************************/    
     private void validarUsuario(Usuario u, DetallesUsuario d) {
     }
 
     @Override
     public void peticionValorarPelicula() {
-        //Sacar los datos de la valoracion de la vista
-        Map detallesValoracion = _vista.obtenerValoracionPelicula();
-        //LLamar a la funcion del modelo pa cambiar la valoracion
-        
-        ¿que se hace aqui?
-        ahora deberia haber una funcion que se encargue en el modelo de:
-                -buscar si ya esta la valoracion
-                -actualizar la pelicula, su nota, su media, etc.
-                -actualizar el usuario, su nota, su media, etc.
-        _modelo.actualizarValoracion(detallesValoracion);
-        _modelo.anadeValoracion(detallesValoracion);
+        try {
+            //Sacar los datos de la valoracion de la vista            
+            Map detallesValoracion = _vista.obtenerValoracionPelicula();
+            
+            //buscamos la valoracion en la base de datos
+            String idUsuario = (String) detallesValoracion.get("idUsuario");
+            Long idPelicula = (Long) detallesValoracion.get("idPelicula");
+            int nota = (int) detallesValoracion.get("nota");
+            Date fecha = (Date) detallesValoracion.get("fecha");
+            
+            Valoracion v = _modelo.buscaValoracion(idUsuario, idPelicula);
+            if (v!=null){
+                v.setFecha(fecha);
+                v.setPuntuacion(nota);
+                _modelo.actualizarValoracion(v);
+            }else{
+                v = new Valoracion(nota, idUsuario, idPelicula, fecha);
+                _modelo.anadeValoracion(v);
+            }
+            
+            usuarioIdentificado.anadeValoracion(idPelicula, v);
+            Pelicula pelicula = _modelo.buscaPelicula(idPelicula);
+            
+            pelicula.anadeValoracion(idUsuario, v);
+            _modelo.actualizarUsuario(usuarioIdentificado);
+            _modelo.actualizarPelicula(pelicula);
+            
+        } catch (ErrorActualizarUsuario  ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ErrorInsertarValoracion ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ErrorActualizarValoracion ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ErrorActualizarPelicula ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

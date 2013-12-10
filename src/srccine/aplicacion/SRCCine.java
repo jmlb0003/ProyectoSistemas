@@ -1,8 +1,11 @@
 package srccine.aplicacion;
 
+import java.util.SortedSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import srccine.modelo.Modelo;
+import srccine.modelo.Recomendacion;
+import srccine.modelo.Usuario;
 import srccine.modelo.excepciones.*;
 import srccine.modelo.persistencia.excepciones.*;
 
@@ -19,6 +22,10 @@ public class SRCCine {
         try {
             Modelo m = new Modelo();
             m.inicializar();
+            Usuario buscaUsuario = m.buscaUsuario("971041");
+            SortedSet<Recomendacion> recibirRecomendaciones = m.recibirRecomendaciones(buscaUsuario);
+
+            System.out.println("num recomendaciones "+recibirRecomendaciones.size());
         } catch ( ErrorGrabarModeloSimilitud ex) {
             Logger.getLogger(SRCCine.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ErrorInsertarValoracion ex) {

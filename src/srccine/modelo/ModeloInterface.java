@@ -9,7 +9,7 @@ import srccine.modelo.persistencia.excepciones.*;
  * Interfaz que debe implementar el modelo
  * @author Jesus
  */
-interface ModeloInterface {
+public interface ModeloInterface {
     
     public void actualizarPelicula(Pelicula p)throws ErrorActualizarPelicula ;
     public void actualizarUsuario(Usuario u)throws ErrorActualizarUsuario ;

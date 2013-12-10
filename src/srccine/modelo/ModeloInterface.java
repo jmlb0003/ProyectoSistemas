@@ -22,12 +22,17 @@ interface ModeloInterface {
     public Usuario buscaUsuario(String idUsuario);
     public List buscaPeliculas(String criteriosBusqueda);
     
+    public void eliminaRecomendaciones(SortedSet<Recomendacion> recomendaciones) 
+            throws ErrorBorrarRecomendacion;
+    
     public void inicializar()throws ErrorConexionBBDD, ErrorLeerModeloSimilitud, 
             ErrorLecturaFichero, ErrorInsertarValoracion, ErrorInsertarPelicula, 
             ErrorInsertarUsuario, ErrorGrabarModeloSimilitud,ErrorInsertarRecomendacion;
     
     public void cerrar();
+    
     public SortedSet<Recomendacion> recibirRecomendaciones(Usuario u);
+    
     public void registrarObservadorNuevoUsuario(ObservadorNuevoUsuario o);
     
 }

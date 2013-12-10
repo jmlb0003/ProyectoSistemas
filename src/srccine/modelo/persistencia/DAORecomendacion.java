@@ -4,6 +4,7 @@ import srccine.modelo.persistencia.excepciones.ErrorInsertarRecomendacion;
 import srccine.modelo.persistencia.excepciones.ErrorActualizarRecomendacion;
 import java.util.Iterator;
 import java.util.List;
+import java.util.SortedSet;
 import srccine.modelo.persistencia.excepciones.ErrorBorrarRecomendacion;
 import javax.persistence.EntityManager;
 import srccine.modelo.Recomendacion;
@@ -97,6 +98,32 @@ public class DAORecomendacion {
             em.getTransaction().begin();
             //Actualiza el objeto en la base de datos
             em.remove(r);
+            //Realiza la operacion
+            em.getTransaction().commit();            
+        }catch (Exception ex){
+            em.clear();
+            throw new ErrorBorrarRecomendacion();
+        }
+    }
+    /**
+     * Borra una lista de recomendaciones
+     * @param recomendaciones SortedSet<Recomendacion> Recomendaciones que se debe borrar
+     * @throws ErrorBorrarRecomendacion error al borrar la Recomendacion
+     */
+    public void remove(SortedSet<Recomendacion> recomendaciones) throws ErrorBorrarRecomendacion{
+        //Obtiene la instancia del EntityManager del gestor de persistenciaa
+        EntityManager em=GestorPersistencia.instancia().getEntityManager();
+        
+        try{
+            //Comienza la transaccion
+            em.getTransaction().begin();
+            Iterator<Recomendacion> iterator = recomendaciones.iterator();
+            while (iterator.hasNext()) {
+                Recomendacion r = iterator.next();
+                //Actualiza el objeto en la base de datos
+                em.remove(r);
+            }
+            
             //Realiza la operacion
             em.getTransaction().commit();            
         }catch (Exception ex){

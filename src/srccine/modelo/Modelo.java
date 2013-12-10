@@ -287,6 +287,13 @@ public class Modelo implements ModeloInterface{
     public List buscaPeliculas(String criteriosBusqueda) {
         return DAOPelicula.instancia().get(criteriosBusqueda);
     }
+    
+    @Override
+    public void eliminaRecomendaciones(SortedSet<Recomendacion> recomendaciones) 
+            throws ErrorBorrarRecomendacion {
+        
+        DAORecomendacion.instancia().remove(recomendaciones);
+    }
 
     @Override
     public void registrarObservadorNuevoUsuario(ObservadorNuevoUsuario o) {

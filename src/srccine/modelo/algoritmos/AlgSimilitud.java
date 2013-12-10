@@ -124,7 +124,7 @@ public class AlgSimilitud {
                     
                     //Si se ha superado el numero de vecinos, k, se elimina el ultimo
                     if (fila1.size() > k){
-                        fila1.remove(fila1.last());
+                        fila1.pollLast();
                     }
                     
                     // Hacemos lo mismo con la pelicula j, para que se actualice la similitud entre
@@ -135,7 +135,7 @@ public class AlgSimilitud {
     
                         //Si se ha superado el numero de vecinos, k, se elimina el ultimo
                         if (fila2.size() > k){
-                            fila2.remove(fila2.last());
+                            fila2.pollLast();
                         }
                     }else{
                         modelo_similitud.put(id2, new TreeSet<Similitud>());
@@ -152,7 +152,7 @@ public class AlgSimilitud {
     
                         //Si se ha superado el numero de vecinos, k, se elimina el ultimo
                         if (fila2.size() > k){
-                            fila2.remove(fila2.last());
+                            fila2.pollLast();
                         }
                     }else{
                         modelo_similitud.put(id2, new TreeSet<Similitud>());
@@ -291,7 +291,7 @@ public class AlgSimilitud {
                     
                     //Si se ha superado el numero de vecinos, k, se elimina el ultimo
                     if (fila1.size() > k){
-                        fila1.remove(fila1.last());
+                        fila1.pollLast();
                     }
                     
                     // Hacemos lo mismo con la pelicula j, para que se actualice la similitud entre
@@ -302,7 +302,7 @@ public class AlgSimilitud {
 
                         //Si se ha superado el numero de vecinos, k, se elimina el ultimo
                         if (fila2.size() > k){
-                            fila2.remove(fila2.last());
+                            fila2.pollLast();
                         }
                     }else{
                         modelo_similitud.put(id2, new TreeSet<Similitud>());
@@ -318,7 +318,7 @@ public class AlgSimilitud {
                         fila2.add(new Similitud(id1,similitud));
                         //Si se ha superado el numero de vecinos, k, se elimina el ultimo
                         if (fila2.size() > k){
-                            fila2.remove(fila2.last());
+                            fila2.pollLast();
                         }
                     }else{
                         modelo_similitud.put(id2, new TreeSet<Similitud>());

@@ -6,6 +6,7 @@ import srccine.modelo.persistencia.excepciones.ErrorActualizarValoracion;
 import srccine.modelo.persistencia.excepciones.ErrorInsertarValoracion;
 import srccine.modelo.persistencia.excepciones.ErrorBorrarRecomendacion;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import srccine.modelo.Valoracion;
 
 /**
@@ -151,6 +152,20 @@ public class DAOValoracion {
             em.clear();
             throw new ErrorInsertarValoracion();
         }        
+    }
+
+    public Valoracion get(String idUsuario, Long idPelicula) {
+        EntityManager em=GestorPersistencia.instancia().getEntityManager();
+                
+        //Busca el partido creando un query
+        Query consulta = em.createQuery("select v from valoracion v WHERE v._idPelicula=:pelicula and v._idUsuario=:usuario")
+            .setParameter("usuario", idUsuario).setParameter("pelicula", idPelicula);
+        
+        if (consulta.getResultList().isEmpty()){
+            return null;
+        }
+        
+        return (Valoracion) consulta.getResultList().get(0);
     }
     
 }

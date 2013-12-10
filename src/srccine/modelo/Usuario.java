@@ -32,7 +32,7 @@ public class Usuario implements Serializable{
     @OneToMany(cascade= CascadeType.ALL)
     private Map<Long,Valoracion> _valoraciones;
     
-    @OneToMany
+    @OneToMany(cascade= CascadeType.ALL)
     @Sort(type=SortType.COMPARATOR, comparator = Recomendacion.class)
     private SortedSet<Recomendacion> _recomendaciones;  
 
@@ -92,7 +92,7 @@ public class Usuario implements Serializable{
      * Modifica los detalles de un usuario
      * @param detalles Map con los atributos modificados del usuario
      */
-    public void modificar(Map detalles){
+    public void modifica(Map detalles){
         _detalles = new DetallesUsuario(detalles);
     }
     
@@ -104,10 +104,22 @@ public class Usuario implements Serializable{
         return _id;
     }
     
-    public void anadirValoracion(Long id, Valoracion v){        
-        _valoraciones.put(id, v);
-        _suma += v.getPuntuacion();
-        _media = (double) _suma / _valoraciones.size();                
+    public void anadeValoracion(Long id, Valoracion v){
+        //comprobamos si el usuario valoro previamente la pelicula
+        if (_valoraciones.containsKey(id)){
+            //Cogemos la valoracion antigua y la restamos de la media
+            Valoracion ant = _valoraciones.get(id);
+            _suma -= ant.getPuntuacion();
+            _media = (double) _suma / _valoraciones.size(); 
+            //actualizamos la nueva valoracion y la media
+            _valoraciones.put(id, v);
+            _suma += v.getPuntuacion();
+            _media = (double) _suma / _valoraciones.size(); 
+        }else{
+            _valoraciones.put(id, v);
+            _suma += v.getPuntuacion();
+            _media = (double) _suma / _valoraciones.size();                
+        }
     }
     
     public Valoracion obtieneValoracion(Long id){
@@ -133,14 +145,5 @@ public class Usuario implements Serializable{
     public SortedSet<Recomendacion> obtieneRecomendaciones(){
         return _recomendaciones;
     }
-    
-    public void actualizarValoracion(Long idPelicula, Valoracion v){
-        _suma -=  _valoraciones.get(idPelicula).getPuntuacion();
-        _suma += v.getPuntuacion();
-        
-        _valoraciones.put(idPelicula, v);//Reemplaza al antiguo
-        
-        _media = _suma / _valoraciones.size();
-        
-    }
+
 }

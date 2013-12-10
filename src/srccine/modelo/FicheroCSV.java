@@ -155,7 +155,7 @@ class FicheroCSV{
 
                         //Añadimos la valoracion al usuario
                         Usuario usuario = _usuarios.get(idUsuario);
-                        usuario.anadirValoracion(idPelicula,v);
+                        usuario.anadeValoracion(idPelicula,v);
                     }                    
                 }
             }

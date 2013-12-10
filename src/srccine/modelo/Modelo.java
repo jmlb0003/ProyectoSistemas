@@ -63,7 +63,8 @@ public class Modelo implements ModeloInterface{
             importarDatos();
         }else{
             // Carga el modelo de similitud desde disco
-            cargarModeloSimilitud();                      
+            cargarModeloSimilitud();    
+            _peliculas = DAOPelicula.instancia().get();
         }
     }
     
@@ -220,7 +221,7 @@ public class Modelo implements ModeloInterface{
             if (prediccion!=-1){
                 recomendaciones.add(new Recomendacion(pelicula,prediccion));                
                 if (recomendaciones.size()>NUM_RECOMENDACIONES){
-                    recomendaciones.remove(recomendaciones.last());
+                    recomendaciones.pollLast();
                 }                
             }
         }
@@ -241,22 +242,14 @@ public class Modelo implements ModeloInterface{
     
     
     /**
-     * Funcion para actualizar la valoracion que un usuario tiene sobre una pelicula
-     * @param u
-     * @param p
-     * @param v 
+     * Busca una valoracion en la base de datos
+     * @param idUsuario
+     * @param idPelicula
+     * @return Valoracion encontrada en la BBDD, Null si no se ha encontrado ninguna
+     * coincidencia
      */
-    public void actualizarValoracion(Usuario u, Pelicula p, Valoracion v) {
-/*****************************************************************************/
-///HAy que borrar o modificar de la BD la valoracion antigua y actualizar fecha y demas///
-/****************************************************************************/
-        
-        //En el usuario modificar valoracion antigua y cambiarla
-        u.actualizarValoracion(p.obtieneID(), v);
-        
-        //En la pelicula modificar valoracion antigua y cambiarla        
-        p.actualizarValoracion(u.obtieneID(), v);
-        
+    public Valoracion buscaValoracion(String idUsuario, Long idPelicula) {
+        return DAOValoracion.instancia().get(idUsuario, idPelicula);        
     }
     
     @Override
@@ -293,6 +286,13 @@ public class Modelo implements ModeloInterface{
     @Override
     public List buscaPeliculas(String criteriosBusqueda) {
         return DAOPelicula.instancia().get(criteriosBusqueda);
+    }
+    
+    @Override
+    public void eliminaRecomendaciones(SortedSet<Recomendacion> recomendaciones) 
+            throws ErrorBorrarRecomendacion {
+        
+        DAORecomendacion.instancia().remove(recomendaciones);
     }
 
     @Override

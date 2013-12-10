@@ -82,7 +82,7 @@ public class Pelicula implements Serializable{
      * Modifica los detalles de la pelicula
      * @param detalles Nuevos detalles que tendra la pelicula
      */
-    public void modificar(Map detalles){
+    public void modifica(Map detalles){
         _detalles = new DetallesPelicula(detalles);
     }
     
@@ -94,10 +94,22 @@ public class Pelicula implements Serializable{
         return _id;
     }
         
-    public void anadeValoracion(String id, Valoracion v){        
-        _valoraciones.put(id, v);
-        _suma += v.getPuntuacion();
-        _media = (double) _suma / _valoraciones.size();                
+    public void anadeValoracion(String id, Valoracion v){
+        //comprobamos si el usuario valoro previamente la pelicula
+        if (_valoraciones.containsKey(id)){
+            //Cogemos la valoracion antigua y la restamos de la media
+            Valoracion ant = _valoraciones.get(id);
+            _suma -= ant.getPuntuacion();
+            _media = (double) _suma / _valoraciones.size(); 
+            //actualizamos la nueva valoracion y la media
+            _valoraciones.put(id, v);
+            _suma += v.getPuntuacion();
+            _media = (double) _suma / _valoraciones.size(); 
+        }else{
+            _valoraciones.put(id, v);
+            _suma += v.getPuntuacion();
+            _media = (double) _suma / _valoraciones.size();                
+        }             
     }
     
     public Valoracion obtieneValoracion(String id){

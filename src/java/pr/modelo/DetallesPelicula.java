@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * Clase que  representa la encapsulacion de los atributos de lasa peliculas
+ * Clase que   representa la encapsulacion de los atributos de lasa peliculas
  * Los detalles disponibles son: titulo, valoraciones, ano, media, suma,....
  * @author
  */

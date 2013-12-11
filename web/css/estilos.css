@@ -1,0 +1,101 @@
+header {
+    //color: white;
+    //background: #FFFFFF;
+    //font-family: Helvetica, Arial, sans-serif;
+    //text-align: center;
+}
+
+body {
+    //color: white;
+    background: #FFFFFF;
+    //font-family: Helvetica, Arial, sans-serif;
+    //text-align: center;
+}
+
+#contenedor {
+  //position: relative;
+  width: 90%;
+  height: 90%;
+
+  margin: 0 auto;
+  
+  margin-top: .5em;
+  
+  background: #5882FA; 
+}
+
+#cabecera { 
+    padding: 15px;
+     
+}
+
+#login{ 
+  float: right;   
+  padding-right: 20px;
+  
+}
+
+#registrarse{
+    clear: right;
+    float: right;
+    padding-right: 20px;
+    
+}
+
+/*#logo{
+   float: left; 
+   padding-bottom: 10px;
+   padding-left: 20px; 
+   padding-top: -50px;
+}*/
+
+#buscar{
+   clear: left;
+   float: left; 
+   padding-bottom: 10px;
+   padding-left: 20px;
+   
+}
+
+
+#contenido {
+   background: white;
+   clear: left;
+   
+}
+
+#formular{
+    text-align: center;
+}
+
+
+table {
+font-family: Helvetica, Arial, sans-serif;
+text-align: center;
+ 
+}
+
+th {
+text-align: center;
+background: white;
+color: black;
+}
+
+td {
+background: white;
+color: black;
+padding-top: 30px;
+}
+
+caption {
+font-weight: bold;
+font-style: italic;
+}
+
+h3 {text-align:center;}
+
+
+footer {
+    
+  //clear: both;
+}

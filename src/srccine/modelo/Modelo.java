@@ -248,6 +248,7 @@ public class Modelo implements ModeloInterface{
      * @return Valoracion encontrada en la BBDD, Null si no se ha encontrado ninguna
      * coincidencia
      */
+    @Override
     public Valoracion buscaValoracion(String idUsuario, Long idPelicula) {
         return DAOValoracion.instancia().get(idUsuario, idPelicula);        
     }
@@ -298,6 +299,11 @@ public class Modelo implements ModeloInterface{
     @Override
     public void registrarObservadorNuevoUsuario(ObservadorNuevoUsuario o) {
         _observadores.add(o);
+    }
+
+    @Override
+    public Pelicula buscaPelicula(Long idPelicula) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

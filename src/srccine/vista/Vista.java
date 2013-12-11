@@ -1,6 +1,7 @@
 
 package srccine.vista;
 
+import java.util.Map;
 import srccine.controlador.ControladorInterface;
 import srccine.modelo.ModeloInterface;
 
@@ -23,6 +24,11 @@ public class Vista implements VistaInterface {
     //Quitar que esto es de prueba
     public void mostrarVentanaPrincipal(){
         
+    }
+
+    @Override
+    public Map obtenerValoracionPelicula() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
             
 }

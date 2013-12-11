@@ -1,6 +1,8 @@
 
 package srccine.vista;
 
+import java.util.Map;
+
 /**
  *
  * @author José
@@ -8,5 +10,7 @@ package srccine.vista;
 public interface VistaInterface {
 
     public void mostrarVentanaPrincipal();
+
+    public Map obtenerValoracionPelicula();
     
 }

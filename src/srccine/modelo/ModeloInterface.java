@@ -21,7 +21,9 @@ public interface ModeloInterface {
     
     public Usuario buscaUsuario(String idUsuario);
     public List buscaPeliculas(String criteriosBusqueda);
-    
+    public Pelicula buscaPelicula(Long idPelicula);
+    public Valoracion buscaValoracion(String idUsuario, Long idPelicula);
+
     public void eliminaRecomendaciones(SortedSet<Recomendacion> recomendaciones) 
             throws ErrorBorrarRecomendacion;
     

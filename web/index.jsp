@@ -4,6 +4,8 @@
     Author     : Sonia g
 --%>
 
+<%@page import="pr.controlador.Controlador"%>
+<%@page import="pr.controlador.ControladorInterface"%>
 <%--<html xmlns="http://www.w3.org/1999/xhtml">
 <header>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -30,6 +32,7 @@
 </html>--%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <header>
@@ -41,6 +44,17 @@
             
         <!-- Mis estilos -->   
         <link rel="stylesheet"  href="css/estilos.css" type="text/css"> 
+
+<%
+        //Aqui va el codigo JAVA
+        HttpSession sesion = request.getSession();                         
+        ControladorInterface controlador = (ControladorInterface) sesion.getAttribute("controlador");
+        if (controlador==null){
+            controlador = new Controlador();
+            sesion.setAttribute("controlador", controlador);
+        }
+        
+%>
             
     </header>
     

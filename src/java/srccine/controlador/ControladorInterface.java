@@ -11,9 +11,9 @@ public interface ControladorInterface {
     
     public void peticionBusquedaPeliculas();
     
-    public void peticionRegistrarUsuario();
+    public void peticionRegistrarUsuario() throws ErrorUsuarioRegistrado;
     
-    public void peticionIniciarSesion();
+    public void peticionIniciarSesion() throws ErrorUsuarioIdentificado;
     
     public void peticionCerrarSesion();
     

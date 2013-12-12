@@ -108,12 +108,7 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
         }
     }
     
-    /****************************************************/
-    /**************Funciones de la interfaz**************/
-    /****************************************************/    
-    private void validarUsuario(Usuario u, DetallesUsuario d) {
-    }
-
+    
     @Override
     public void peticionValorarPelicula() {
         try {
@@ -157,11 +152,16 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
 
     @Override
     public void peticionBusquedaPeliculas() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        _peliculaSeleccionada = null;
+        
+        _peliculasBuscadas = _modelo.buscaPeliculas(_vista.obtenerCriteriosBusqueda());
+        
+        notificarCambioPeliculasBuscadas();        
     }
 
+    
     @Override
-    public void peticionRegistrarUsuario() {
+    public void peticionRegistrarUsuario() throws ErrorUsuarioRegistrado {
         Map detallesUsuario = _vista.obtenerDetallesNuevoUsuario();
         
         String idUsuario = (String) detallesUsuario.get("idUsuario");
@@ -174,32 +174,64 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
                 Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
-            ***********************
-            System.out.println("mensaje de error en la vista de que esta registrado\n");
-            ***********************
+            throw new ErrorUsuarioRegistrado();
         }
     }
 
     @Override
-    public void peticionIniciarSesion() {
-        psodapsdkoaspdkoaspdkoas
-                por aqui seguimos
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void peticionIniciarSesion() throws ErrorUsuarioIdentificado {        
+        Map detallesUsuario = _vista.obtenerDetallesInicioSesion();
+        
+        String idUsuario = (String) detallesUsuario.get("idUsuario");
+        
+        Usuario usu = _modelo.buscaUsuario(idUsuario);
+        
+        if (usu != null) {
+            String c1 = (String) usu.obtieneDetalles().obtieneDetalle("clave");
+            String c2 = (String) detallesUsuario.get("clave");
+            
+            if (c1.equals(c2)) {
+                _usuarioIdentificado = usu;
+                notificarCambioUsuarioIdentificado();
+            }else{
+                throw new ErrorUsuarioIdentificado();
+            }
+        }else{
+            throw new ErrorUsuarioIdentificado();
+        }
     }
 
     @Override
     public void peticionCerrarSesion() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        _usuarioIdentificado = null;
+        _peliculaSeleccionada = null;
+        _peliculasBuscadas = null;
+        
+        notificarCambioUsuarioIdentificado();
+        notificarCambioPeliculaSeleccionada();
+        notificarCambioPeliculasBuscadas();
     }
 
     @Override
     public void peticionVerInformacionPelicula() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Pelicula p = _modelo.buscaPelicula(_vista.obtenerIDPelicula());
+        
+        _peliculaSeleccionada = p;
+        notificarCambioPeliculaSeleccionada();
     }
 
     @Override
     public void usuarioNuevoRegistrado() {
-        peticionIniciarSesion();
+        String clave = (String) _vista.obtenerDetallesNuevoUsuario().get("idUsuario");
+        
+        if (!clave.equals("")) {
+            Usuario usu = _modelo.buscaUsuario(clave);
+            
+            if (usu != null) {
+                _usuarioIdentificado = usu;                
+                notificarCambioUsuarioIdentificado();
+            }
+        }
     }
 
     @Override

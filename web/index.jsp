@@ -50,12 +50,12 @@
         HttpSession sesion = request.getSession();                         
         ControladorInterface controlador = (ControladorInterface) sesion.getAttribute("controlador");
         if (controlador==null){
-            controlador = new Controlador();
+            //controlador = new Controlador();
             sesion.setAttribute("controlador", controlador);
         }
-        
 %>
-            
+   
+                            
     </header>
     
     <body>
@@ -95,62 +95,75 @@
             <div id="contenido">
                 <table border="1" width="100%" cellspacing="0" cellpadding="5">
                  <tr>
-                   <td height="33%">                      
+                   <td height="25%">                      
                        <img src="img/pelicula.png" ALT="Foto película"> 
-                       <p> Titulo: Los juegos del hambre </p>    
-                       <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>                     
+                       <p> Titulo: Los juegos del hambre </p>
+                       <p> Valoración:
+                            <%
+                            int valoracion=2;
+                               //Obtenemos la valoración  
+                                          for(int i=1;i<=valoracion;i++){
+                            %>
+                                <img src="img/estrellaAmarilla.png" ALT="valoracion">
+                            <%        
+                                          }
+                                          for(int i=1;i<=5-valoracion;i++){
+                            %>
+                                <img src="img/estrellaGris.png" ALT="valoracion">
+                            <%        
+                                          }
+                            %>
+                     
+                       </p>                     
+                     
                    </td>
                    
-                     <td height="33%">
+                   <td height="25%">
                        <img src="img/pelicula.png" ALT="Foto película"> 
                        <p> Titulo: Somos los miller </p>    
-                       <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>  
-                     </td>
+                       <p> Valoración:
+                          
+                       </p>  
+                   </td>
                      
-                     <td height="33%">
+                   <td height="25%">
                        <img src="img/pelicula.png" ALT="Foto película"> 
                        <p> Titulo: Don Jon </p>    
-                       <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>  
-                     </td>
-                   
-                 </tr>
-                    
-                 <tr>
-                   <td height="33%">
-                       <img src="img/pelicula.png" ALT="Foto película"> 
-                       <p> Titulo: Thor 2 </p>    
-                       <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>       
+                       <p> Valoración: 
+                       
+                       </p>
+                       
                    </td>
-                   <td height="33%">
-                       <img src="img/pelicula.png" ALT="Foto película"> 
-                       <p> Titulo: Titanic </p>    
-                       <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>  
-                   </td>
-                   <td height="33%">
-                       <img src="img/pelicula.png" ALT="Foto película"> 
-                       <p> Titulo: Scary Movie 3 </p>    
-                       <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>  
-                   </td>
-                 </tr>
-                  
-                 <tr>
-                   <td height="33%">
+                     
+                   <td height="25%">
                        <img src="img/pelicula.png" ALT="Foto película"> 
                        <p> Titulo: Saw 4 </p>    
                        <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>  
                    </td>
-                   <td height="33%">
+                 </tr>
+                    
+                 <tr>
+                   <td height="25%">
+                       <img src="img/pelicula.png" ALT="Foto película"> 
+                       <p> Titulo: Thor 2 </p>    
+                       <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>       
+                   </td>
+                   <td height="25%">
+                       <img src="img/pelicula.png" ALT="Foto película"> 
+                       <p> Titulo: Titanic </p>    
+                       <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>  
+                   </td>
+                   <td height="25%">
+                       <img src="img/pelicula.png" ALT="Foto película"> 
+                       <p> Titulo: Scary Movie 3 </p>    
+                       <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>  
+                   </td>
+                   <td height="25%">
                        <img src="img/pelicula.png" ALT="Foto película"> 
                        <p> Titulo: Prisioneros </p>    
                        <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>   
                    </td>
-                   <td height="33%">
-                       <img src="img/pelicula.png" ALT="Foto película"> 
-                       <p> Titulo: Avatar </p>    
-                       <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>  
-                   </td>
-                     
-                 </tr>
+                 </tr>                 
                   
                     
                </table>

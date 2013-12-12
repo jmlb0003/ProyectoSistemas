@@ -13,11 +13,13 @@ public class Vista implements VistaInterface {
 
     ModeloInterface _modelo;
     ControladorInterface _controlador;    
+    Registro _registro;
     
     //Quitar que esto es de prueba
     public Vista(ModeloInterface modelo, ControladorInterface controlador) {
             _modelo = modelo;
             _controlador = controlador;
+            _registro = new Registro();
     }
    
     //Quitar que esto es de prueba
@@ -28,7 +30,7 @@ public class Vista implements VistaInterface {
     
     @Override
     public Map obtenerDetallesNuevoUsuario() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return _registro.getDatosRegistro();
     }
 
     @Override

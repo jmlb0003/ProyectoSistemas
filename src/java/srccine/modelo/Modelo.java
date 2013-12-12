@@ -323,7 +323,6 @@ public class Modelo implements ModeloInterface{
 
     @Override
     public Pelicula buscaPelicula(Long idPelicula) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+        return DAOPelicula.instancia().get(idPelicula);
+    }    
 }

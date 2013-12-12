@@ -180,23 +180,69 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
     }
 
     @Override
-    public void notificarObservadorPeliculaSeleccionada() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void notificarObservadorUsuarioIdentificado() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void notificarObservadorPeliculasBuscadas() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void usuarioNuevoRegistrado() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void registrarObservadorListaPeliculasRecomendadas(ObservadorListaPeliculasRecomendadas o) {
+         _observadoresListaPeliculasRecomendadas.add(o);
+         o.listaPeliculasRecomendadasCambiada();
+    }
+    
+    protected void notificarCambioListaPeliculasRecomendadas() {
+        for (ObservadorListaPeliculasRecomendadas o : _observadoresListaPeliculasRecomendadas) {
+            o.listaPeliculasRecomendadasCambiada();
+        }
+    }
+
+    @Override
+    public void registrarObservadorNotaMediaPelicula(ObservadorNotaMediaPelicula o) {
+        _observadoresNotaMediaPelicula.add(o);
+        o.notaMediaPeliculaCambiada();
+    }
+    
+    protected void notificarCambioNotaMediaPelicula() {
+        for (ObservadorNotaMediaPelicula o : _observadoresNotaMediaPelicula) {            
+            o.notaMediaPeliculaCambiada();
+        }
+    }
+
+    @Override
+    public void registrarObservadorPeliculaSeleccionada(ObservadorPeliculaSeleccionada o) {
+        _observadoresPeliculaSeleccionada.add(o);
+        o.peliculaSeleccionadaCambiada();
+    }
+    
+    protected void notificarCambioPeliculaSeleccionada() {
+        for (ObservadorPeliculaSeleccionada o : _observadoresPeliculaSeleccionada) {            
+            o.peliculaSeleccionadaCambiada();
+        }
+    }
+    
+
+    @Override
+    public void registrarObservadorUsuarioIdentificado(ObservadorUsuarioIdentificado o) {
+        _observadoresUsuarioIdentificado.add(o);
+        o.usuarioIdentificadoCambiado();
+    }
+    
+    protected void notificarCambioUsuarioIdentificado() {
+        for (ObservadorUsuarioIdentificado o : _observadoresUsuarioIdentificado) {
+            o.usuarioIdentificadoCambiado();
+        }
+    }
+
+    @Override
+    public void registrarObservadorPeliculasBuscadas(ObservadorPeliculasBuscadas o) {
+        _observadoresPeliculasBuscadas.add(o);
+        o.listaPeliculasBuscadasCambiada();
+    }
+    
+    protected void notificarCambioPeliculasBuscadas() {
+        for (ObservadorPeliculasBuscadas o : _observadoresPeliculasBuscadas) {
+            o.listaPeliculasBuscadasCambiada();
+        }
     }
     
 }

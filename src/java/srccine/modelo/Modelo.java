@@ -199,11 +199,11 @@ public class Modelo implements ModeloInterface{
             URL url = this.getClass().getClassLoader().getResource("pr/recursos/algoritmos/modeloSimilitud.bin");
             System.out.println(url.toURI());
             File f=new File(url.toURI());    
-            if (f==null){
+            if (f == null){
                 System.out.println("wqeqw");
             }
             ois = new ObjectInputStream(new FileInputStream(f));
-            if (ois ==null)
+            if (ois == null)
             {                System.out.println("wqeewfrqw");
 
             }    
@@ -323,6 +323,7 @@ public class Modelo implements ModeloInterface{
     @Override
     public void registrarObservadorNuevoUsuario(ObservadorNuevoUsuario o) {
         _observadores.add(o);
+        o.usuarioNuevoRegistrado();
     }
     
     private void notificarObservadorNuevoUsuario(){

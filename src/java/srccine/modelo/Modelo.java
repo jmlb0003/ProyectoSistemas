@@ -121,7 +121,7 @@ public class Modelo implements ModeloInterface{
         // Calculamos el modelo de similitud con el coeficiente del coseno
         // y lo grabamos en disco
         _modeloSimilitud = AlgSimilitud.getModeloSimilitudCoseno(K, new ArrayList(_peliculas.values()));
-        grabarModeloSimilitud(_modeloSimilitud);
+        grabarModeloSimilitud();
         
         for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
             Usuario usuario = entry.getValue();
@@ -147,13 +147,12 @@ public class Modelo implements ModeloInterface{
     
     /**
      * Graba en disco el modelo de similitud obtenido en la ejecucion del test
-     * @param modeloSimilitud Modelo de similitud a almacenar
      * @throws ErrorGrabarModeloSimilitud 
      */
-    private void grabarModeloSimilitud(HashMap<Long, TreeSet<Similitud>> modeloSimilitud) 
+    private void grabarModeloSimilitud() 
             throws ErrorGrabarModeloSimilitud {
                 
-        URL url = this.getClass().getClassLoader().getResource("pr/recursos/algoritmos/modeloSimilitud.bin");
+        URL url = this.getClass().getClassLoader().getResource("srccine/recursos/algoritmos/modeloSimilitud.bin");
         
         //Crea el lector del archivo
         ObjectOutputStream oos =null;
@@ -166,7 +165,7 @@ public class Modelo implements ModeloInterface{
             oos =new ObjectOutputStream(new FileOutputStream(f,false));
 
             //Graba el modelo de similitud en el fichero
-            oos.writeObject(modeloSimilitud);
+            oos.writeObject(_modeloSimilitud);
         
         }catch (IOException ex) {
             throw new ErrorGrabarModeloSimilitud();
@@ -190,28 +189,18 @@ public class Modelo implements ModeloInterface{
     private void cargarModeloSimilitud() throws ErrorLeerModeloSimilitud{
         ObjectInputStream ois = null;
 
-        try {
-            
-            URL url = this.getClass().getClassLoader().getResource("pr/recursos/algoritmos/modeloSimilitud.bin");
+        try {            
+            URL url = this.getClass().getClassLoader().getResource("srccine/recursos/algoritmos/modeloSimilitud.bin");
             System.out.println(url.toURI());
-            File f=new File(url.toURI());    
-            if (f==null){
-                System.out.println("wqeqw");
-            }
+            File f=new File(url.toURI()); 
             ois = new ObjectInputStream(new FileInputStream(f));
-            if (ois ==null)
-            {                System.out.println("wqeewfrqw");
-
-            }    
             _modeloSimilitud = (HashMap<Long, TreeSet<Similitud>>) ois.readObject();
             
         } catch (IOException ex) {
             throw new ErrorLeerModeloSimilitud();
         } catch (URISyntaxException ex) {
             throw new ErrorLeerModeloSimilitud();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();System.out.println(ex.toString());
-            
+        } catch (ClassNotFoundException ex) {           
             throw new ErrorLeerModeloSimilitud();
         } finally {            
             try {

@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import srccine.modelo.DetallesUsuario;
 import srccine.modelo.Modelo;
 import srccine.modelo.ModeloInterface;
+import srccine.modelo.ObservadorNuevoUsuario;
 import srccine.modelo.Pelicula;
 import srccine.modelo.Usuario;
 import srccine.modelo.Valoracion;
@@ -30,7 +31,7 @@ import srccine.vista.VistaInterface;
  *
  * @author José
  */
-public class Controlador implements ControladorInterface {
+public class Controlador implements ControladorInterface, ObservadorNuevoUsuario {
        
     private ModeloInterface _modelo;    //Modelo sobre el que trabaja el controlador
     
@@ -41,7 +42,9 @@ public class Controlador implements ControladorInterface {
      * que se guardan en el modelo. Aquellos que cumplen con el criterio de
      * busqueda seleccionado en un momento dado.
      */
-    private Usuario usuarioIdentificado;
+    private Usuario _usuarioIdentificado;
+    
+    private Pelicula _peliculaSeleccionada;
     
     private List<Pelicula> _peliculasBuscadas;
     
@@ -57,13 +60,15 @@ public class Controlador implements ControladorInterface {
     private List<ObservadorPeliculasBuscadas> _observadoresPeliculasBuscadas;
     
     
-    public Controlador() {
+    public Controlador(ModeloInterface aModelo) {
         try {
-            _modelo = new Modelo();
+            
+            _modelo = aModelo;
             _modelo.inicializar();
             
-            usuarioIdentificado = null;    
-            _peliculasBuscadas = new ArrayList();            
+            _usuarioIdentificado = null; 
+            _peliculaSeleccionada = null;
+            _peliculasBuscadas = new ArrayList();
             
             //Inicializar observadores
             _observadoresPeliculaSeleccionada = new ArrayList();
@@ -76,6 +81,13 @@ public class Controlador implements ControladorInterface {
             //inicie la ejecucion del ciclo de eventos
             _vista = new Vista(_modelo, this);
             _vista.mostrarVentanaPrincipal();
+            
+            /**
+             * El controlador se registra a sí mismo como observador de la lista
+             * de usuarios del modelo. Cuando se añade un usuario el controlador
+             * será notificado
+             */
+            _modelo.registrarObservadorNuevoUsuario(this);
         
         } catch (ErrorConexionBBDD ex){ 
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
@@ -124,12 +136,13 @@ public class Controlador implements ControladorInterface {
                 _modelo.anadeValoracion(v);
             }
             
-            usuarioIdentificado.anadeValoracion(idPelicula, v);
-            Pelicula pelicula = _modelo.buscaPelicula(idPelicula);
+            _usuarioIdentificado.anadeValoracion(idPelicula, v);
+            _peliculaSeleccionada.anadeValoracion(idUsuario, v);
             
-            pelicula.anadeValoracion(idUsuario, v);
-            _modelo.actualizarUsuario(usuarioIdentificado);
-            _modelo.actualizarPelicula(pelicula);
+            _modelo.actualizarUsuario(_usuarioIdentificado);
+            _modelo.actualizarPelicula(_peliculaSeleccionada);
+            
+            notificarCambioNotaMediaPelicula();
             
         } catch (ErrorActualizarUsuario  ex) {
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
@@ -149,11 +162,28 @@ public class Controlador implements ControladorInterface {
 
     @Override
     public void peticionRegistrarUsuario() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Map detallesUsuario = _vista.obtenerDetallesNuevoUsuario();
+        
+        String idUsuario = (String) detallesUsuario.get("idUsuario");
+        
+        Usuario usu = _modelo.buscaUsuario(idUsuario);
+        if (usu == null) {            
+            try {
+                _modelo.anadeUsuario(new Usuario(idUsuario, detallesUsuario));
+            } catch (ErrorInsertarUsuario ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            ***********************
+            System.out.println("mensaje de error en la vista de que esta registrado\n");
+            ***********************
+        }
     }
 
     @Override
     public void peticionIniciarSesion() {
+        psodapsdkoaspdkoaspdkoas
+                por aqui seguimos
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -168,18 +198,69 @@ public class Controlador implements ControladorInterface {
     }
 
     @Override
-    public void notificarObservadorPeliculaSeleccionada() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void usuarioNuevoRegistrado() {
+        peticionIniciarSesion();
     }
 
     @Override
-    public void notificarObservadorUsuarioIdentificado() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void registrarObservadorListaPeliculasRecomendadas(ObservadorListaPeliculasRecomendadas o) {
+         _observadoresListaPeliculasRecomendadas.add(o);
+         o.listaPeliculasRecomendadasCambiada();
+    }
+    
+    protected void notificarCambioListaPeliculasRecomendadas() {
+        for (ObservadorListaPeliculasRecomendadas o : _observadoresListaPeliculasRecomendadas) {
+            o.listaPeliculasRecomendadasCambiada();
+        }
     }
 
     @Override
-    public void notificarObservadorPeliculasBuscadas() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void registrarObservadorNotaMediaPelicula(ObservadorNotaMediaPelicula o) {
+        _observadoresNotaMediaPelicula.add(o);
+        o.notaMediaPeliculaCambiada();
+    }
+    
+    protected void notificarCambioNotaMediaPelicula() {
+        for (ObservadorNotaMediaPelicula o : _observadoresNotaMediaPelicula) {            
+            o.notaMediaPeliculaCambiada();
+        }
+    }
+
+    @Override
+    public void registrarObservadorPeliculaSeleccionada(ObservadorPeliculaSeleccionada o) {
+        _observadoresPeliculaSeleccionada.add(o);
+        o.peliculaSeleccionadaCambiada();
+    }
+    
+    protected void notificarCambioPeliculaSeleccionada() {
+        for (ObservadorPeliculaSeleccionada o : _observadoresPeliculaSeleccionada) {            
+            o.peliculaSeleccionadaCambiada();
+        }
+    }
+    
+
+    @Override
+    public void registrarObservadorUsuarioIdentificado(ObservadorUsuarioIdentificado o) {
+        _observadoresUsuarioIdentificado.add(o);
+        o.usuarioIdentificadoCambiado();
+    }
+    
+    protected void notificarCambioUsuarioIdentificado() {
+        for (ObservadorUsuarioIdentificado o : _observadoresUsuarioIdentificado) {
+            o.usuarioIdentificadoCambiado();
+        }
+    }
+
+    @Override
+    public void registrarObservadorPeliculasBuscadas(ObservadorPeliculasBuscadas o) {
+        _observadoresPeliculasBuscadas.add(o);
+        o.listaPeliculasBuscadasCambiada();
+    }
+    
+    protected void notificarCambioPeliculasBuscadas() {
+        for (ObservadorPeliculasBuscadas o : _observadoresPeliculasBuscadas) {
+            o.listaPeliculasBuscadasCambiada();
+        }
     }
     
 }

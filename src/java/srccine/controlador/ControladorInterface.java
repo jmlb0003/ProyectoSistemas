@@ -19,10 +19,14 @@ public interface ControladorInterface {
     
     public void peticionVerInformacionPelicula();
     
-    public void notificarObservadorPeliculaSeleccionada();
+    public void registrarObservadorListaPeliculasRecomendadas(ObservadorListaPeliculasRecomendadas o);
     
-    public void notificarObservadorUsuarioIdentificado();
+    public void registrarObservadorNotaMediaPelicula(ObservadorNotaMediaPelicula o);
     
-    public void notificarObservadorPeliculasBuscadas();
+    public void registrarObservadorPeliculaSeleccionada(ObservadorPeliculaSeleccionada o);
+    
+    public void registrarObservadorUsuarioIdentificado(ObservadorUsuarioIdentificado o);
+    
+    public void registrarObservadorPeliculasBuscadas(ObservadorPeliculasBuscadas o);
     
 }

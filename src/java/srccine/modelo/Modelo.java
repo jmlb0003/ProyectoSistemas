@@ -54,6 +54,7 @@ public class Modelo implements ModeloInterface{
     public Modelo(){
         _modeloSimilitud = null;
         _peliculas = null;
+        _observadores = new ArrayList<ObservadorNuevoUsuario>();
     }
     
     /**
@@ -65,6 +66,7 @@ public class Modelo implements ModeloInterface{
      * @throws srccine.modelo.persistencia.excepciones.ErrorInsertarPelicula
      * @throws srccine.modelo.persistencia.excepciones.ErrorInsertarUsuario
      * @throws srccine.modelo.excepciones.ErrorGrabarModeloSimilitud
+     * @throws srccine.modelo.persistencia.excepciones.ErrorInsertarRecomendacion
      */
     @Override
     public void inicializar() throws ErrorConexionBBDD, ErrorLeerModeloSimilitud, 
@@ -82,6 +84,8 @@ public class Modelo implements ModeloInterface{
             cargarModeloSimilitud();    
             _peliculas = DAOPelicula.instancia().get();
         }
+        
+        notificarObservadorNuevoUsuario();
     }
     
     /**
@@ -195,11 +199,11 @@ public class Modelo implements ModeloInterface{
             URL url = this.getClass().getClassLoader().getResource("pr/recursos/algoritmos/modeloSimilitud.bin");
             System.out.println(url.toURI());
             File f=new File(url.toURI());    
-            if (f==null){
+            if (f == null){
                 System.out.println("wqeqw");
             }
             ois = new ObjectInputStream(new FileInputStream(f));
-            if (ois ==null)
+            if (ois == null)
             {                System.out.println("wqeewfrqw");
 
             }    
@@ -253,12 +257,6 @@ public class Modelo implements ModeloInterface{
         }
         
         return recomendaciones;        
-    }
-
-    private void notificarObservadorNuevoUsuario(){
-        for (ObservadorNuevoUsuario o : _observadores) {
-            o.usuarioNuevoRegistrado();            
-        }
     }    
     
     @Override
@@ -325,6 +323,13 @@ public class Modelo implements ModeloInterface{
     @Override
     public void registrarObservadorNuevoUsuario(ObservadorNuevoUsuario o) {
         _observadores.add(o);
+        o.usuarioNuevoRegistrado();
+    }
+    
+    private void notificarObservadorNuevoUsuario(){
+        for (ObservadorNuevoUsuario o : _observadores) {
+            o.usuarioNuevoRegistrado();            
+        }
     }
 
     @Override

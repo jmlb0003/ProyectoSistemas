@@ -4,8 +4,8 @@
     Author     : Sonia g
 --%>
 
-<%@page import="pr.controlador.Controlador"%>
-<%@page import="pr.controlador.ControladorInterface"%>
+<%@page import="srccine.controlador.Controlador"%>
+<%@page import="srccine.controlador.ControladorInterface"%>
 <%--<html xmlns="http://www.w3.org/1999/xhtml">
 <header>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">

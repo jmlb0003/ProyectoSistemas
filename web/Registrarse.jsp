@@ -70,7 +70,7 @@
             <div id="contenido">                
           
              <div id="formular">
-                <br>
+                <form METHOD=POST ACTION="Registro">
                 <br>
                  <h3> Crear un nuevo usuario: </h3>
    
@@ -114,7 +114,7 @@
                  <center>              
                  <a class="btn" href="index.jsp">Salir</a>    
                  <button type="submit" class="btn">Aceptar</button>                                       
-                 
+                </form>
                  </center>
                             
               </div>

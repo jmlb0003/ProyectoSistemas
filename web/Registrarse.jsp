@@ -1,9 +1,11 @@
 <%-- 
     Document   : Registrarse
     Created on : 30-nov-2013, 12:18:17
-    Author     : Sonia
+    Author     : Sonia g
 --%>
 
+<%@page import="pr.controlador.Controlador"%>
+<%@page import="pr.controlador.ControladorInterface"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,7 +18,16 @@
             
         <!-- Mis estilos -->   
         <link rel="stylesheet"  href="css/estilos.css" type="text/css"> 
-            
+<%
+        //Aqui va el codigo JAVA
+        HttpSession sesion = request.getSession();                         
+        ControladorInterface controlador = (ControladorInterface) sesion.getAttribute("controlador");
+        if (controlador==null){
+            controlador = new Controlador();
+            sesion.setAttribute("controlador", controlador);
+        }
+        
+%>            
     </header>
     <body>
                    

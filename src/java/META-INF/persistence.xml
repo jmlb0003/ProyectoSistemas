@@ -2,10 +2,10 @@
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
   <persistence-unit name="SGBDCinePU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>srccine.modelo.Pelicula</class>
-    <class>srccine.modelo.Usuario</class>
-    <class>srccine.modelo.Valoracion</class>
-    <class>srccine.modelo.Recomendacion</class>
+    <class>pr.modelo.Pelicula</class>
+    <class>pr.modelo.Usuario</class>
+    <class>pr.modelo.Valoracion</class>
+    <class>pr.modelo.Recomendacion</class>
     <properties>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/srccine?zeroDateTimeBehavior=convertToNull"/>

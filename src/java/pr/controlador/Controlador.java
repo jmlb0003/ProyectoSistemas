@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pr.modelo.DetallesUsuario;
+import pr.modelo.Modelo;
 import pr.modelo.ModeloInterface;
 import pr.modelo.Pelicula;
 import pr.modelo.Usuario;
@@ -56,9 +57,9 @@ public class Controlador implements ControladorInterface {
     private List<ObservadorPeliculasBuscadas> _observadoresPeliculasBuscadas;
     
     
-    public Controlador(ModeloInterface modelo) {
+    public Controlador() {
         try {
-            _modelo = modelo;
+            _modelo = new Modelo();
             _modelo.inicializar();
             
             usuarioIdentificado = null;    

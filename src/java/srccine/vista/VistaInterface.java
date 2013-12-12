@@ -14,5 +14,11 @@ public interface VistaInterface {
     public Map obtenerValoracionPelicula();
     
     public Map obtenerDetallesNuevoUsuario();
+
+    public String obtenerCriteriosBusqueda();
+
+    public Map obtenerDetallesInicioSesion();
+
+    public Long obtenerIDPelicula();
     
 }

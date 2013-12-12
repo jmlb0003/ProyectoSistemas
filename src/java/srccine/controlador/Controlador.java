@@ -137,11 +137,12 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
             }
             
             _usuarioIdentificado.anadeValoracion(idPelicula, v);
-            Pelicula pelicula = _modelo.buscaPelicula(idPelicula);
+            _peliculaSeleccionada.anadeValoracion(idUsuario, v);
             
-            pelicula.anadeValoracion(idUsuario, v);
             _modelo.actualizarUsuario(_usuarioIdentificado);
-            _modelo.actualizarPelicula(pelicula);
+            _modelo.actualizarPelicula(_peliculaSeleccionada);
+            
+            notificarCambioNotaMediaPelicula();
             
         } catch (ErrorActualizarUsuario  ex) {
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
@@ -161,11 +162,28 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
 
     @Override
     public void peticionRegistrarUsuario() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Map detallesUsuario = _vista.obtenerDetallesNuevoUsuario();
+        
+        String idUsuario = (String) detallesUsuario.get("idUsuario");
+        
+        Usuario usu = _modelo.buscaUsuario(idUsuario);
+        if (usu == null) {            
+            try {
+                _modelo.anadeUsuario(new Usuario(idUsuario, detallesUsuario));
+            } catch (ErrorInsertarUsuario ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            ***********************
+            System.out.println("mensaje de error en la vista de que esta registrado\n");
+            ***********************
+        }
     }
 
     @Override
     public void peticionIniciarSesion() {
+        psodapsdkoaspdkoaspdkoas
+                por aqui seguimos
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -181,7 +199,7 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
 
     @Override
     public void usuarioNuevoRegistrado() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        peticionIniciarSesion();
     }
 
     @Override

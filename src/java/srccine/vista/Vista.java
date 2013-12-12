@@ -21,8 +21,14 @@ public class Vista implements VistaInterface {
     }
    
     //Quitar que esto es de prueba
+    @Override
     public void mostrarVentanaPrincipal(){
         
+    }
+    
+    @Override
+    public Map obtenerDetallesNuevoUsuario() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

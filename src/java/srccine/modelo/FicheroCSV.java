@@ -51,7 +51,7 @@ class FicheroCSV{
         
         try {
             //Abrimos el fichero de peliculas
-            URL url = this.getClass().getClassLoader().getResource("pr/recursos/csv/peliculas.csv");
+            URL url = this.getClass().getClassLoader().getResource("srccine/recursos/csv/peliculas.csv");
             br = new BufferedReader(new InputStreamReader(url.openStream()));
             //Leemos la primera linea donde contiene los titulos de las columnas
             String linea = br.readLine();            
@@ -109,7 +109,7 @@ class FicheroCSV{
         
         try {
             //Abrimos el fichero de peliculas
-            URL url = this.getClass().getClassLoader().getResource("pr/recursos/csv/ratings3.csv");
+            URL url = this.getClass().getClassLoader().getResource("srccine/recursos/csv/ratings3.csv");
             br = new BufferedReader(new InputStreamReader(url.openStream()));
             //Leemos la primera linea donde contiene los titulos de las columnas
             String linea = br.readLine();            

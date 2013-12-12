@@ -195,7 +195,6 @@ public class Modelo implements ModeloInterface{
 
         try {            
             URL url = this.getClass().getClassLoader().getResource("srccine/recursos/algoritmos/modeloSimilitud.bin");
-            System.out.println(url.toURI());
             File f=new File(url.toURI()); 
             ois = new ObjectInputStream(new FileInputStream(f));
             _modeloSimilitud = (HashMap<Long, TreeSet<Similitud>>) ois.readObject();

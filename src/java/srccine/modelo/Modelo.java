@@ -54,6 +54,7 @@ public class Modelo implements ModeloInterface{
     public Modelo(){
         _modeloSimilitud = null;
         _peliculas = null;
+        _observadores = new ArrayList<ObservadorNuevoUsuario>();
     }
     
     /**
@@ -65,6 +66,7 @@ public class Modelo implements ModeloInterface{
      * @throws srccine.modelo.persistencia.excepciones.ErrorInsertarPelicula
      * @throws srccine.modelo.persistencia.excepciones.ErrorInsertarUsuario
      * @throws srccine.modelo.excepciones.ErrorGrabarModeloSimilitud
+     * @throws srccine.modelo.persistencia.excepciones.ErrorInsertarRecomendacion
      */
     @Override
     public void inicializar() throws ErrorConexionBBDD, ErrorLeerModeloSimilitud, 
@@ -82,6 +84,8 @@ public class Modelo implements ModeloInterface{
             cargarModeloSimilitud();    
             _peliculas = DAOPelicula.instancia().get();
         }
+        
+        notificarObservadorNuevoUsuario();
     }
     
     /**
@@ -253,12 +257,6 @@ public class Modelo implements ModeloInterface{
         }
         
         return recomendaciones;        
-    }
-
-    private void notificarObservadorNuevoUsuario(){
-        for (ObservadorNuevoUsuario o : _observadores) {
-            o.usuarioNuevoRegistrado();            
-        }
     }    
     
     @Override
@@ -325,6 +323,12 @@ public class Modelo implements ModeloInterface{
     @Override
     public void registrarObservadorNuevoUsuario(ObservadorNuevoUsuario o) {
         _observadores.add(o);
+    }
+    
+    private void notificarObservadorNuevoUsuario(){
+        for (ObservadorNuevoUsuario o : _observadores) {
+            o.usuarioNuevoRegistrado();            
+        }
     }
 
     @Override

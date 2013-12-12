@@ -70,42 +70,42 @@
             <div id="contenido">                
           
              <div id="formular">
-                <form METHOD=POST ACTION="Registro">
+                <form method="post" action="Registro">
                 <br>
                  <h3> Crear un nuevo usuario: </h3>
    
-                  <input type="text"  aling="left" class="input-large search-query" placeholder="Identificador de Usuario">              
+                  <input name="idUsuario" type="text"  aling="left" class="input-large search-query" placeholder="Identificador de Usuario">              
                   <br>
                   <br>
-                  <input type="text" class="input-large search-query" placeholder="Nombre">
+                  <input name="nombre" type="text" class="input-large search-query" placeholder="Nombre">
                   <br>
                   <br>
-                  <input type="text" class="input-large search-query" placeholder="Apellidos">
+                  <input name="apellidos" type="text" class="input-large search-query" placeholder="Apellidos">
                   <br>
                   <br>
                   
 
                   <select class="form-control input-mini">
                      <% for (int i=1;i<=31;i++){ %>
-                    <option value= <%= i %>> <%= i %> </option>
+                    <option name="dia" value= <%= i %>> <%= i %> </option>
                     <%}%>
                   </select>
                   
                   <select class="form-control input-mini">                  
                     <% for (int i=1;i<=12;i++){ %>
-                    <option value= <%= i %>> <%= i %> </option>
+                    <option name="mes" value= <%= i %>> <%= i %> </option>
                     <%}%>  
                   </select>
           
                   <select class="form-control input-small">                  
                     <% for (int i=2013;i>=1900;i--){ %>
-                        <option value= <%= i %>> <%= i %> </option>
+                        <option  name="ano" value= <%= i %>> <%= i %> </option>
                     <%}%>  
                   </select>
                 
                   <br>
                   <br>
-                  <input type="password" class="input-large search-query" placeholder="Contraseña"> 
+                  <input name="clave" type="password" class="input-large search-query" placeholder="Contraseña"> 
                   <br>
                   <br>
 

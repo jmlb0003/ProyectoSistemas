@@ -61,8 +61,7 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
     
     
     public Controlador(ModeloInterface aModelo) {
-        try {
-            
+        try {            
             _modelo = aModelo;
             _modelo.inicializar();
             
@@ -222,14 +221,15 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
 
     @Override
     public void usuarioNuevoRegistrado() {
-        String clave = (String) _vista.obtenerDetallesNuevoUsuario().get("idUsuario");
-        
-        if (!clave.equals("")) {
-            Usuario usu = _modelo.buscaUsuario(clave);
-            
-            if (usu != null) {
-                _usuarioIdentificado = usu;                
-                notificarCambioUsuarioIdentificado();
+        if (_vista.obtenerDetallesNuevoUsuario()!=null){
+            String idUsuario = (String) _vista.obtenerDetallesNuevoUsuario().get("idUsuario");
+
+            if (!idUsuario.equals("")) {
+                Usuario usu = _modelo.buscaUsuario(idUsuario);
+                if (usu != null) {
+                    _usuarioIdentificado = usu;                
+                    notificarCambioUsuarioIdentificado();
+                }
             }
         }
     }
@@ -237,7 +237,7 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
     @Override
     public void registrarObservadorListaPeliculasRecomendadas(ObservadorListaPeliculasRecomendadas o) {
          _observadoresListaPeliculasRecomendadas.add(o);
-         o.listaPeliculasRecomendadasCambiada();
+        // o.listaPeliculasRecomendadasCambiada();
     }
     
     protected void notificarCambioListaPeliculasRecomendadas() {
@@ -249,7 +249,7 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
     @Override
     public void registrarObservadorNotaMediaPelicula(ObservadorNotaMediaPelicula o) {
         _observadoresNotaMediaPelicula.add(o);
-        o.notaMediaPeliculaCambiada();
+        //o.notaMediaPeliculaCambiada();
     }
     
     protected void notificarCambioNotaMediaPelicula() {
@@ -261,7 +261,7 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
     @Override
     public void registrarObservadorPeliculaSeleccionada(ObservadorPeliculaSeleccionada o) {
         _observadoresPeliculaSeleccionada.add(o);
-        o.peliculaSeleccionadaCambiada();
+        //o.peliculaSeleccionadaCambiada();
     }
     
     protected void notificarCambioPeliculaSeleccionada() {
@@ -274,7 +274,7 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
     @Override
     public void registrarObservadorUsuarioIdentificado(ObservadorUsuarioIdentificado o) {
         _observadoresUsuarioIdentificado.add(o);
-        o.usuarioIdentificadoCambiado();
+        //o.usuarioIdentificadoCambiado();
     }
     
     protected void notificarCambioUsuarioIdentificado() {
@@ -286,13 +286,23 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
     @Override
     public void registrarObservadorPeliculasBuscadas(ObservadorPeliculasBuscadas o) {
         _observadoresPeliculasBuscadas.add(o);
-        o.listaPeliculasBuscadasCambiada();
+       // o.listaPeliculasBuscadasCambiada();
     }
     
     protected void notificarCambioPeliculasBuscadas() {
         for (ObservadorPeliculasBuscadas o : _observadoresPeliculasBuscadas) {
             o.listaPeliculasBuscadasCambiada();
         }
+    }
+
+    @Override
+    public VistaInterface obtieneVista() {
+        return _vista;
+    }
+
+    @Override
+    public Usuario obtieneUsuarioIdentificado() {
+        return _usuarioIdentificado;
     }
     
 }

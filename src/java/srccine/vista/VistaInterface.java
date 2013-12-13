@@ -20,5 +20,9 @@ public interface VistaInterface {
     public Map obtenerDetallesInicioSesion();
 
     public Long obtenerIDPelicula();
+
+    public void setDetallesRegistro(Map<String, Object> _datosRegistro);
+
+    public void setDetallesLogin(Map<String, Object> datosLogin);
     
 }

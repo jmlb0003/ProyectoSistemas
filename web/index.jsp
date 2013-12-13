@@ -4,6 +4,10 @@
     Author     : Sonia g
 --%>
 
+<%@page import="srccine.modelo.Pelicula"%>
+<%@page import="srccine.modelo.Recomendacion"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="srccine.modelo.Usuario"%>
 <%@page import="srccine.modelo.Modelo"%>
 <%@page import="srccine.controlador.Controlador"%>
 <%@page import="srccine.controlador.ControladorInterface"%>
@@ -100,7 +104,27 @@
 
             <div id="contenido">
                 <table border="1" width="100%" cellspacing="0" cellpadding="5">
-                 <tr>
+                    <% if (controlador.obtieneUsuarioIdentificado()!=null){
+                        Usuario usuario = controlador.obtieneUsuarioIdentificado();
+                        if (usuario.obtieneRecomendaciones().size() > 0){
+                            Iterator<Recomendacion> iterator = usuario.obtieneRecomendaciones().iterator(); 
+                            for (int f=1; f<4 && iterator.hasNext();f++){ %>
+                    <tr> 
+<%                              for (int c=1; c<6 && iterator.hasNext();c++){
+                                    Recomendacion recomendacion = iterator.next(); 
+                                    Pelicula pelicula = recomendacion.getPelicula(); %> 
+                        <td height="25%">                      
+                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
+                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneDetalles().obtieneDetalle("titulo") %></p> </a>
+                            <p>Media: <%= (int) pelicula.obtieneMedia() %></p>
+                            <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>
+                        </td>
+                                <% }%>
+                    </tr>  <% }
+                        }
+                    }else{ %>
+
+                    <tr>
                    <td height="25%">                      
                        <img src="img/pelicula.png" ALT="Foto película"> 
                        <p> Titulo: Los juegos del hambre </p>
@@ -171,7 +195,7 @@
                    </td>
                  </tr>                 
                   
-                    
+                <% } %> 
                </table>
             </div>
 

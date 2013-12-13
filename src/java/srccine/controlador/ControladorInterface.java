@@ -1,11 +1,18 @@
 
 package srccine.controlador;
 
+import srccine.modelo.Usuario;
+import srccine.vista.VistaInterface;
+
 /**
  *
  * @author José
  */
 public interface ControladorInterface {
+    
+    public VistaInterface obtieneVista();
+    
+    public Usuario obtieneUsuarioIdentificado();
     
     public void peticionValorarPelicula();
     

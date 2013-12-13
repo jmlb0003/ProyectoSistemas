@@ -12,14 +12,15 @@ import srccine.modelo.ModeloInterface;
 public class Vista implements VistaInterface {
 
     ModeloInterface _modelo;
-    ControladorInterface _controlador;    
-    Registro _registro;
+    ControladorInterface _controlador; 
+    Map<String, Object> _detallesRegistro; 
+    private Map<String, Object> _detallesLogin;
     
     //Quitar que esto es de prueba
     public Vista(ModeloInterface modelo, ControladorInterface controlador) {
             _modelo = modelo;
             _controlador = controlador;
-            _registro = new Registro();
+            _detallesRegistro = null;
     }
    
     //Quitar que esto es de prueba
@@ -30,7 +31,7 @@ public class Vista implements VistaInterface {
     
     @Override
     public Map obtenerDetallesNuevoUsuario() {
-        return _registro.getDatosRegistro();
+        return _detallesRegistro;
     }
 
     @Override
@@ -45,12 +46,22 @@ public class Vista implements VistaInterface {
 
     @Override
     public Map obtenerDetallesInicioSesion() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return _detallesLogin;
     }
 
     @Override
     public Long obtenerIDPelicula() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setDetallesRegistro(Map<String, Object> datosRegistro) {
+        _detallesRegistro = datosRegistro;
+    }
+
+    @Override
+    public void setDetallesLogin(Map<String, Object> datosLogin) {
+        _detallesLogin = datosLogin;
     }
             
 }

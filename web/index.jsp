@@ -4,8 +4,10 @@
     Author     : Sonia g
 --%>
 
+<%@page import="srccine.modelo.Modelo"%>
 <%@page import="srccine.controlador.Controlador"%>
 <%@page import="srccine.controlador.ControladorInterface"%>
+
 <%--<html xmlns="http://www.w3.org/1999/xhtml">
 <header>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -45,43 +47,47 @@
         <!-- Mis estilos -->   
         <link rel="stylesheet"  href="css/estilos.css" type="text/css"> 
 
-<%
-        //Aqui va el codigo JAVA
-        HttpSession sesion = request.getSession();                         
+<%      //Aqui va el codigo JAVA
+        HttpSession sesion = request.getSession();                        
         ControladorInterface controlador = (ControladorInterface) sesion.getAttribute("controlador");
         if (controlador==null){
-            //controlador = new Controlador();
+            controlador = new Controlador(new Modelo());
             sesion.setAttribute("controlador", controlador);
+            sesion.setAttribute("vista", controlador.obtieneVista());
         }
 %>
-   
-                            
     </header>
     
-    <body>
-                   
-            <script> Messenger src="http://code.jquery.com/jquery.js"> </script>
-            <script src="js/bootstrap.min.js"></script>
+    <body>         
+        <script> Messenger src="http://code.jquery.com/jquery.js"> </script>
+        <script src="js/bootstrap.min.js"></script>
             
-      <div id="contenedor">
+        <div id="contenedor">
           
             <div id="cabecera">
-                <div id="login">                   
-                   
-                  <input type="text" class="input-medium search-query" placeholder="Usuario">
-                  <input type="password" class="input-medium search-query" placeholder="Contraseña">            
-                  <button type="submit" class="btn">Entrar</button>
-                  <br>
-                  <label class="checkbox">
-                    <input type="checkbox"> Recordarme
-                  </label>
-                    
+
+            <% if (controlador.obtieneUsuarioIdentificado()==null){%>
+                <div id="login">
+                <form action="Login" method="post" >
+                    <input name="idUsuario" type="text" class="input-medium search-query" placeholder="Usuario">
+                    <input name="clave" type="password" class="input-medium search-query" placeholder="Contraseña">            
+                    <button type="submit" class="btn">Entrar</button>
+                    <br>
+                    <label class="checkbox">
+                        <input type="checkbox"> Recordarme
+                    </label> 
+                </form>
                 </div>    
-            
+
                 <div id="registrarse"> 
                     <a class="btn" href="Registrarse.jsp"> Registrarse </a>
                 </div>    
-           
+            <% }else{ %>
+                <div id="login">
+                    <p > <%= controlador.obtieneUsuarioIdentificado().obtieneID() %> </p>                   
+                    <button type="submit" class="btn">Cerrar Sesión</button>                    
+                </div> 
+            <% }   %>       
                 <div id="logo">              
                   <a href="index.jsp"> <img src="img/Logo.png"> </a>                   
                 </div>              

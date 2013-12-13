@@ -116,18 +116,21 @@
                         <td height="25%">                      
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneDetalles().obtieneDetalle("titulo") %></p> </a>
-                            <p>Media: <%= (int) pelicula.obtieneMedia() %></p>
+                            <p>Media: <%= pelicula.obtieneMedia() %></p>
                             <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>
                         </td>
                                 <% }%>
                     </tr>  <% }
-                        }
-                    }else{ %>
-
-                    <tr>
-                   <td height="25%">                      
-                       <img src="img/pelicula.png" ALT="Foto película"> 
-                       <p> Titulo: Los juegos del hambre </p>
+                        }else{                        
+                            Iterator<Pelicula> iterator = controlador.obtieneMejoresPeliculas().iterator(); 
+                            for (int f=1; f<4 && iterator.hasNext();f++){ %>
+                    <tr> 
+<%                              for (int c=1; c<6 && iterator.hasNext();c++){
+                                    Pelicula pelicula = iterator.next(); %> 
+                        <td height="25%">                      
+                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
+                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneDetalles().obtieneDetalle("titulo") %></p> </a>
+                            <p>Media: <%= pelicula.obtieneMedia() %></p>
                        <p> Valoración:
                             <%
                             int valoracion=2;
@@ -144,58 +147,42 @@
                                           }
                             %>
                      
-                       </p>                     
-                     
-                   </td>
-                   
-                   <td height="25%">
-                       <img src="img/pelicula.png" ALT="Foto película"> 
-                       <p> Titulo: Somos los miller </p>    
+                           </p>      
+                        </td>
+                            <% } %>
+                    </tr>  <% }
+                        }                        
+                    }else{
+                        Iterator<Pelicula> iterator = controlador.obtieneMejoresPeliculas().iterator(); 
+                        for (int f=1; f<4 && iterator.hasNext();f++){ %>
+                    <tr> 
+<%                          for (int c=1; c<6 && iterator.hasNext();c++){
+                                Pelicula pelicula = iterator.next(); %> 
+                        <td height="25%">                      
+                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
+                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneDetalles().obtieneDetalle("titulo") %></p> </a>
+                            <p>Media: <%= pelicula.obtieneMedia() %></p>
                        <p> Valoración:
-                          
-                       </p>  
-                   </td>
+                            <%
+                            int valoracion=2;
+                               //Obtenemos la valoración  
+                                          for(int i=1;i<=valoracion;i++){
+                            %>
+                                <img src="img/estrellaAmarilla.png" ALT="valoracion">
+                            <%        
+                                          }
+                                          for(int i=1;i<=5-valoracion;i++){
+                            %>
+                                <img src="img/estrellaGris.png" ALT="valoracion">
+                            <%        
+                                          }
+                            %>
                      
-                   <td height="25%">
-                       <img src="img/pelicula.png" ALT="Foto película"> 
-                       <p> Titulo: Don Jon </p>    
-                       <p> Valoración: 
-                       
-                       </p>
-                       
-                   </td>
-                     
-                   <td height="25%">
-                       <img src="img/pelicula.png" ALT="Foto película"> 
-                       <p> Titulo: Saw 4 </p>    
-                       <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>  
-                   </td>
-                 </tr>
-                    
-                 <tr>
-                   <td height="25%">
-                       <img src="img/pelicula.png" ALT="Foto película"> 
-                       <p> Titulo: Thor 2 </p>    
-                       <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>       
-                   </td>
-                   <td height="25%">
-                       <img src="img/pelicula.png" ALT="Foto película"> 
-                       <p> Titulo: Titanic </p>    
-                       <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>  
-                   </td>
-                   <td height="25%">
-                       <img src="img/pelicula.png" ALT="Foto película"> 
-                       <p> Titulo: Scary Movie 3 </p>    
-                       <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>  
-                   </td>
-                   <td height="25%">
-                       <img src="img/pelicula.png" ALT="Foto película"> 
-                       <p> Titulo: Prisioneros </p>    
-                       <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>   
-                   </td>
-                 </tr>                 
-                  
-                <% } %> 
+                           </p>      
+                        </td>
+                        <% } %>
+                    </tr>  <% }
+                    } %> 
                </table>
             </div>
 

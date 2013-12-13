@@ -181,6 +181,13 @@ public class DAOPelicula {
                 
         Query consulta = em.createQuery("SELECT p FROM Pelicula p ");
         return consulta.getResultList();
+    }    
+    
+    public List getMejorValoradas() {
+        EntityManager em=GestorPersistencia.instancia().getEntityManager();
+                
+        Query consulta = em.createQuery("SELECT p FROM Pelicula p ORDER BY p._media DESC LIMIT "+srccine.modelo.Modelo.NUM_RECOMENDACIONES);
+        return consulta.getResultList();
     }
     
     /**    

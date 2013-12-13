@@ -14,7 +14,7 @@ import srccine.controlador.ControladorInterface;
 import srccine.controlador.ErrorUsuarioRegistrado;
 
 /**
- *
+ * Clase
  * @author Jesus
  */
 public class Registro extends HttpServlet {

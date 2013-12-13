@@ -13,7 +13,7 @@ import srccine.controlador.ControladorInterface;
 import srccine.controlador.ErrorUsuarioIdentificado;
 
 /**
- *
+ * Clase 
  * @author Jesus
  */
 public class Login extends HttpServlet{

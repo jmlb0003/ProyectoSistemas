@@ -305,4 +305,8 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
         return _usuarioIdentificado;
     }
     
+    public List<Pelicula> obtieneMejoresPeliculas(){
+        return _modelo.buscaPeliculasMejorValoradas();
+    }
+    
 }

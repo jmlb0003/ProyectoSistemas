@@ -1,6 +1,8 @@
 
 package srccine.controlador;
 
+import java.util.List;
+import srccine.modelo.Pelicula;
 import srccine.modelo.Usuario;
 import srccine.vista.VistaInterface;
 
@@ -13,6 +15,8 @@ public interface ControladorInterface {
     public VistaInterface obtieneVista();
     
     public Usuario obtieneUsuarioIdentificado();
+    
+    public List<Pelicula> obtieneMejoresPeliculas();
     
     public void peticionValorarPelicula();
     

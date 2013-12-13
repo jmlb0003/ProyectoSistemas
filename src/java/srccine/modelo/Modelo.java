@@ -323,5 +323,9 @@ public class Modelo implements ModeloInterface{
     @Override
     public Pelicula buscaPelicula(Long idPelicula) {
         return DAOPelicula.instancia().get(idPelicula);
-    }    
+    }
+    
+    public List<Pelicula> buscaPeliculasMejorValoradas(){
+        return DAOPelicula.instancia().getMejorValoradas();
+    }
 }

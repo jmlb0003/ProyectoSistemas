@@ -26,43 +26,44 @@ public class Registro extends HttpServlet {
         HttpSession sc = request.getSession();
         ControladorInterface controlador = (ControladorInterface) sc.getAttribute("controlador");
         int dia, mes, ano;
-        if (controlador != null){            
-            datosRegistro.put("idUsuario", request.getParameter("idUsuario"));
-            datosRegistro.put("nombre", request.getParameter("nombre"));
-            datosRegistro.put("apellidos", request.getParameter("apellidos"));
-            datosRegistro.put("clave", request.getParameter("clave"));
-            try{
-                dia = Integer.parseInt(request.getParameter("dia"));
-            }catch (NumberFormatException e){
-                dia = -1;
-            }            
-            try{
-                mes = Integer.parseInt(request.getParameter("mes"));
-            }catch (NumberFormatException e){
-                mes = -1;
-            }
-            try{
-                ano = Integer.parseInt(request.getParameter("ano"));
-            }catch (NumberFormatException e){
-                ano = -1;
-            }
+        if (controlador != null){       
+            if(request.getParameter("idUsuario")!=null && request.getParameter("clave")!=null){
+                datosRegistro.put("idUsuario", request.getParameter("idUsuario"));
+                datosRegistro.put("nombre", request.getParameter("nombre"));
+                datosRegistro.put("apellidos", request.getParameter("apellidos"));
+                datosRegistro.put("clave", request.getParameter("clave"));
+                try{
+                    dia = Integer.parseInt(request.getParameter("dia"));
+                }catch (NumberFormatException e){
+                    dia = -1;
+                }            
+                try{
+                    mes = Integer.parseInt(request.getParameter("mes"));
+                }catch (NumberFormatException e){
+                    mes = -1;
+                }
+                try{
+                    ano = Integer.parseInt(request.getParameter("ano"));
+                }catch (NumberFormatException e){
+                    ano = -1;
+                }
+
+                if (dia !=-1 && mes !=-1 && ano!=-1){
+                    datosRegistro.put("fechaNacimiento", new GregorianCalendar(ano, mes, dia));
+                }
+                datosRegistro.put("fechaRegistro", new GregorianCalendar());
+
+                //Proporcionamos los datos a la vista
+                VistaInterface vista = (VistaInterface) sc.getAttribute("vista");
+                vista.setDetallesRegistro(datosRegistro);
             
-            if (dia !=-1 && mes !=-1 && ano!=-1){
-                datosRegistro.put("fechaNacimiento", new GregorianCalendar(ano, mes, dia));
-            }
-            datosRegistro.put("fechaRegistro", new GregorianCalendar());
-            
-            //Proporcionamos los datos a la vista
-            VistaInterface vista = (VistaInterface) sc.getAttribute("vista");
-            vista.setDetallesRegistro(datosRegistro);
-            
-            try {
-                controlador.peticionRegistrarUsuario();
-            } catch (ErrorUsuarioRegistrado ex) {
-                notificarError (request, response, "Nombre de usuario existente", 
-                        "El nombre de usuario escogido ya existe en el sistema", "registrarse.jsp"); 
-            }
-                        
+                try {
+                    controlador.peticionRegistrarUsuario();
+                } catch (ErrorUsuarioRegistrado ex) {
+                    notificarError (request, response, "Nombre de usuario existente", 
+                            "El nombre de usuario escogido ya existe en el sistema", "registrarse.jsp"); 
+                }
+            }        
             //Te devuelve a la pagina de inicio, recogiendo los posibles errores que haya
             try {
                 RequestDispatcher dispatcher = request.getRequestDispatcher(response.encodeURL("index.jsp"));

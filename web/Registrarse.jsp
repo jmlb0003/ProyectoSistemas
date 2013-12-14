@@ -4,6 +4,7 @@
     Author     : Sonia ga
 --%>   
 
+<%@page import="srccine.controlador.ErrorInicioSistema"%>
 <%@page import="java.util.GregorianCalendar"%>
 <%@page import="srccine.vista.VistaInterface"%>
 <%@page import="srccine.modelo.Modelo"%>
@@ -26,9 +27,13 @@
         HttpSession sesion = request.getSession();                         
         ControladorInterface controlador = (ControladorInterface) sesion.getAttribute("controlador");
         if (controlador==null){
-            controlador = new Controlador(new Modelo());
-            sesion.setAttribute("controlador", controlador);
-            sesion.setAttribute("vista", controlador.obtieneVista());
+            try{
+                controlador = new Controlador(new Modelo());
+                sesion.setAttribute("controlador", controlador);
+                sesion.setAttribute("vista", controlador.obtieneVista());
+            } catch (ErrorInicioSistema ex){
+                response.getWriter().println("La hemos liao parda");
+            }
         }
         response.encodeURL("Registrarse.jsp");        
 %>            

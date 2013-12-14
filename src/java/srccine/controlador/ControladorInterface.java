@@ -18,8 +18,10 @@ public interface ControladorInterface {
     public List<Pelicula> obtieneMejoresPeliculas();
         
     public List<Pelicula> obtienePeliculasBuscadas();
-        public Pelicula obtienePeliculaSeleccionada();
-    public void peticionValorarPelicula();
+    
+    public Pelicula obtienePeliculaSeleccionada();
+    
+    public void peticionValorarPelicula() throws ErrorValoraPelicula;
     
     public void peticionBusquedaPeliculas();
     
@@ -30,15 +32,5 @@ public interface ControladorInterface {
     public void peticionCerrarSesion();
     
     public void peticionVerInformacionPelicula();
-    
-    public void registrarObservadorListaPeliculasRecomendadas(ObservadorListaPeliculasRecomendadas o);
-    
-    public void registrarObservadorNotaMediaPelicula(ObservadorNotaMediaPelicula o);
-    
-    public void registrarObservadorPeliculaSeleccionada(ObservadorPeliculaSeleccionada o);
-    
-    public void registrarObservadorUsuarioIdentificado(ObservadorUsuarioIdentificado o);
-    
-    public void registrarObservadorPeliculasBuscadas(ObservadorPeliculasBuscadas o);
     
 }

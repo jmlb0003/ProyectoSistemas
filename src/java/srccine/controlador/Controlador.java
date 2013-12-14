@@ -1,30 +1,15 @@
 package srccine.controlador;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import srccine.modelo.ModeloInterface;
 import srccine.modelo.ObservadorNuevoUsuario;
 import srccine.modelo.Pelicula;
 import srccine.modelo.Usuario;
 import srccine.modelo.Valoracion;
-import srccine.modelo.excepciones.ErrorGrabarModeloSimilitud;
-import srccine.modelo.excepciones.ErrorLecturaFichero;
-import srccine.modelo.excepciones.ErrorLeerModeloSimilitud;
-import srccine.modelo.persistencia.excepciones.ErrorActualizarPelicula;
-import srccine.modelo.persistencia.excepciones.ErrorActualizarUsuario;
-import srccine.modelo.persistencia.excepciones.ErrorActualizarValoracion;
-import srccine.modelo.persistencia.excepciones.ErrorConexionBBDD;
-import srccine.modelo.persistencia.excepciones.ErrorInsertarPelicula;
-import srccine.modelo.persistencia.excepciones.ErrorInsertarRecomendacion;
-import srccine.modelo.persistencia.excepciones.ErrorInsertarUsuario;
-import srccine.modelo.persistencia.excepciones.ErrorInsertarValoracion;
+import srccine.modelo.excepciones.*;
+import srccine.modelo.persistencia.excepciones.*;
 import srccine.vista.Vista;
 import srccine.vista.VistaInterface;
 
@@ -47,21 +32,9 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
     
     private Pelicula _peliculaSeleccionada;
     
-    private List<Pelicula> _peliculasBuscadas;
+    private List<Pelicula> _peliculasBuscadas;     
     
-    //Observadores
-    private List<ObservadorPeliculaSeleccionada> _observadoresPeliculaSeleccionada;
-    
-    private List<ObservadorListaPeliculasRecomendadas> _observadoresListaPeliculasRecomendadas;
-    
-    private List<ObservadorNotaMediaPelicula> _observadoresNotaMediaPelicula;
-    
-    private List<ObservadorUsuarioIdentificado> _observadoresUsuarioIdentificado;
-    
-    private List<ObservadorPeliculasBuscadas> _observadoresPeliculasBuscadas;
-    
-    
-    public Controlador(ModeloInterface aModelo) {
+    public Controlador(ModeloInterface aModelo) throws ErrorInicioSistema {
         try {            
             _modelo = aModelo;  
             _modelo.inicializar();
@@ -69,16 +42,9 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
             _peliculaSeleccionada = null;
             _peliculasBuscadas = null;
             
-            //Inicializar observadores
-            _observadoresPeliculaSeleccionada = new ArrayList();
-            _observadoresListaPeliculasRecomendadas = new ArrayList();
-            _observadoresNotaMediaPelicula = new ArrayList();
-            _observadoresUsuarioIdentificado  = new ArrayList();
-            _observadoresPeliculasBuscadas   = new ArrayList();
-            
             //El controlador tiene que crear la vista y hace que se muestre y que 
             //inicie la ejecucion del ciclo de eventos
-            _vista = new Vista(_modelo, this);
+            _vista = new Vista();
             
             /**
              * El controlador se registra a sí mismo como observador de la lista
@@ -88,27 +54,26 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
             _modelo.registrarObservadorNuevoUsuario(this);
         
         } catch (ErrorConexionBBDD ex){ 
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ErrorInicioSistema();
         }catch (ErrorLecturaFichero ex){ 
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ErrorInicioSistema();
         }catch (ErrorLeerModeloSimilitud ex){
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ErrorInicioSistema();
         }catch (ErrorInsertarValoracion ex){ 
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ErrorInicioSistema();
         }catch (ErrorInsertarUsuario ex){ 
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ErrorInicioSistema();
         }catch (ErrorInsertarRecomendacion ex){ 
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ErrorInicioSistema();
         }catch (ErrorGrabarModeloSimilitud ex){ 
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ErrorInicioSistema();
         }catch (ErrorInsertarPelicula ex){ 
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ErrorInicioSistema();
         }
-    }
-    
+    }    
     
     @Override
-    public void peticionValorarPelicula() {
+    public void peticionValorarPelicula() throws ErrorValoraPelicula{
         try {
             //Sacar los datos de la valoracion de la vista            
             Map detallesValoracion = _vista.obtenerValoracionPelicula();
@@ -133,18 +98,16 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
             _peliculaSeleccionada.anadeValoracion(idUsuario, v);
             
             _modelo.actualizarUsuario(_usuarioIdentificado);
-            _modelo.actualizarPelicula(_peliculaSeleccionada);
-            
-            notificarCambioNotaMediaPelicula();
+            _modelo.actualizarPelicula(_peliculaSeleccionada); 
             
         } catch (ErrorActualizarUsuario  ex) {
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ErrorValoraPelicula();
         } catch (ErrorInsertarValoracion ex) {
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ErrorValoraPelicula();
         } catch (ErrorActualizarValoracion ex) {
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ErrorValoraPelicula();
         } catch (ErrorActualizarPelicula ex) {
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ErrorValoraPelicula();
         }
     }
 
@@ -152,9 +115,7 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
     public void peticionBusquedaPeliculas() {
         _peliculaSeleccionada = null;
         
-        _peliculasBuscadas = _modelo.buscaPeliculas(_vista.obtenerCriteriosBusqueda());
-        
-        notificarCambioPeliculasBuscadas();        
+        _peliculasBuscadas = _modelo.buscaPeliculas(_vista.obtenerCriteriosBusqueda()); 
     }
 
     
@@ -169,7 +130,7 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
             try {
                 _modelo.anadeUsuario(new Usuario(idUsuario, detallesUsuario));
             } catch (ErrorInsertarUsuario ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+                throw new ErrorUsuarioRegistrado();
             }
         }else{
             throw new ErrorUsuarioRegistrado();
@@ -189,8 +150,7 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
             String c2 = (String) detallesUsuario.get("clave");
             
             if (c1.equals(c2)) {
-                _usuarioIdentificado = usu;
-                notificarCambioUsuarioIdentificado();
+                _usuarioIdentificado = usu; 
             }else{
                 throw new ErrorUsuarioIdentificado();
             }
@@ -204,18 +164,13 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
         _usuarioIdentificado = null;
         _peliculaSeleccionada = null;
         _peliculasBuscadas = null;
-        
-        notificarCambioUsuarioIdentificado();
-        notificarCambioPeliculaSeleccionada();
-        notificarCambioPeliculasBuscadas();
     }
 
     @Override
     public void peticionVerInformacionPelicula() {
         Pelicula p = _modelo.buscaPelicula(_vista.obtenerIDPelicula());
         
-        _peliculaSeleccionada = p;
-        notificarCambioPeliculaSeleccionada();
+        _peliculaSeleccionada = p; 
     }
 
     @Override
@@ -226,73 +181,11 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
             if (!idUsuario.equals("")) {
                 Usuario usu = _modelo.buscaUsuario(idUsuario);
                 if (usu != null) {
-                    _usuarioIdentificado = usu;                
-                    notificarCambioUsuarioIdentificado();
+                    _usuarioIdentificado = usu;                 
                 }
             }
         }
-    }
-
-    @Override
-    public void registrarObservadorListaPeliculasRecomendadas(ObservadorListaPeliculasRecomendadas o) {
-         _observadoresListaPeliculasRecomendadas.add(o);
-        // o.listaPeliculasRecomendadasCambiada();
-    }
-    
-    protected void notificarCambioListaPeliculasRecomendadas() {
-        for (ObservadorListaPeliculasRecomendadas o : _observadoresListaPeliculasRecomendadas) {
-            o.listaPeliculasRecomendadasCambiada();
-        }
-    }
-
-    @Override
-    public void registrarObservadorNotaMediaPelicula(ObservadorNotaMediaPelicula o) {
-        _observadoresNotaMediaPelicula.add(o);
-        //o.notaMediaPeliculaCambiada();
-    }
-    
-    protected void notificarCambioNotaMediaPelicula() {
-        for (ObservadorNotaMediaPelicula o : _observadoresNotaMediaPelicula) {            
-            o.notaMediaPeliculaCambiada();
-        }
-    }
-
-    @Override
-    public void registrarObservadorPeliculaSeleccionada(ObservadorPeliculaSeleccionada o) {
-        _observadoresPeliculaSeleccionada.add(o);
-        //o.peliculaSeleccionadaCambiada();
-    }
-    
-    protected void notificarCambioPeliculaSeleccionada() {
-        for (ObservadorPeliculaSeleccionada o : _observadoresPeliculaSeleccionada) {            
-            o.peliculaSeleccionadaCambiada();
-        }
-    }
-    
-
-    @Override
-    public void registrarObservadorUsuarioIdentificado(ObservadorUsuarioIdentificado o) {
-        _observadoresUsuarioIdentificado.add(o);
-        //o.usuarioIdentificadoCambiado();
-    }
-    
-    protected void notificarCambioUsuarioIdentificado() {
-        for (ObservadorUsuarioIdentificado o : _observadoresUsuarioIdentificado) {
-            o.usuarioIdentificadoCambiado();
-        }
-    }
-
-    @Override
-    public void registrarObservadorPeliculasBuscadas(ObservadorPeliculasBuscadas o) {
-        _observadoresPeliculasBuscadas.add(o);
-       // o.listaPeliculasBuscadasCambiada();
-    }
-    
-    protected void notificarCambioPeliculasBuscadas() {
-        for (ObservadorPeliculasBuscadas o : _observadoresPeliculasBuscadas) {
-            o.listaPeliculasBuscadasCambiada();
-        }
-    }
+    } 
 
     @Override
     public VistaInterface obtieneVista() {

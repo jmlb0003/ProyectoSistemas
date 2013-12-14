@@ -4,6 +4,7 @@
     Author     : Sonia
 --%>
 
+<%@page import="srccine.controlador.ErrorInicioSistema"%>
 <%@page import="java.util.Map.Entry"%>
 <%@page import="java.util.Map"%>
 <%@page import="srccine.vista.VistaInterface"%>
@@ -34,9 +35,13 @@
         ControladorInterface controlador = (ControladorInterface) sesion.getAttribute("controlador");
         VistaInterface vista = (VistaInterface) sesion.getAttribute("vista");
         if (controlador==null){
-            controlador = new Controlador(new Modelo());
-            sesion.setAttribute("controlador", controlador);
-            sesion.setAttribute("vista", controlador.obtieneVista());
+            try{
+                controlador = new Controlador(new Modelo());
+                sesion.setAttribute("controlador", controlador);
+                sesion.setAttribute("vista", controlador.obtieneVista());
+            } catch (ErrorInicioSistema ex){
+                response.getWriter().println("La hemos liao parda");
+            }
         }
         response.encodeURL("pelicula.jsp");
 %>

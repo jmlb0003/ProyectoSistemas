@@ -59,6 +59,8 @@
             sesion.setAttribute("controlador", controlador);
             sesion.setAttribute("vista", controlador.obtieneVista());
         }
+        response.encodeURL("index.jsp");
+
 %>
     </header>
     

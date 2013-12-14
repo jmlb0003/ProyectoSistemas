@@ -34,6 +34,7 @@
             sesion.setAttribute("controlador", controlador);
             sesion.setAttribute("vista", controlador.obtieneVista());
         }
+        response.encodeURL("busqueda.jsp");
 %>
     </header>
     
@@ -80,7 +81,9 @@
             </div>
 
             <div id="contenido">
-                    <% String consulta = request.getParameter("consulta");
+                    <% 
+            
+                    String consulta = request.getParameter("consulta");
                     List<Pelicula> peliculas = null;
                     if (consulta != null){
                         vista.setDetallesBusqueda(consulta);

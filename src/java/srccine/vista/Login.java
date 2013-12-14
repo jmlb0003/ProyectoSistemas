@@ -23,6 +23,7 @@ public class Login extends HttpServlet{
         
         Map<String, Object> datosLogin = new HashMap();
         HttpSession sc = request.getSession();
+        response.encodeURL("Login");
         ControladorInterface controlador = (ControladorInterface) sc.getAttribute("controlador");
         if (controlador != null){            
             datosLogin.put("idUsuario", request.getParameter("idUsuario"));

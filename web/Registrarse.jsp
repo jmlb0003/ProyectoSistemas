@@ -30,6 +30,8 @@
             sesion.setAttribute("controlador", controlador);
             sesion.setAttribute("vista", controlador.obtieneVista());
         }
+        response.encodeURL("Registrarse.jsp");
+
         
 %>            
     </header>
@@ -67,8 +69,10 @@
                 </div>              
 
                 <div id="buscar">              
-                  <input type="text" class="input-xlarge search-query" placeholder="Ej. Los juegos del hambre">
-                  <button type="submit" class="btn"> Buscar </button>                   
+                    <form action="busqueda.jsp" method="post">
+                        <input name="consulta" type="text" class="input-xlarge search-query" placeholder="Ej. Los juegos del hambre">
+                        <button type="submit" class="btn"> Buscar </button>      
+                    </form>                 
                 </div>
             </div>
             

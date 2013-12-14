@@ -24,6 +24,7 @@ public class Registro extends HttpServlet {
         
         Map<String, Object> datosRegistro = new HashMap();
         HttpSession sc = request.getSession();
+        response.encodeURL("Registro");
         ControladorInterface controlador = (ControladorInterface) sc.getAttribute("controlador");
         int dia, mes, ano;
         if (controlador != null){       

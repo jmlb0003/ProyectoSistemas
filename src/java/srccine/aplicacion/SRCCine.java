@@ -1,9 +1,11 @@
 package srccine.aplicacion;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import srccine.controlador.Controlador;
 import srccine.modelo.Modelo;
+import srccine.modelo.Pelicula;
 import srccine.modelo.excepciones.ErrorGrabarModeloSimilitud;
 import srccine.modelo.excepciones.ErrorLecturaFichero;
 import srccine.modelo.excepciones.ErrorLeerModeloSimilitud;
@@ -23,8 +25,11 @@ public class SRCCine {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-            Controlador m = new Controlador(new Modelo());
-
+        Controlador m = new Controlador(new Modelo());
+        List<Pelicula> obtieneMejoresPeliculas = m.obtieneMejoresPeliculas();
+        if (obtieneMejoresPeliculas!=null){
+            System.out.println(obtieneMejoresPeliculas.size());
+        }
     }
     
 }

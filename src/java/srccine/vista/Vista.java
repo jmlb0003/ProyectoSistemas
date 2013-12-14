@@ -2,28 +2,25 @@
 package srccine.vista;
 
 import java.util.Map;
-import srccine.controlador.ControladorInterface;
-import srccine.modelo.ModeloInterface;
 
 /**
  *
  * @author José
  */
 public class Vista implements VistaInterface {
-
-    private ModeloInterface _modelo;
-    private ControladorInterface _controlador; 
     private Map<String, Object> _detallesRegistro; 
     private Map<String, Object> _detallesLogin;
     private String _detallesBusqueda;
-    private Long _idPeliculaSeleccionada;
+    private long _idPeliculaSeleccionada;
     private Map<String, Object> _detallesValoracion;
     
     //Quitar que esto es de prueba
-    public Vista(ModeloInterface modelo, ControladorInterface controlador) {
-            _modelo = modelo;
-            _controlador = controlador;
+    public Vista() {
             _detallesRegistro = null;
+            _detallesLogin = null;
+            _detallesBusqueda = "";
+            _idPeliculaSeleccionada = (long) 0;
+            _detallesValoracion = null;            
     }
     
     @Override

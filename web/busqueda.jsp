@@ -1,5 +1,5 @@
 <%-- 
-    Document   : busqueda
+    Document   : busqueda de peliculas
     Created on : 14-dic-2013, 1:24:25
     Author     : Jesus
 --%>

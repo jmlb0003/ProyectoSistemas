@@ -310,4 +310,9 @@ public class Modelo implements ModeloInterface{
     public List<Pelicula> buscaPeliculasMejorValoradas(){
         return DAOPelicula.instancia().getMejorValoradas();
     }
+
+    @Override
+    public void anadeRecomendacion(List<Recomendacion> l) throws ErrorInsertarRecomendacion{
+        DAORecomendacion.instancia().insert(l);
+    }
 }

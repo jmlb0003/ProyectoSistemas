@@ -2,6 +2,8 @@
 package srccine.vista;
 
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -71,5 +73,8 @@ public class Vista implements VistaInterface {
     public void setValoracion(Map<String, Object> valoracion){
         _detallesValoracion = valoracion;
     }
-   
+    
+    public void notificarError(HttpServletRequest request, HttpServletResponse response){
+        
+    }
 }

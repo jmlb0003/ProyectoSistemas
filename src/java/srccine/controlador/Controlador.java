@@ -76,7 +76,6 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
             //El controlador tiene que crear la vista y hace que se muestre y que 
             //inicie la ejecucion del ciclo de eventos
             _vista = new Vista(_modelo, this);
-            _vista.mostrarVentanaPrincipal();
             
             /**
              * El controlador se registra a sí mismo como observador de la lista

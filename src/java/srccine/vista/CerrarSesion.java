@@ -16,29 +16,17 @@ import srccine.controlador.ErrorUsuarioIdentificado;
  * Clase 
  * @author Jesus
  */
-public class Login extends HttpServlet{
+public class CerrarSesion extends HttpServlet{
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        Map<String, Object> datosLogin = new HashMap();
         HttpSession sc = request.getSession();
-        response.encodeURL("Login");
+        response.encodeURL("CerrarSesion");
         ControladorInterface controlador = (ControladorInterface) sc.getAttribute("controlador");
-        if (controlador != null){            
-            datosLogin.put("idUsuario", request.getParameter("idUsuario"));
-            datosLogin.put("clave", request.getParameter("clave"));
-           
-            //Proporcionamos los datos a la vista
-            VistaInterface vista = (VistaInterface) sc.getAttribute("vista");
-            vista.setDetallesLogin(datosLogin);
+        if (controlador != null){ 
             
-            try {
-                controlador.peticionIniciarSesion();
-            } catch (ErrorUsuarioIdentificado ex) {
-                notificarError (request, response, "Identificacion incorrecta", 
-                        "No se ha podido iniciar sesion con los datos de usuario introducidos", "index.jsp"); 
-            }
+            controlador.peticionCerrarSesion();
                         
             //Te devuelve a la pagina de inicio, recogiendo los posibles errores que haya
             try {
@@ -73,7 +61,7 @@ public class Login extends HttpServlet{
      * Returns a short description of the servlet.
      */
     public String getServletInfo() {
-        return "Inicio de sesion";
+        return "Cierre de sesion";
     }
     
     /** 

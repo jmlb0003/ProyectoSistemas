@@ -49,7 +49,7 @@
 
             <% if (controlador.obtieneUsuarioIdentificado()==null){%>
                 <div id="login">
-                <form action="Login" method="post" >
+                <form action="IniciarSesion" method="post" >
                     <input name="idUsuario" type="text" class="input-medium search-query" placeholder="Usuario">
                     <input name="clave" type="password" class="input-medium search-query" placeholder="Contraseña">            
                     <button type="submit" class="btn">Entrar</button>
@@ -65,8 +65,10 @@
                 </div>    
             <% }else{ %>
                 <div id="login">
-                    <p > <%= controlador.obtieneUsuarioIdentificado().obtieneID() %> </p>                   
-                    <button type="submit" class="btn">Cerrar Sesión</button>                    
+                    <form action="CerrarSesion" method="post">
+                        <p> Bienvenido/a <%= controlador.obtieneUsuarioIdentificado().obtieneID() %> </p>                   
+                        <button type="submit" class="btn">Cerrar Sesión</button> 
+                    </form>
                 </div> 
             <% }   %>       
                 <div id="logo">              
@@ -104,53 +106,41 @@
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
-                            <p> Valoración:
-                                <%
-                                int valoracion;
-                                if(controlador.obtieneUsuarioIdentificado()!=null){      
-                                    valoracion=controlador.obtieneUsuarioIdentificado().obtieneValoraciones().get(pelicula.obtieneID()).getPuntuacion();                             
-                                }else{
-                                    valoracion=0;
-                                }
-                                 
-                                              for(int i=1;i<=valoracion;i++){
-                                %>
+                            <p>Valoración:
+                                <%  int valoracion = 0;
+                                    if(controlador.obtieneUsuarioIdentificado()!=null){ 
+                                        if (controlador.obtieneUsuarioIdentificado().obtieneValoraciones().containsKey(pelicula.obtieneID())){
+                                            valoracion=controlador.obtieneUsuarioIdentificado().obtieneValoraciones().get(pelicula.obtieneID()).getPuntuacion();
+                                        }
+                                    }
+                                    //Obtenemos la valoración  
+                                    for(int i=1;i<=valoracion;i++){ %>
                                     <img src="img/estrellaAmarilla.png" ALT="valoracion">
-                                <%        
-                                              }
-                                              for(int i=1;i<=5-valoracion;i++){
-                                %>
+                                <%  }
+                                    for(int i=1;i<=5-valoracion;i++){ %>
                                     <img src="img/estrellaGris.png" ALT="valoracion">
-                                <%        
-                                              }
-                                %>                   
-                            </p> 
+                                <%  } %>                   
+                            </p>  
                         </td>
                                 <% }%>
                     </tr>  <% } %> 
                     </table>
                             
-                <% }else{ %>                        
+                <%  }else{ %>                        
                     No se encontraron resultados o no introdujo ninguna consulta        
-                    <%  } }else{ 
+                <%  } 
+            }else{ 
                 Map mapa = request.getParameterMap();
-                
                 Iterator it= mapa.entrySet().iterator();
-                while (it.hasNext()){
-                
-                 
-                %> <%= it.next()%> 
-                    <% }
+                while (it.hasNext()){%> 
+                <%= it.next()%> 
+            <%  }
             } %>
             </div>
 
             <div id="pie">
                 
             </div>
-          
-          
-
-        
       </div>
 
      <footer>

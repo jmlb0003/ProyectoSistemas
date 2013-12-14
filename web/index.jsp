@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
     Created on : 24-nov-2013, 18:30:17
-    Author     : Sonia g
+    Author     : Sonia ga
 --%>
 
 <%@page import="java.util.List"%>
@@ -122,7 +122,22 @@
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
-                            <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>
+                            <p> Valoración:
+                                <%
+                                int valoracion=(int) pelicula.obtieneMedia();
+                                   //Obtenemos la valoración  
+                                              for(int i=1;i<=valoracion;i++){
+                                %>
+                                    <img src="img/estrellaAmarilla.png" ALT="valoracion">
+                                <%        
+                                              }
+                                              for(int i=1;i<=5-valoracion;i++){
+                                %>
+                                    <img src="img/estrellaGris.png" ALT="valoracion">
+                                <%        
+                                              }
+                                %>                   
+                            </p> 
                         </td>
                                 <% }%>
                     </tr>  <% }
@@ -138,9 +153,9 @@
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
-                       <p> Valoración:
+                         <p> Valoración:
                             <%
-                            int valoracion=2;
+                            int valoracion=(int) pelicula.obtieneMedia();
                                //Obtenemos la valoración  
                                           for(int i=1;i<=valoracion;i++){
                             %>
@@ -154,7 +169,7 @@
                                           }
                             %>
                      
-                           </p>      
+                          </p>      
                         </td>
                             <% } %>
                     </tr>  <% }
@@ -169,12 +184,16 @@
 <%                          for (int c=1; c<6 && iterator.hasNext();c++){
                                 Pelicula pelicula = iterator.next(); %> 
                         <td height="25%">                      
-                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
+                            <%--<a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
+                            --%>
+                            <a href="pelicula.jsp"> <img src="img/pelicula.png" ALT="Foto película"> </a>
+
+                            
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
                        <p> Valoración:
                             <%
-                            int valoracion=2;
+                            int valoracion = (int) pelicula.obtieneMedia();
                                //Obtenemos la valoración  
                                           for(int i=1;i<=valoracion;i++){
                             %>

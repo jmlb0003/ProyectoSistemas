@@ -59,8 +59,6 @@ public class Modelo implements ModeloInterface{
             ErrorInsertarUsuario, ErrorGrabarModeloSimilitud, ErrorInsertarRecomendacion{
         
         crearConexionBBDD();
-        importarDatos();
-
         // Comprueba si la base de datos esta vacia
         if (DAOPelicula.instancia().getNumPeliculas()==0){
             // importa el conjunto de datos desde ficheros
@@ -70,7 +68,6 @@ public class Modelo implements ModeloInterface{
             cargarModeloSimilitud();    
             _peliculas = DAOPelicula.instancia().get();
         }
-        
         notificarObservadorNuevoUsuario();
     }
     

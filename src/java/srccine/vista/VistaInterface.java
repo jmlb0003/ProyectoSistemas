@@ -8,8 +8,6 @@ import java.util.Map;
  */
 public interface VistaInterface {
 
-    public void mostrarVentanaPrincipal();
-
     public Map obtenerValoracionPelicula();
     
     public Map obtenerDetallesNuevoUsuario();
@@ -25,5 +23,9 @@ public interface VistaInterface {
     public void setDetallesLogin(Map<String, Object> datosLogin);
 
     public void setDetallesBusqueda(String consulta);
+    
+    public void setPeliculaSeleccionada(Long idPelicula);
+    
+    public void setValoracion(Map<String, Object> valoracion);
     
 }

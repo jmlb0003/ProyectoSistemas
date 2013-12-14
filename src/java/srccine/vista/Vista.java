@@ -16,18 +16,14 @@ public class Vista implements VistaInterface {
     private Map<String, Object> _detallesRegistro; 
     private Map<String, Object> _detallesLogin;
     private String _detallesBusqueda;
+    private Long _idPeliculaSeleccionada;
+    private Map<String, Object> _detallesValoracion;
     
     //Quitar que esto es de prueba
     public Vista(ModeloInterface modelo, ControladorInterface controlador) {
             _modelo = modelo;
             _controlador = controlador;
             _detallesRegistro = null;
-    }
-   
-    //Quitar que esto es de prueba
-    @Override
-    public void mostrarVentanaPrincipal(){
-        
     }
     
     @Override
@@ -37,7 +33,7 @@ public class Vista implements VistaInterface {
 
     @Override
     public Map obtenerValoracionPelicula() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return _detallesValoracion;
     }
 
     @Override
@@ -52,7 +48,7 @@ public class Vista implements VistaInterface {
 
     @Override
     public Long obtenerIDPelicula() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return _idPeliculaSeleccionada;
     }
 
     @Override
@@ -68,7 +64,15 @@ public class Vista implements VistaInterface {
     @Override
     public void setDetallesBusqueda(String consulta){
         _detallesBusqueda = consulta;
+    }    
+    
+    @Override
+    public void setPeliculaSeleccionada(Long idPelicula){
+        _idPeliculaSeleccionada = idPelicula;
     }
 
-            
+    public void setValoracion(Map<String, Object> valoracion){
+        _detallesValoracion = valoracion;
+    }
+   
 }

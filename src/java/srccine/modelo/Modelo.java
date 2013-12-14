@@ -65,13 +65,11 @@ public class Modelo implements ModeloInterface{
             importarDatos();
         }else{
             // Carga el modelo de similitud desde disco
-            System.out.println("cargadno modelo");
-            cargarModeloSimilitud();              System.out.println("cargado");
+            cargarModeloSimilitud();
   
-            _peliculas = DAOPelicula.instancia().get();            System.out.println("peliculas");
-
+            //_peliculas = DAOPelicula.instancia().get();
         }
-        notificarObservadorNuevoUsuario();
+        //notificarObservadorNuevoUsuario();
     }
     
     /**

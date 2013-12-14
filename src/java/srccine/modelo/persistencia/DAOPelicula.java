@@ -192,8 +192,7 @@ public class DAOPelicula {
     public List get(String titulo) {
         EntityManager em=GestorPersistencia.instancia().getEntityManager();
                 
-        Query consulta = em.createQuery("SELECT p FROM Pelicula p Where p._titulo LIKE '%:consulta%'").
-                setParameter("consulta", titulo);
+        Query consulta = em.createQuery("SELECT p FROM Pelicula p Where p._titulo LIKE '%"+titulo+"%' ORDER BY p._media DESC");
         
         return consulta.getResultList();
     }    
@@ -205,7 +204,7 @@ public class DAOPelicula {
     public List getMejorValoradas() {
         EntityManager em=GestorPersistencia.instancia().getEntityManager();
                 
-        Query consulta = em.createQuery("SELECT p FROM Pelicula p ORDER BY p._media DESC LIMIT "+srccine.modelo.Modelo.NUM_RECOMENDACIONES);        
+        Query consulta = em.createQuery("SELECT p FROM Pelicula p ORDER BY p._media DESC LIMIT "+ srccine.modelo.Modelo.NUM_RECOMENDACIONES);        
         return consulta.getResultList();
     }
     

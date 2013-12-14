@@ -4,6 +4,7 @@
     Author     : Jesus
 --%>
 
+<%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
 <%@page import="srccine.vista.VistaInterface"%>
 <%@page import="srccine.modelo.Pelicula"%>
@@ -82,7 +83,7 @@
 
             <div id="contenido">
                     <% 
-            
+            if (request.getParameter("consulta") != null){
                     String consulta = request.getParameter("consulta");
                     List<Pelicula> peliculas = null;
                     if (consulta != null){
@@ -111,7 +112,16 @@
                             
                 <% }else{ %>                        
                     No se encontraron resultados o no introdujo ninguna consulta        
-                  <%  } %> 
+                    <%  } }else{ 
+                Map mapa = request.getParameterMap();
+                
+                Iterator it= mapa.entrySet().iterator();
+                while (it.hasNext()){
+                
+                 
+                %> <%= it.next()%> 
+                    <% }
+            } %>
             </div>
 
             <div id="pie">

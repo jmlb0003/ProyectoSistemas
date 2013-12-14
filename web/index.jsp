@@ -4,6 +4,7 @@
     Author     : Sonia g
 --%>
 
+<%@page import="java.util.List"%>
 <%@page import="srccine.modelo.Pelicula"%>
 <%@page import="srccine.modelo.Recomendacion"%>
 <%@page import="java.util.Iterator"%>
@@ -126,8 +127,10 @@
                                 <% }%>
                     </tr>  <% }
                         }else{                        
-                            Iterator<Pelicula> iterator = controlador.obtieneMejoresPeliculas().iterator(); 
-                            for (int f=1; f<4 && iterator.hasNext();f++){ %>
+                        List mejoresPeliculas = controlador.obtieneMejoresPeliculas();
+                        if (mejoresPeliculas!=null){
+                        Iterator<Pelicula> iterator = mejoresPeliculas.iterator(); 
+                        for (int f=1; f<4 && iterator.hasNext();f++){ %>
                     <tr> 
 <%                              for (int c=1; c<6 && iterator.hasNext();c++){
                                     Pelicula pelicula = iterator.next(); %> 
@@ -155,9 +158,12 @@
                         </td>
                             <% } %>
                     </tr>  <% }
+                        }
                         }                        
                     }else{
-                        Iterator<Pelicula> iterator = controlador.obtieneMejoresPeliculas().iterator(); 
+                        List mejoresPeliculas = controlador.obtieneMejoresPeliculas();
+                        if (mejoresPeliculas!=null){
+                        Iterator<Pelicula> iterator = mejoresPeliculas.iterator(); 
                         for (int f=1; f<4 && iterator.hasNext();f++){ %>
                     <tr> 
 <%                          for (int c=1; c<6 && iterator.hasNext();c++){
@@ -186,6 +192,7 @@
                         </td>
                         <% } %>
                     </tr>  <% }
+                        }
                     } %> 
                </table>
             </div>

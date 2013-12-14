@@ -65,6 +65,7 @@ public class Vista implements VistaInterface {
         _detallesLogin = datosLogin;
     }
     
+    @Override
     public void setDetallesBusqueda(String consulta){
         _detallesBusqueda = consulta;
     }

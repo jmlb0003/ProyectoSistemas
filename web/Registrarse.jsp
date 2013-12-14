@@ -1,7 +1,7 @@
 <%-- 
     Document   : Registrarse 
     Created on : 30-nov-2013, 12:18:17
-    Author     : Sonia ga
+    Author     : Sonia g
 --%>   
 
 <%@page import="java.util.GregorianCalendar"%>

@@ -1,11 +1,14 @@
 package srccine.controlador;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 import srccine.modelo.ModeloInterface;
 import srccine.modelo.ObservadorNuevoUsuario;
 import srccine.modelo.Pelicula;
+import srccine.modelo.Recomendacion;
 import srccine.modelo.Usuario;
 import srccine.modelo.Valoracion;
 import srccine.modelo.excepciones.*;
@@ -98,7 +101,9 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
             _peliculaSeleccionada.anadeValoracion(idUsuario, v);
             
             _modelo.actualizarUsuario(_usuarioIdentificado);
-            _modelo.actualizarPelicula(_peliculaSeleccionada); 
+            _modelo.actualizarPelicula(_peliculaSeleccionada);
+            
+            new LanzarRecomendaciones().start();            
             
         } catch (ErrorActualizarUsuario  ex) {
             throw new ErrorValoraPelicula();
@@ -212,4 +217,24 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
         return _peliculaSeleccionada;
     }
     
+private class LanzarRecomendaciones extends Thread{
+        
+    public LanzarRecomendaciones(){
+    }
+    public void run(){
+        try {
+            List<Recomendacion> l = new ArrayList();
+            Usuario usuario = _usuarioIdentificado;
+            TreeSet<Recomendacion> recibirRecomendaciones = (TreeSet<Recomendacion>) _modelo.recibirRecomendaciones(usuario);
+            usuario.anadeRecomendaciones(recibirRecomendaciones);
+            _modelo.actualizarUsuario(usuario);
+            l.addAll(recibirRecomendaciones.descendingSet());
+           _modelo.anadeRecomendacion(l);
+        } catch (ErrorActualizarUsuario ex) {
+        } catch (ErrorInsertarRecomendacion ex) {
+        }
+    } 
 }
+   
+}
+

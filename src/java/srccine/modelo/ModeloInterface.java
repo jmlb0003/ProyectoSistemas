@@ -48,5 +48,7 @@ public interface ModeloInterface {
     public SortedSet<Recomendacion> recibirRecomendaciones(Usuario u);
     
     public void registrarObservadorNuevoUsuario(ObservadorNuevoUsuario o);
+
+    public void anadeRecomendacion(List<Recomendacion> l) throws ErrorInsertarRecomendacion;
     
 }

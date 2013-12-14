@@ -1,6 +1,8 @@
 package srccine.vista;
 
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -27,5 +29,7 @@ public interface VistaInterface {
     public void setPeliculaSeleccionada(Long idPelicula);
     
     public void setValoracion(Map<String, Object> valoracion);
+    
+    public void notificarError(HttpServletRequest request, HttpServletResponse response);
     
 }

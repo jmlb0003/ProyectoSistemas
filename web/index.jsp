@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
     Created on : 24-nov-2013, 18:30:17
-    Author     : Sonia g
+    Author     : Sonia ga
 --%>
 
 <%@page import="srccine.modelo.Pelicula"%>

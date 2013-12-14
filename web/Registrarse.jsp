@@ -30,9 +30,7 @@
             sesion.setAttribute("controlador", controlador);
             sesion.setAttribute("vista", controlador.obtieneVista());
         }
-        response.encodeURL("Registrarse.jsp");
-
-        
+        response.encodeURL("Registrarse.jsp");        
 %>            
     </header>
     <body>
@@ -46,7 +44,7 @@
 
             <% if (controlador.obtieneUsuarioIdentificado()==null){%>
                 <div id="login">
-                <form action="Login" method="post" >
+                <form action="IniciarSesion" method="post" >
                     <input name="idUsuario" type="text" class="input-medium search-query" placeholder="Usuario">
                     <input name="clave" type="password" class="input-medium search-query" placeholder="Contraseña">            
                     <button type="submit" class="btn">Entrar</button>
@@ -62,8 +60,10 @@
                 </div>    
             <% }else{ %>
                 <div id="login">
-                    <p > <%= controlador.obtieneUsuarioIdentificado().obtieneID() %> </p>                   
-                    <button type="submit" class="btn">Cerrar Sesión</button>                    
+                    <form action="CerrarSesion" method="post">
+                        <p> Bienvenido/a <%= controlador.obtieneUsuarioIdentificado().obtieneID() %> </p>                   
+                        <button type="submit" class="btn">Cerrar Sesión</button> 
+                    </form>
                 </div> 
             <% }   %>       
                 <div id="logo">              

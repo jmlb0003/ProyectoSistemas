@@ -7,14 +7,22 @@
     <servlet-mapping>
         <servlet-name>Registro</servlet-name>
         <url-pattern>/Registro</url-pattern>
-    </servlet-mapping> 
+    </servlet-mapping>
     <servlet>
-        <servlet-name>Login</servlet-name>
-        <servlet-class>srccine.vista.Login</servlet-class>
+        <servlet-name>IniciarSesion</servlet-name>
+        <servlet-class>srccine.vista.IniciarSesion</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Login</servlet-name>
-        <url-pattern>/Login</url-pattern>
+        <servlet-name>IniciarSesion</servlet-name>
+        <url-pattern>/IniciarSesion</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>CerrarSesion</servlet-name>
+        <servlet-class>srccine.vista.CerrarSesion</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CerrarSesion</servlet-name>
+        <url-pattern>/CerrarSesion</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

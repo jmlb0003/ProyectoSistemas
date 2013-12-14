@@ -61,7 +61,6 @@
             sesion.setAttribute("vista", controlador.obtieneVista());
         }
         response.encodeURL("index.jsp");
-
 %>
     </header>
     
@@ -73,18 +72,17 @@
           
             <div id="cabecera">
 
-            <%
-               if (controlador.obtieneUsuarioIdentificado()==null){%>
+            <% if (controlador.obtieneUsuarioIdentificado()==null){%>
                 <div id="login">
-                <form action="Login" method="post" >
-                    <input name="idUsuario" type="text" class="input-medium search-query" placeholder="Usuario">
-                    <input name="clave" type="password" class="input-medium search-query" placeholder="Contraseña">            
-                    <button type="submit" class="btn">Entrar</button>
-                    <br>
-                    <label class="checkbox">
-                        <input type="checkbox"> Recordarme
-                    </label> 
-                </form>
+                    <form action="IniciarSesion" method="post" >
+                        <input name="idUsuario" type="text" class="input-medium search-query" placeholder="Usuario">
+                        <input name="clave" type="password" class="input-medium search-query" placeholder="Contraseña">            
+                        <button type="submit" class="btn">Entrar</button>
+                        <br>
+                        <label class="checkbox">
+                            <input type="checkbox"> Recordarme
+                        </label> 
+                    </form>
                 </div>    
 
                 <div id="registrarse"> 
@@ -92,8 +90,10 @@
                 </div>    
             <% }else{ %>
                 <div id="login">
-                    <p > Bienvenido/a <%= controlador.obtieneUsuarioIdentificado().obtieneID() %> </p>                   
-                    <button type="submit" class="btn" href="index.jsp">Cerrar Sesión</button>                    
+                    <form action="CerrarSesion" method="post">
+                        <p> Bienvenido/a <%= controlador.obtieneUsuarioIdentificado().obtieneID() %> </p>                   
+                        <button type="submit" class="btn">Cerrar Sesión</button> 
+                    </form>
                 </div> 
             <% }   %>       
                 <div id="logo">              
@@ -123,22 +123,20 @@
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
-                            <p> Valoración:
-                                <%
-                                
-                                int valoracion=(int) usuario.obtieneValoraciones().get(pelicula.obtieneID()).getPuntuacion();
-                                   //Obtenemos la valoración  
-                                              for(int i=1;i<=valoracion;i++){
-                                %>
+                            <p>Valoración:
+                                <%  int valoracion = 0;
+                                    if(controlador.obtieneUsuarioIdentificado()!=null){ 
+                                        if (controlador.obtieneUsuarioIdentificado().obtieneValoraciones().containsKey(pelicula.obtieneID())){
+                                            valoracion=controlador.obtieneUsuarioIdentificado().obtieneValoraciones().get(pelicula.obtieneID()).getPuntuacion();
+                                        }
+                                    }
+                                    //Obtenemos la valoración  
+                                    for(int i=1;i<=valoracion;i++){ %>
                                     <img src="img/estrellaAmarilla.png" ALT="valoracion">
-                                <%        
-                                              }
-                                              for(int i=1;i<=5-valoracion;i++){
-                                %>
+                                <%  }
+                                    for(int i=1;i<=5-valoracion;i++){ %>
                                     <img src="img/estrellaGris.png" ALT="valoracion">
-                                <%        
-                                              }
-                                %>                   
+                                <%  } %>                   
                             </p> 
                         </td>
                                 <% }%>
@@ -149,66 +147,55 @@
                         Iterator<Pelicula> iterator = mejoresPeliculas.iterator(); 
                         for (int f=1; f<4 && iterator.hasNext();f++){ %>
                     <tr> 
-<%                              for (int c=1; c<6 && iterator.hasNext();c++){
-                                    Pelicula pelicula = iterator.next(); %> 
+<%                          for (int c=1; c<6 && iterator.hasNext();c++){
+                                Pelicula pelicula = iterator.next(); %> 
                         <td height="25%">                      
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
-                         <p> Valoración:
+                            <p>Valoración:
                             <%
-                            int valoracion=0;
-                               //Obtenemos la valoración  
-                                          for(int i=1;i<=valoracion;i++){
-                            %>
-                                <img src="img/estrellaAmarilla.png" ALT="valoracion">
-                            <%        
-                                          }
-                                          for(int i=1;i<=5-valoracion;i++){
-                            %>
-                                <img src="img/estrellaGris.png" ALT="valoracion">
-                            <%        
-                                          }
-                            %>
-                     
-                          </p>      
+                                int valoracion=0;
+                                //Obtenemos la valoración  
+                                for(int i=1;i<=valoracion;i++){ %>
+                            <img src="img/estrellaAmarilla.png" ALT="valoracion">
+                           <%   }
+                                for(int i=1;i<=5-valoracion;i++){ %>
+                            <img src="img/estrellaGris.png" ALT="valoracion">
+                        <%      } %>
+                            </p>      
                         </td>
-                            <% } %>
-                    </tr>  <% }
-                        }
-                        } 
-                    //No hay usuario identificado
-                    }else{
-                        List mejoresPeliculas = controlador.obtieneMejoresPeliculas();
-                        if (mejoresPeliculas!=null){
-                        Iterator<Pelicula> iterator = mejoresPeliculas.iterator(); 
-                        for (int f=1; f<4 && iterator.hasNext();f++){ %>
+                    <%      } %>
+                    </tr>  
+                <%      }
+                    }
+                } 
+            //No hay usuario identificado
+            }else{
+                    List mejoresPeliculas = controlador.obtieneMejoresPeliculas();
+                    if (mejoresPeliculas!=null){
+                    Iterator<Pelicula> iterator = mejoresPeliculas.iterator(); 
+                    for (int f=1; f<4 && iterator.hasNext();f++){ %>
                     <tr> 
-<%                          for (int c=1; c<6 && iterator.hasNext();c++){
-                                Pelicula pelicula = iterator.next(); %> 
+<%                      for (int c=1; c<6 && iterator.hasNext();c++){
+                            Pelicula pelicula = iterator.next(); %> 
                         <td height="25%">                      
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>                                                                               
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
-                       <p> Valoración:
+                            <p>Valoración:
                             <%
-                            int valoracion = 0;
-                               
-                                          for(int i=1;i<=valoracion;i++){
-                            %>
-                                <img src="img/estrellaAmarilla.png" ALT="valoracion">
-                            <%        
-                                          }
-                                          for(int i=1;i<=5-valoracion;i++){
-                            %>
-                                <img src="img/estrellaGris.png" ALT="valoracion">
-                            <%        
-                                          }
-                            %>
-                     
-                           </p>      
+                            int valoracion=0;
+                            //Obtenemos la valoración  
+                            for(int i=1;i<=valoracion;i++){ %>
+                            <img src="img/estrellaAmarilla.png" ALT="valoracion">
+                        <%  }
+                            for(int i=1;i<=5-valoracion;i++){ %>
+                            <img src="img/estrellaGris.png" ALT="valoracion">
+                        <%  } %>
+                            </p>     
                         </td>
-                        <% } %>
+                    <% } %>
                     </tr>  <% }
                         }
                     } %> 
@@ -218,10 +205,6 @@
             <div id="pie">
                 
             </div>
-          
-          
-
-        
       </div>
 
      <footer>

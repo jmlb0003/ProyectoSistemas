@@ -73,7 +73,8 @@
           
             <div id="cabecera">
 
-            <% if (controlador.obtieneUsuarioIdentificado()==null){%>
+            <%
+               if (controlador.obtieneUsuarioIdentificado()==null){%>
                 <div id="login">
                 <form action="Login" method="post" >
                     <input name="idUsuario" type="text" class="input-medium search-query" placeholder="Usuario">
@@ -91,8 +92,8 @@
                 </div>    
             <% }else{ %>
                 <div id="login">
-                    <p > <%= controlador.obtieneUsuarioIdentificado().obtieneID() %> </p>                   
-                    <button type="submit" class="btn">Cerrar Sesión</button>                    
+                    <p > Bienvenido/a <%= controlador.obtieneUsuarioIdentificado().obtieneID() %> </p>                   
+                    <button type="submit" class="btn" href="index.jsp">Cerrar Sesión</button>                    
                 </div> 
             <% }   %>       
                 <div id="logo">              
@@ -124,7 +125,8 @@
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
                             <p> Valoración:
                                 <%
-                                int valoracion=(int) pelicula.obtieneMedia();
+                                
+                                int valoracion=(int) usuario.obtieneValoraciones().get(pelicula.obtieneID()).getPuntuacion();
                                    //Obtenemos la valoración  
                                               for(int i=1;i<=valoracion;i++){
                                 %>
@@ -155,7 +157,7 @@
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
                          <p> Valoración:
                             <%
-                            int valoracion=(int) pelicula.obtieneMedia();
+                            int valoracion=0;
                                //Obtenemos la valoración  
                                           for(int i=1;i<=valoracion;i++){
                             %>
@@ -185,17 +187,13 @@
 <%                          for (int c=1; c<6 && iterator.hasNext();c++){
                                 Pelicula pelicula = iterator.next(); %> 
                         <td height="25%">                      
-                            <%--<a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
-                            --%>
-                            <a href="pelicula.jsp"> <img src="img/pelicula.png" ALT="Foto película"> </a>
-
-                            
+                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>                                                                               
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
                        <p> Valoración:
                             <%
-                            int valoracion = (int) pelicula.obtieneMedia();
-                               //Obtenemos la valoración  
+                            int valoracion = 0;
+                               
                                           for(int i=1;i<=valoracion;i++){
                             %>
                                 <img src="img/estrellaAmarilla.png" ALT="valoracion">

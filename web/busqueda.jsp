@@ -5,12 +5,9 @@
 --%>
 
 <%@page import="java.util.List"%>
-<%@page import="java.util.ArrayList"%>
 <%@page import="srccine.vista.VistaInterface"%>
 <%@page import="srccine.modelo.Pelicula"%>
-<%@page import="srccine.modelo.Recomendacion"%>
 <%@page import="java.util.Iterator"%>
-<%@page import="srccine.modelo.Usuario"%>
 <%@page import="srccine.modelo.Modelo"%>
 <%@page import="srccine.controlador.Controlador"%>
 <%@page import="srccine.controlador.ControladorInterface"%>
@@ -101,7 +98,7 @@
                                     Pelicula pelicula = iterator.next(); %> 
                         <td height="25%">                      
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
-                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneDetalles().obtieneDetalle("titulo") %></p> </a>
+                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
                             <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>
                         </td>

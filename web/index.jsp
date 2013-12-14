@@ -117,7 +117,7 @@
                                     Pelicula pelicula = recomendacion.getPelicula(); %> 
                         <td height="25%">                      
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
-                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneDetalles().obtieneDetalle("titulo") %></p> </a>
+                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
                             <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>
                         </td>
@@ -131,7 +131,7 @@
                                     Pelicula pelicula = iterator.next(); %> 
                         <td height="25%">                      
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
-                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneDetalles().obtieneDetalle("titulo") %></p> </a>
+                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
                        <p> Valoración:
                             <%
@@ -162,7 +162,7 @@
                                 Pelicula pelicula = iterator.next(); %> 
                         <td height="25%">                      
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
-                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneDetalles().obtieneDetalle("titulo") %></p> </a>
+                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
                        <p> Valoración:
                             <%

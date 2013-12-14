@@ -104,7 +104,27 @@
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
-                            <p> Valoración: <img src="img/sinvalorar.png" ALT="valoracion"></p>
+                            <p> Valoración:
+                                <%
+                                int valoracion;
+                                if(controlador.obtieneUsuarioIdentificado()!=null){      
+                                    valoracion=controlador.obtieneUsuarioIdentificado().obtieneValoraciones().get(pelicula.obtieneID()).getPuntuacion();                             
+                                }else{
+                                    valoracion=0;
+                                }
+                                 
+                                              for(int i=1;i<=valoracion;i++){
+                                %>
+                                    <img src="img/estrellaAmarilla.png" ALT="valoracion">
+                                <%        
+                                              }
+                                              for(int i=1;i<=5-valoracion;i++){
+                                %>
+                                    <img src="img/estrellaGris.png" ALT="valoracion">
+                                <%        
+                                              }
+                                %>                   
+                            </p> 
                         </td>
                                 <% }%>
                     </tr>  <% } %> 

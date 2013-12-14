@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import srccine.modelo.DetallesUsuario;
-import srccine.modelo.Modelo;
 import srccine.modelo.ModeloInterface;
 import srccine.modelo.ObservadorNuevoUsuario;
 import srccine.modelo.Pelicula;
@@ -307,6 +305,10 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
     
     public List<Pelicula> obtieneMejoresPeliculas(){
         return _modelo.buscaPeliculasMejorValoradas();
+    }
+
+    public List<Pelicula> obtienePeliculasBuscadas() {
+        return _peliculasBuscadas;
     }
     
 }

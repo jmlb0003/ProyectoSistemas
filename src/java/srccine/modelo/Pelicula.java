@@ -17,17 +17,22 @@ public class Pelicula implements Serializable{
     //Entero long identificador de la pelicula
     @Id
     private long _id;
+    
+    //Titulo de la pelicula
+    private String _titulo;
+      
+    //Suma y media de la pelicula
+    private long _suma;
+    private double _media;  
+        
+    //Valoraciones realizadas sobre la pelicula
+    @OneToMany
+    private Map<String,Valoracion> _valoraciones;
+    
     //Detalles y atributos de la pelicula
     @Column(columnDefinition = "LONGBLOB") 
     private DetallesPelicula _detalles;
     
-    private long _suma;
-
-    private double _media;
-    
-    @OneToMany
-    private Map<String,Valoracion> _valoraciones;
-
     /**
      * Constructor por defecto
      */
@@ -42,14 +47,16 @@ public class Pelicula implements Serializable{
     /**
      * Constructor de Pelicula
      * @param id Long Identificador unico de pelicula
+     * @param titulo String titulo de la pelicula
      * @param detalles Atributos de la pelicula
      */
-    public Pelicula(long id, Map detalles ) {
+    public Pelicula(long id,String titulo, Map detalles ) {
         _id = id;
-        _detalles = new DetallesPelicula(detalles);        
+        _titulo = titulo;
         _suma = 0;
         _media = 0.0;
         _valoraciones = new HashMap();
+        _detalles = new DetallesPelicula(detalles);        
     }    
     
     /**
@@ -93,7 +100,12 @@ public class Pelicula implements Serializable{
     public Long obtieneID(){
         return _id;
     }
-        
+     
+    /**
+     * Añade una valoracion nueva sobre la peli
+     * @param id Id del usuario que realiza la valoracion
+     * @param v Valoracion que se añade a la pelicula
+     */
     public void anadeValoracion(String id, Valoracion v){
         //comprobamos si el usuario valoro previamente la pelicula
         if (_valoraciones.containsKey(id)){
@@ -110,22 +122,30 @@ public class Pelicula implements Serializable{
             _suma += v.getPuntuacion();
             _media = (double) _suma / _valoraciones.size();                
         }             
-    }
+    } 
     
-    public Valoracion obtieneValoracion(String id){
-        return _valoraciones.get(id);
-    }    
-    
+    /**
+     * Devuelve las valoraciones realizadas sobre la pelicula
+     * @return Map<String,Valoracion> valoraciones sobre la peli
+     */
     public Map<String,Valoracion> obtieneValoraciones( ){
         return _valoraciones;
     }    
-    
-    public int numValoraciones(){
-        return _valoraciones.size();
-    }
 
+    /**
+     * Devuelve la nota media de la pelicula
+     * @return Media de la pelicula
+     */
     public double obtieneMedia() {
         return _media;
+    }
+
+    /**
+     * Devuelve el titulo de la pelicula
+     * @return Titulo de la pelicula
+     */
+    public String obtieneTitulo() {
+        return _titulo;
     }
 
 }

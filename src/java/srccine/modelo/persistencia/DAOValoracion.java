@@ -154,6 +154,12 @@ public class DAOValoracion {
         }        
     }
 
+    /**
+     * Busca en la bbdd la valoracion realizada por un usuario sobre una pelicula determinada
+     * @param idUsuario Id del usuario que realizo la valoracion
+     * @param idPelicula Id de la pelicula que se valoro
+     * @return Valoracion encontrada en la bbdd
+     */
     public Valoracion get(String idUsuario, Long idPelicula) {
         EntityManager em=GestorPersistencia.instancia().getEntityManager();
                 

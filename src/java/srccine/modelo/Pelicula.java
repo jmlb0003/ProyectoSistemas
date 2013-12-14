@@ -39,6 +39,7 @@ public class Pelicula implements Serializable{
     public Pelicula() { 
         _id = 0;
         _detalles = null;
+        _titulo = "";
         _suma = 0;
         _media = 0.0;
         _valoraciones = new HashMap();

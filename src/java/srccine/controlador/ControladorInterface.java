@@ -18,7 +18,7 @@ public interface ControladorInterface {
     public List<Pelicula> obtieneMejoresPeliculas();
         
     public List<Pelicula> obtienePeliculasBuscadas();
-    
+        public Pelicula obtienePeliculaSeleccionada();
     public void peticionValorarPelicula();
     
     public void peticionBusquedaPeliculas();

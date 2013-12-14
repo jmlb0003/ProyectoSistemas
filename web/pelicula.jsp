@@ -4,6 +4,9 @@
     Author     : Sonia
 --%>
 
+<%@page import="java.util.Map.Entry"%>
+<%@page import="java.util.Map"%>
+<%@page import="srccine.vista.VistaInterface"%>
 <%@page import="srccine.modelo.Pelicula"%>
 <%@page import="srccine.modelo.Recomendacion"%>
 <%@page import="java.util.Iterator"%>
@@ -29,6 +32,7 @@
 <%      //Aqui va el codigo JAVA
         HttpSession sesion = request.getSession();                        
         ControladorInterface controlador = (ControladorInterface) sesion.getAttribute("controlador");
+        VistaInterface vista = (VistaInterface) sesion.getAttribute("vista");
         if (controlador==null){
             controlador = new Controlador(new Modelo());
             sesion.setAttribute("controlador", controlador);
@@ -82,6 +86,40 @@
             </div>
 
             <div id="contenido">
+                <% if (request.getParameter("id")!=null){
+                    long id;
+                try{
+                    id = Long.parseLong(request.getParameter("id"));
+                    vista.setPeliculaSeleccionada(id);
+                    controlador.peticionVerInformacionPelicula();
+                    Pelicula pelicula = controlador.obtienePeliculaSeleccionada();
+                    %> <center>
+                    <img src="img/pelicula.png" ALT="Foto película"> 
+                    <p><%= pelicula.obtieneTitulo() %></p>
+                    
+                    <p>Media: <%= pelicula.obtieneMedia() %></p>
+                    <% 
+                    Map detalles = pelicula.obtieneDetalles().obtieneDetalles();
+                    Iterator it = detalles.entrySet().iterator();
+                    while (it.hasNext()) {
+                        Entry entry = (Entry) it.next();
+                        if (! entry.getKey().equals("titulo")){
+                        %>
+                        <b><%= entry.getKey() %>:</b><%= entry.getValue() %><br>
+                    <%
+                        }
+                    }
+                    
+                    %>
+                    
+                    </center>
+            <%  }catch (NumberFormatException e){
+                    id = -1;
+                }
+                }else{ %>
+                    Acceso invalido.
+<%              }
+                %>
                 
             </div>
 

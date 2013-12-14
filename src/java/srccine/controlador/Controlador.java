@@ -2,8 +2,11 @@ package srccine.controlador;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import srccine.modelo.ModeloInterface;
@@ -301,12 +304,19 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
         return _usuarioIdentificado;
     }
     
+    @Override
     public List<Pelicula> obtieneMejoresPeliculas(){
         return _modelo.buscaPeliculasMejorValoradas();
     }
 
+    @Override
     public List<Pelicula> obtienePeliculasBuscadas() {
         return _peliculasBuscadas;
+    }
+    
+    @Override
+    public Pelicula obtienePeliculaSeleccionada(){
+        return _peliculaSeleccionada;
     }
     
 }

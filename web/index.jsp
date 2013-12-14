@@ -96,9 +96,11 @@
                   <a href="index.jsp"> <img src="img/Logo.png"> </a>                   
                 </div>              
                   
-                <div id="buscar">              
-                  <input type="text" class="input-xlarge search-query" placeholder="Ej. Los juegos del hambre">
-                  <button type="submit" class="btn"> Buscar </button>                   
+                <div id="buscar">
+                    <form action="busqueda.jsp" method="post">
+                        <input name="consulta" type="text" class="input-xlarge search-query" placeholder="Ej. Los juegos del hambre">
+                        <button type="submit" class="btn"> Buscar </button>      
+                    </form>
                 </div>
             </div>
 

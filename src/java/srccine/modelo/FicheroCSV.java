@@ -81,7 +81,7 @@ class FicheroCSV{
                 detallesPelicula.put("titulo",split[2].trim());
                 
                 //Creamos la pelicula, sin que se persista en la base de datos
-                Pelicula pelicula = new Pelicula(id, detallesPelicula);
+                Pelicula pelicula = new Pelicula(id,split[2].trim(), detallesPelicula);
                 _peliculas.put(id, pelicula);                  
             }
             

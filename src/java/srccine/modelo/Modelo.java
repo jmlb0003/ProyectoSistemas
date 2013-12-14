@@ -1,23 +1,8 @@
 package srccine.modelo;
 
-import srccine.modelo.persistencia.excepciones.ErrorActualizarUsuario;
-import srccine.modelo.persistencia.excepciones.ErrorActualizarValoracion;
-import srccine.modelo.persistencia.excepciones.ErrorActualizarRecomendacion;
-import srccine.modelo.persistencia.excepciones.ErrorConexionBBDD;
-import srccine.modelo.persistencia.excepciones.ErrorInsertarPelicula;
-import srccine.modelo.persistencia.excepciones.ErrorInsertarRecomendacion;
-import srccine.modelo.persistencia.excepciones.ErrorActualizarPelicula;
-import srccine.modelo.persistencia.excepciones.ErrorBorrarRecomendacion;
-import srccine.modelo.persistencia.excepciones.ErrorInsertarValoracion;
-import srccine.modelo.persistencia.excepciones.ErrorInsertarUsuario;
-import srccine.modelo.persistencia.DAOValoracion;
-import srccine.modelo.persistencia.DAOPelicula;
-import srccine.modelo.persistencia.DAOUsuario;
-import srccine.modelo.persistencia.GestorPersistencia;
-import srccine.modelo.persistencia.DAORecomendacion;
-import srccine.modelo.excepciones.ErrorLecturaFichero;
-import srccine.modelo.excepciones.ErrorLeerModeloSimilitud;
-import srccine.modelo.excepciones.ErrorGrabarModeloSimilitud;
+import srccine.modelo.persistencia.excepciones.*;
+import srccine.modelo.persistencia.*;
+import srccine.modelo.excepciones.*;
 import srccine.modelo.algoritmos.AlgSimilitud;
 import srccine.modelo.algoritmos.AlgPrediccion;
 import java.io.File;
@@ -74,6 +59,7 @@ public class Modelo implements ModeloInterface{
             ErrorInsertarUsuario, ErrorGrabarModeloSimilitud, ErrorInsertarRecomendacion{
         
         crearConexionBBDD();
+        importarDatos();
 
         // Comprueba si la base de datos esta vacia
         if (DAOPelicula.instancia().getNumPeliculas()==0){
@@ -135,7 +121,6 @@ public class Modelo implements ModeloInterface{
         
         List<Recomendacion> l = new ArrayList();
         for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
-            String string = entry.getKey();
             Usuario usuario = entry.getValue();
             TreeSet<Recomendacion> recibirRecomendaciones = (TreeSet<Recomendacion>) recibirRecomendaciones(usuario);
             usuario.anadeRecomendaciones(recibirRecomendaciones);
@@ -250,8 +235,7 @@ public class Modelo implements ModeloInterface{
     @Override
     public void actualizarPelicula(Pelicula p) throws ErrorActualizarPelicula {
         DAOPelicula.instancia().update(p);
-    }
-    
+    }    
     
     /**
      * Busca una valoracion en la base de datos

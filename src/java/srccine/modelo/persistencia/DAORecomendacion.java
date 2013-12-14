@@ -25,7 +25,7 @@ public class DAORecomendacion {
     /**
      * Inserta un Recomendacion nuevo en la base de datos
      * @param r Recomendacion nuevo que se introducira 
-     * @throws srccine.modelo.persistencia.ErrorInsertarRecomendacion 
+     * @throws srccine.modelo.persistencia.excepciones.ErrorInsertarRecomendacion 
      */
     public void insert(Recomendacion r) throws ErrorInsertarRecomendacion {
         //Obtiene la instancia del EntityManager del gestor de persistenciaa
@@ -65,7 +65,7 @@ public class DAORecomendacion {
     /**
      * Actualiza un Recomendacion ya existente en la base de datos
      * @param r Recomendacion a actualizar
-     * @throws srccine.modelo.persistencia.ErrorActualizarRecomendacion
+     * @throws srccine.modelo.persistencia.excepciones.ErrorActualizarRecomendacion
      */
     public void update(Recomendacion r) throws ErrorActualizarRecomendacion{
         //Obtiene la instancia del EntityManager del gestor de persistenciaa

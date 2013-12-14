@@ -1,4 +1,3 @@
-
 package srccine.vista;
 
 import java.util.Map;
@@ -24,5 +23,7 @@ public interface VistaInterface {
     public void setDetallesRegistro(Map<String, Object> _datosRegistro);
 
     public void setDetallesLogin(Map<String, Object> datosLogin);
+
+    public void setDetallesBusqueda(String consulta);
     
 }

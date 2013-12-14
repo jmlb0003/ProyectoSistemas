@@ -1,4 +1,3 @@
-
 package srccine.controlador;
 
 import java.util.List;
@@ -17,6 +16,8 @@ public interface ControladorInterface {
     public Usuario obtieneUsuarioIdentificado();
     
     public List<Pelicula> obtieneMejoresPeliculas();
+        
+    public List<Pelicula> obtienePeliculasBuscadas();
     
     public void peticionValorarPelicula();
     

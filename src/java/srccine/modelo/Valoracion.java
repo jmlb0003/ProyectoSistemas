@@ -12,7 +12,6 @@ import javax.persistence.Temporal;
  * @author Grupo 3
  */
 @Entity(name="Valoracion")
-
 public class Valoracion implements Serializable {
     @Id
     @GeneratedValue

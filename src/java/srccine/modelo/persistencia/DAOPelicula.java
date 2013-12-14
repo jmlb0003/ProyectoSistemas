@@ -153,6 +153,10 @@ public class DAOPelicula {
         }
     }
 
+    /**
+     * Busca el numero de peliculas que hay en la BBDD
+     * @return Numero de peliculas que hay en el sistema
+     */
     public long getNumPeliculas() {
          //Obtiene la instancia del EntityManager del gestor de persistenciaa
         EntityManager em=GestorPersistencia.instancia().getEntityManager();
@@ -162,8 +166,12 @@ public class DAOPelicula {
         return (Long) num.getSingleResult();
     }
     
+    /**
+     * Obtiene todas las peliculas de la BBDD
+     * @return Devuelve un mapa con todas las peliculas de la BBDD
+     */
     public Map<Long,Pelicula> get() {
-                EntityManager em=GestorPersistencia.instancia().getEntityManager();
+        EntityManager em=GestorPersistencia.instancia().getEntityManager();
 
         Map<Long,Pelicula> map = new HashMap(); 
                 
@@ -176,34 +184,31 @@ public class DAOPelicula {
         return map;
     }    
     
+    /**
+     * Busca las peliculas por titulo
+     * @param titulo Subcadena que debe contener el titulo de las peliculas
+     * @return Lista con las peliculas coincidentes con el titulo pasado por argumento
+     */
     public List get(String titulo) {
         EntityManager em=GestorPersistencia.instancia().getEntityManager();
                 
-        Query consulta = em.createQuery("SELECT p FROM Pelicula p ");
+        Query consulta = em.createQuery("SELECT p FROM Pelicula p Where p._titulo LIKE '%:consulta%';").
+                setParameter("consulta", titulo);
+        
         return consulta.getResultList();
     }    
     
+    /**
+     * Busca las peliculas con mayor media de la BBDD
+     * @return Lista con las peliculas con mejor media de la BBDD
+     */
     public List getMejorValoradas() {
         EntityManager em=GestorPersistencia.instancia().getEntityManager();
                 
-        Query consulta = em.createQuery("SELECT p FROM Pelicula p ORDER BY p._media DESC LIMIT "+srccine.modelo.Modelo.NUM_RECOMENDACIONES);
+        Query consulta = em.createQuery("SELECT p FROM Pelicula p ORDER BY p._media DESC LIMIT :recomendaciones").
+                setParameter("recomendaciones", srccine.modelo.Modelo.NUM_RECOMENDACIONES);
+        
         return consulta.getResultList();
     }
-    
-    /**    
-    public Map<Long,Pelicula> getMediaPeliculas() {
-                
-        EntityManager em=GestorPersistencia.instancia().getEntityManager();
-
-        Map<Long,Pelicula> map = new HashMap(); 
-                
-        Query consulta = em.createQuery("SELECT p._media FROM Pelicula p ");
-        List medias = consulta.getResultList();
-        for (Iterator it = medias.iterator(); it.hasNext();) {
-            double m = (Double) it.next();
-            map.put(m.obtieneID(), m);
-        }
-        return map;
-    }*/
     
 }

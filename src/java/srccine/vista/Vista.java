@@ -11,10 +11,11 @@ import srccine.modelo.ModeloInterface;
  */
 public class Vista implements VistaInterface {
 
-    ModeloInterface _modelo;
-    ControladorInterface _controlador; 
-    Map<String, Object> _detallesRegistro; 
+    private ModeloInterface _modelo;
+    private ControladorInterface _controlador; 
+    private Map<String, Object> _detallesRegistro; 
     private Map<String, Object> _detallesLogin;
+    private String _detallesBusqueda;
     
     //Quitar que esto es de prueba
     public Vista(ModeloInterface modelo, ControladorInterface controlador) {
@@ -41,7 +42,7 @@ public class Vista implements VistaInterface {
 
     @Override
     public String obtenerCriteriosBusqueda() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return _detallesBusqueda;
     }
 
     @Override
@@ -63,5 +64,10 @@ public class Vista implements VistaInterface {
     public void setDetallesLogin(Map<String, Object> datosLogin) {
         _detallesLogin = datosLogin;
     }
+    
+    public void setDetallesBusqueda(String consulta){
+        _detallesBusqueda = consulta;
+    }
+
             
 }

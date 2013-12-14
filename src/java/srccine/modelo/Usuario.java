@@ -21,20 +21,23 @@ import org.hibernate.annotations.SortType;
 public class Usuario implements Serializable{
     @Id
     private String _id;
-
+    
+    //Suma y media de la valoraciones del usuario
     private long _suma;
-
     private double _media;
     
-    @Column(columnDefinition = "LONGBLOB")
-    private DetallesUsuario _detalles;
-    
+    //Valoraciones realizadas por el usuario
     @OneToMany(cascade= CascadeType.ALL)
     private Map<Long,Valoracion> _valoraciones;
     
+    //Recomendaciones recibidas
     @OneToMany(cascade= CascadeType.ALL)
     @Sort(type=SortType.COMPARATOR, comparator = Recomendacion.class)
     private SortedSet<Recomendacion> _recomendaciones;  
+    
+    //Resto de detalles y atributos del usuario    
+    @Column(columnDefinition = "LONGBLOB")
+    private DetallesUsuario _detalles;
 
     /**
      * Constructor por defecto
@@ -104,6 +107,11 @@ public class Usuario implements Serializable{
         return _id;
     }
     
+    /**
+     * Añade una nueva valoracion al usuario
+     * @param id Id de la pelicula
+     * @param v Valoracion realizada por el usuario
+     */
     public void anadeValoracion(Long id, Valoracion v){
         //comprobamos si el usuario valoro previamente la pelicula
         if (_valoraciones.containsKey(id)){
@@ -120,16 +128,12 @@ public class Usuario implements Serializable{
             _suma += v.getPuntuacion();
             _media = (double) _suma / _valoraciones.size();                
         }
-    }
+    }   
     
-    public Valoracion obtieneValoracion(Long id){
-        return _valoraciones.get(id);
-    }
-    
-    public int numValoraciones(){
-        return _valoraciones.size();
-    }    
-    
+    /**
+     * Devuelve la media de valoraciones del usuario
+     * @return media del usuario
+     */
     public double obtieneMedia(){
         return _media;
     }

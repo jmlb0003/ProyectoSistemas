@@ -60,12 +60,11 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
     
     public Controlador(ModeloInterface aModelo) {
         try {            
-            _modelo = aModelo;
+            _modelo = aModelo;  
             _modelo.inicializar();
-            
             _usuarioIdentificado = null; 
             _peliculaSeleccionada = null;
-            _peliculasBuscadas = new ArrayList();
+            _peliculasBuscadas = null;
             
             //Inicializar observadores
             _observadoresPeliculaSeleccionada = new ArrayList();

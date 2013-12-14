@@ -205,9 +205,7 @@ public class DAOPelicula {
     public List getMejorValoradas() {
         EntityManager em=GestorPersistencia.instancia().getEntityManager();
                 
-        Query consulta = em.createQuery("SELECT p FROM Pelicula p ORDER BY p._media DESC LIMIT :recomendaciones").
-                setParameter("recomendaciones", srccine.modelo.Modelo.NUM_RECOMENDACIONES);
-        
+        Query consulta = em.createQuery("SELECT p FROM Pelicula p ORDER BY p._media DESC LIMIT "+srccine.modelo.Modelo.NUM_RECOMENDACIONES);        
         return consulta.getResultList();
     }
     

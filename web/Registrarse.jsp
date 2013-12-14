@@ -43,7 +43,9 @@
         <div id="contenedor">
           
             <div id="cabecera">
+
             <% if (controlador.obtieneUsuarioIdentificado()==null){%>
+                <div id="login">
                 <form action="Login" method="post" >
                     <input name="idUsuario" type="text" class="input-medium search-query" placeholder="Usuario">
                     <input name="clave" type="password" class="input-medium search-query" placeholder="Contraseña">            
@@ -52,7 +54,8 @@
                     <label class="checkbox">
                         <input type="checkbox"> Recordarme
                     </label> 
-                </form>   
+                </form>
+                </div>    
 
                 <div id="registrarse"> 
                     <a class="btn" href="Registrarse.jsp"> Registrarse </a>
@@ -63,16 +66,15 @@
                     <button type="submit" class="btn">Cerrar Sesión</button>                    
                 </div> 
             <% }   %>       
-
                 <div id="logo">              
-                      <a href="index.jsp"> <img src="img/Logo.png"> </a>                 
+                  <a href="index.jsp"> <img src="img/Logo.png"> </a>                   
                 </div>              
-
-                <div id="buscar">              
+                  
+                <div id="buscar">
                     <form action="busqueda.jsp" method="post">
                         <input name="consulta" type="text" class="input-xlarge search-query" placeholder="Ej. Los juegos del hambre">
                         <button type="submit" class="btn"> Buscar </button>      
-                    </form>                 
+                    </form>
                 </div>
             </div>
             

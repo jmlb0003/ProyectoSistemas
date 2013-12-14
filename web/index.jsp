@@ -141,7 +141,7 @@
                         </td>
                                 <% }%>
                     </tr>  <% }
-                        }else{                        
+                        }else{ //si no hay recomendaciones para el usuario                       
                         List mejoresPeliculas = controlador.obtieneMejoresPeliculas();
                         if (mejoresPeliculas!=null){
                         Iterator<Pelicula> iterator = mejoresPeliculas.iterator(); 
@@ -174,7 +174,8 @@
                             <% } %>
                     </tr>  <% }
                         }
-                        }                        
+                        } 
+                    //No hay usuario identificado
                     }else{
                         List mejoresPeliculas = controlador.obtieneMejoresPeliculas();
                         if (mejoresPeliculas!=null){

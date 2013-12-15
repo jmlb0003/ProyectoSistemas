@@ -164,8 +164,7 @@ public class DAOValoracion {
         EntityManager em=GestorPersistencia.instancia().getEntityManager();
                 
         //Busca el partido creando un query
-        Query consulta = em.createQuery("select v from valoracion v WHERE v._idPelicula=:pelicula and v._idUsuario=:usuario")
-            .setParameter("usuario", idUsuario).setParameter("pelicula", idPelicula);
+        Query consulta = em.createQuery("select v from Valoracion v WHERE v._idPelicula="+idPelicula+" and v._idUsuario="+idUsuario);
         
         if (consulta.getResultList().isEmpty()){
             return null;

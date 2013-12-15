@@ -31,5 +31,7 @@ public interface VistaInterface {
     public void setValoracion(Map<String, Object> valoracion);
     
     public void notificarError(HttpServletRequest request, HttpServletResponse response);
+
+    public void setDatosValoracion(Map<String, Object> datosValoracion);
     
 }

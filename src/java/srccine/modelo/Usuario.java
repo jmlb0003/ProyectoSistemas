@@ -114,20 +114,11 @@ public class Usuario implements Serializable{
      */
     public void anadeValoracion(Long id, Valoracion v){
         //comprobamos si el usuario valoro previamente la pelicula
-        if (_valoraciones.containsKey(id)){
-            //Cogemos la valoracion antigua y la restamos de la media
-            Valoracion ant = _valoraciones.get(id);
-            _suma -= ant.getPuntuacion();
-            _media = (double) _suma / _valoraciones.size(); 
-            //actualizamos la nueva valoracion y la media
+        if (! _valoraciones.containsKey(id)){
             _valoraciones.put(id, v);
             _suma += v.getPuntuacion();
             _media = (double) _suma / _valoraciones.size(); 
-        }else{
-            _valoraciones.put(id, v);
-            _suma += v.getPuntuacion();
-            _media = (double) _suma / _valoraciones.size();                
-        }
+        }  
     }   
     
     /**
@@ -148,6 +139,14 @@ public class Usuario implements Serializable{
     
     public SortedSet<Recomendacion> obtieneRecomendaciones(){
         return _recomendaciones;
+    }
+
+    public void actualizaValoracion(Long idPelicula, int antiguaNota) {
+        if (_valoraciones.containsKey(idPelicula)){
+            _suma -= antiguaNota;
+            _suma += _valoraciones.get(idPelicula).getPuntuacion();
+            _media = (double) _suma / _valoraciones.size(); 
+        }
     }
 
 }

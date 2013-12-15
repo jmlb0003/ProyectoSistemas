@@ -88,7 +88,7 @@ public class Valoracion implements Serializable {
      */
     public Date getFecha() {
         return _fecha;
-    }
+    }    
 
     /**
      * Modifica la puntuacion de la valoracion
@@ -104,14 +104,6 @@ public class Valoracion implements Serializable {
      */
     public void setFecha(Date _fecha) {
         this._fecha = _fecha;
-    }
-
-    /**
-     * Modifica el id de la valoracion
-     * @param _id Nuevo ID a asignar a la valoracion
-     */
-    public void setId(long _id) {
-        this._id = _id;
     }
     
 }

@@ -89,16 +89,18 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
             
             Valoracion v = _modelo.buscaValoracion(idUsuario, idPelicula);
             if (v!=null){
-                v.setFecha(fecha);
+                int antiguaNota = v.getPuntuacion();
                 v.setPuntuacion(nota);
+                v.setFecha(fecha);
+                _usuarioIdentificado.actualizaValoracion(idPelicula, antiguaNota);
+                _peliculaSeleccionada.actualizaValoracion(idUsuario, antiguaNota);
                 _modelo.actualizarValoracion(v);
             }else{
                 v = new Valoracion(nota, idUsuario, idPelicula, fecha);
+                _usuarioIdentificado.anadeValoracion(idPelicula, v);
+                _peliculaSeleccionada.anadeValoracion(idUsuario, v);
                 _modelo.anadeValoracion(v);
             }
-            
-            _usuarioIdentificado.anadeValoracion(idPelicula, v);
-            _peliculaSeleccionada.anadeValoracion(idUsuario, v);
             
             _modelo.actualizarUsuario(_usuarioIdentificado);
             _modelo.actualizarPelicula(_peliculaSeleccionada);
@@ -231,7 +233,9 @@ private class LanzarRecomendaciones extends Thread{
             l.addAll(recibirRecomendaciones.descendingSet());
            _modelo.anadeRecomendacion(l);
         } catch (ErrorActualizarUsuario ex) {
+            
         } catch (ErrorInsertarRecomendacion ex) {
+            
         }
     } 
 }

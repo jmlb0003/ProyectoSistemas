@@ -45,9 +45,7 @@ public class Valorar extends HttpServlet {
         HttpSession sc = request.getSession();
         response.encodeURL("Valorar");
         ControladorInterface controlador = (ControladorInterface) sc.getAttribute("controlador");
-        if (controlador != null){   
-            response.getWriter().println(request.getParameter("puntuacion"));
-            response.getWriter().println(request.getParameter("idPelicula"));
+        if (controlador != null){ 
             if(request.getParameter("puntuacion")!=null && request.getParameter("idPelicula")!=null){
                 try{
                     datosValoracion.put("idPelicula", Long.parseLong(request.getParameter("idPelicula")) );

@@ -90,10 +90,10 @@
                 <form action="Registro" method="post" >
                     <br>
                     <h3> Crear un nuevo usuario: </h3>   
-                    <input name="idUsuario" type="text"  aling="left" class="input-large search-query" placeholder="Identificador de Usuario">              
+                    <input name="idUsuario" type="text"  aling="left" class="input-large search-query" placeholder="Identificador de Usuario"><img src="img/asterisco.png">              
                     <br>
                     <br>
-                    <input name="nombre" type="text" class="input-large search-query" placeholder="Nombre">
+                    <input name="nombre" type="text" class="input-large search-query" placeholder="Nombre"><img src="img/asterisco.png"> 
                     <br>
                     <br>
                     <input name="apellidos" type="text" class="input-large search-query" placeholder="Apellidos">
@@ -118,12 +118,12 @@
                     </select>
                     <br>
                     <br>
-                    <input name="clave" type="password" class="input-large search-query" placeholder="Contraseña"> 
+                    <input name="clave" type="password" class="input-large search-query" placeholder="Contraseña"><img src="img/asterisco.png"> 
                     <br>
                     <br>
                     <center>              
-                    <a class="btn" href="index.jsp">Salir</a>    
-                    <button type="submit" class="btn">Aceptar</button>                                       
+                        <a class="btn" href="index.jsp">Salir</a>    
+                        <button type="submit" class="btn">Aceptar</button>                                       
                     </center>
                 </form>                              
               </div>

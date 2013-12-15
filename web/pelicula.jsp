@@ -92,41 +92,77 @@
             </div>
 
             <div id="contenido">
-                <% if (request.getParameter("id")!=null){
-                    long id;
-                try{
-                    id = Long.parseLong(request.getParameter("id"));
-                    vista.setPeliculaSeleccionada(id);
-                    controlador.peticionVerInformacionPelicula();
-                    Pelicula pelicula = controlador.obtienePeliculaSeleccionada();
-                    %> <center>
-                    <img src="img/pelicula.png" ALT="Foto película"> 
-                    <p><%= pelicula.obtieneTitulo() %></p>
+                <table border="0" width="100%" cellspacing="0" cellpadding="40">
+                    <tr><td width="50%" align="right">
+                            <div im>
+                                <img src="img/pelicula.png" ALT="Foto película" heigth="50%" width="50%">
+                            </div>
+                        </td>
+                        <td width="50%" align="left">   
+                            <% if (request.getParameter("id")!=null){
+                                long id;
+                            try{
+                                id = Long.parseLong(request.getParameter("id"));
+                                vista.setPeliculaSeleccionada(id);
+                                controlador.peticionVerInformacionPelicula();
+                                Pelicula pelicula = controlador.obtienePeliculaSeleccionada();
+                                %> 
                     
-                    <p>Media: <%= pelicula.obtieneMedia() %></p>
-                    <% 
-                    Map detalles = pelicula.obtieneDetalles().obtieneDetalles();
-                    Iterator it = detalles.entrySet().iterator();
-                    while (it.hasNext()) {
-                        Entry entry = (Entry) it.next();
-                        if (! entry.getKey().equals("titulo")){
-                        %>
-                        <b><%= entry.getKey() %>:</b><%= entry.getValue() %><br>
-                    <%
-                        }
-                    }
-                    
-                    %>
-                    
-                    </center>
-            <%  }catch (NumberFormatException e){
-                    id = -1;
-                }
-                }else{ %>
-                    Acceso invalido.
-<%              }
-                %>
-                
+                                <left>                                                              
+                                </b><font size=6 color=#5882FA><%= pelicula.obtieneTitulo() %></font> 
+                                </br>
+                                </br>                
+
+                                <b>Sinopsis: </b>
+                                &Eacute;ste es el argumento de la pel&iacute;cula.
+                                </br>
+                                </br> 
+                                
+                                <b>Valoración: </b>
+                                    <input type="radio" name="group1" value="1" id="1"> 1 
+                                    <input type="radio" name="group1" value="2" id="2"> 2
+                                    <input type="radio" name="group1" value="3" id="3"> 3
+                                    <input type="radio" name="group1" value="4" id="4"> 4
+                                    <input type="radio" name="group1" value="5" id="5"> 5                                    
+                                </br>                
+                                </br>                
+                         
+                                <b>Media: </b> <%= pelicula.obtieneMedia() %> <img src="img/estrellaAmarilla.png" ALT="valoracion">
+                                </br>                
+                                </br>  
+                                
+                                <% 
+                                Map detalles = pelicula.obtieneDetalles().obtieneDetalles();
+                                Iterator it = detalles.entrySet().iterator();
+                                while (it.hasNext()) {
+                                    Entry entry = (Entry) it.next();
+                                    if (! entry.getKey().equals("titulo")){
+                                    %>
+                                    <b><% if(entry.getKey().equals("ano")){ 
+                                       %>
+                                          Año:
+                                       <%
+                                          } else{
+                                            entry.getKey();                                         
+                                          }
+                                        %> </b><%= entry.getValue() %><br>
+                                        
+                                <%
+                                    }
+                                }
+
+                                %>
+                                
+                                </left>
+                        <%  }catch (NumberFormatException e){
+                                id = -1;
+                            }
+                            }else{ %>
+                                Acceso invalido.
+                        <%  }
+                            %>
+                    </td></tr>   
+                </table>
             </div>
 
             <div id="pie">

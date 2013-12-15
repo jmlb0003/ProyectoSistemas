@@ -1,7 +1,10 @@
 
 package srccine.vista;
 
+import java.io.IOException;
 import java.util.Map;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -74,8 +77,23 @@ public class Vista implements VistaInterface {
         _detallesValoracion = valoracion;
     }
     
-    public void notificarError(HttpServletRequest request, HttpServletResponse response){
-        
+    /**
+     *
+     * @param request
+     * @param response
+     */
+    public static void notificarError(HttpServletRequest request, HttpServletResponse response, String url, String titulo, String mensaje){
+        try {
+            RequestDispatcher dispatcher = request.getRequestDispatcher(response.encodeURL("error.jsp")+
+                    "?titulo="+titulo+"?mensaje="+mensaje);
+            dispatcher.forward (request, response);
+        } catch (ServletException ex) {
+            notificarError (request, response, url,"No se ha completado el registro del usuario.", 
+                    "Error interno de la aplicacion. Vuelva a intentarlo más tarde. Codigo:001.");
+        } catch (IOException ex) {
+            notificarError (request, response, url, "No se ha completado el registro del usuario.", 
+                    "Error interno de la aplicacion. Vuelva a intentarlo más tarde. Codigo:001"); 
+        }
     }
 
     @Override

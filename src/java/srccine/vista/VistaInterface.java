@@ -28,9 +28,7 @@ public interface VistaInterface {
     
     public void setPeliculaSeleccionada(Long idPelicula);
     
-    public void setValoracion(Map<String, Object> valoracion);
-    
-    public void notificarError(HttpServletRequest request, HttpServletResponse response);
+    public void setValoracion(Map<String, Object> valoracion);    
 
     public void setDatosValoracion(Map<String, Object> datosValoracion);
     

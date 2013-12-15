@@ -61,37 +61,26 @@ public class Registro extends HttpServlet {
                 try {
                     controlador.peticionRegistrarUsuario();
                 } catch (ErrorUsuarioRegistrado ex) {
-                    notificarError (request, response, "Nombre de usuario existente", 
-                            "El nombre de usuario escogido ya existe en el sistema", "registrarse.jsp"); 
+                    Vista.notificarError (request, response, "error.jsp", 
+                            "Registro sin exito", "El nombre de usuario escogido ya existe en el sistema"); 
                 }
             }        
             //Te devuelve a la pagina de inicio, recogiendo los posibles errores que haya
             try {
-                RequestDispatcher dispatcher = request.getRequestDispatcher(response.encodeURL("index.jsp"));
+                RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
                 dispatcher.forward (request, response);
             } catch (ServletException ex) {
-                notificarError (request, response, "", "", "./"); 
+                    Vista.notificarError (request, response, "error.jsp", 
+                            "Redireccion incomplenta", "Error interno de la aplicacion, disculpe las moliestias."); 
             } catch (IOException ex) {
-                notificarError (request, response, "", "", "./"); 
+                    Vista.notificarError (request, response, "error.jsp", 
+                            "Redireccion incomplenta", "Error interno de la aplicacion, disculpe las moliestias."); 
             }
         }else{
-            notificarError (request, response, "", "", "./");
-        }
+            Vista.notificarError (request, response, "error.jsp", 
+                     "Acceso invalido", "Se ha accedido al registro de usuarios de una manera incorrecta."); 
+         }
         
-    }
-    
-    private void notificarError(HttpServletRequest request, HttpServletResponse response, 
-        String cabecera, String descripcion, String operacion){
-        try {
-            RequestDispatcher dispatcher = request.getRequestDispatcher(response.encodeURL(operacion)+cabecera+descripcion); 
-            dispatcher.forward (request, response);
-        } catch (ServletException ex) {
-            notificarError (request, response, "No se ha completado el registro del usuario.", 
-                    "Error interno de la aplicacion. Vuelva a intentarlo más tarde. Codigo:001.", operacion);
-        } catch (IOException ex) {
-            notificarError (request, response, "No se ha completado el registro del usuario.", 
-                    "Error interno de la aplicacion. Vuelva a intentarlo más tarde. Codigo:001", operacion); 
-        }
     }
     
     /** 

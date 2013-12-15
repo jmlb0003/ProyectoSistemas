@@ -82,9 +82,9 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
             Map detallesValoracion = _vista.obtenerValoracionPelicula();
             
             //buscamos la valoracion en la base de datos
-            String idUsuario = (String) detallesValoracion.get("idUsuario");
+            String idUsuario = _usuarioIdentificado.obtieneID();
             Long idPelicula = (Long) detallesValoracion.get("idPelicula");
-            int nota = (Integer) detallesValoracion.get("nota");
+            int nota = (Integer) detallesValoracion.get("puntuacion");
             Date fecha = (Date) detallesValoracion.get("fecha");
             
             Valoracion v = _modelo.buscaValoracion(idUsuario, idPelicula);

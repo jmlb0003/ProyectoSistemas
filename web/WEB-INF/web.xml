@@ -4,6 +4,10 @@
         <servlet-name>Registro</servlet-name>
         <servlet-class>srccine.vista.Registro</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Valorar</servlet-name>
+        <servlet-class>srccine.vista.Valorar</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Registro</servlet-name>
         <url-pattern>/Registro</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>CerrarSesion</servlet-name>
         <url-pattern>/CerrarSesion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Valorar</servlet-name>
+        <url-pattern>/Valorar</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

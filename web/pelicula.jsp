@@ -118,16 +118,37 @@
                                 </br>
                                 </br> 
                                 
-                                <b>Valoración: </b>
-                                    <input type="radio" name="group1" value="1" id="1"> 1 
-                                    <input type="radio" name="group1" value="2" id="2"> 2
-                                    <input type="radio" name="group1" value="3" id="3"> 3
-                                    <input type="radio" name="group1" value="4" id="4"> 4
-                                    <input type="radio" name="group1" value="5" id="5"> 5                                    
-                                </br>                
-                                </br>                
-                         
-                                <b>Media: </b> <%= pelicula.obtieneMedia() %> <img src="img/estrellaAmarilla.png" ALT="valoracion">
+                                <b></b>
+                                <form method="post" action="Valorar">
+                                    <input type="hidden" name="idPelicula" value="<%= pelicula.obtieneID()%>" >
+
+    <%                          if (controlador.obtieneUsuarioIdentificado()!=null){
+                                    int antV = 0;
+                                    if (controlador.obtieneUsuarioIdentificado().obtieneValoraciones().containsKey(id)){
+                                        antV = controlador.obtieneUsuarioIdentificado().obtieneValoraciones().get(id).getPuntuacion();
+                                    }
+                                    for (int i=1; i<=5; i++){
+                                        if (antV == i){ %>
+                                    <input checked="true" type="radio" name="puntuacion" value="<%= i%>" id="<%= i%>"><%= i%>
+                                    <%  }else{ %>
+                                    <input type="radio" name="puntuacion" value="<%= i%>" id="<%= i%>"><%= i%>
+                                    <%  }
+                                    }
+                                    if (controlador.obtieneUsuarioIdentificado().obtieneValoraciones().containsKey(id)){ %>
+                                    <button type="submit" class="btn">Cambiar Valoracion</button>
+                            <%      }else{%>
+                                    <button type="submit" class="btn">Valorar</button>
+                            <%      }
+                                } else{
+                                    for (int i=1; i<=5; i++){ %>
+                                    <input type="radio" name="puntuacion" value="<%= i%>" id="<%= i%>"><%= i%>
+                                    <%  
+                                    } %>
+                                    <button type="submit" class="btn" disabled>Valorar</button>
+                            <%  } %>
+                                </form>
+                                </br>
+                                <b>Media: </b> <%= String.format("%.2f", pelicula.obtieneMedia()) %> <img src="img/estrellaAmarilla.png" ALT="valoracion">
                                 </br>                
                                 </br>  
                                 

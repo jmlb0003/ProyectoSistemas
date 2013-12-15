@@ -77,4 +77,9 @@ public class Vista implements VistaInterface {
     public void notificarError(HttpServletRequest request, HttpServletResponse response){
         
     }
+
+    @Override
+    public void setDatosValoracion(Map<String, Object> datosValoracion) {
+        _detallesValoracion = datosValoracion;
+    }
 }

@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package srccine.vista;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import srccine.controlador.ControladorInterface;
-import srccine.controlador.ErrorUsuarioRegistrado;
 import srccine.controlador.ErrorValoraPelicula;
 
 /**
@@ -45,9 +35,7 @@ public class Valorar extends HttpServlet {
         HttpSession sc = request.getSession();
         response.encodeURL("Valorar");
         ControladorInterface controlador = (ControladorInterface) sc.getAttribute("controlador");
-        if (controlador != null){   
-            response.getWriter().println(request.getParameter("puntuacion"));
-            response.getWriter().println(request.getParameter("idPelicula"));
+        if (controlador != null){ 
             if(request.getParameter("puntuacion")!=null && request.getParameter("idPelicula")!=null){
                 try{
                     datosValoracion.put("idPelicula", Long.parseLong(request.getParameter("idPelicula")) );
@@ -58,14 +46,15 @@ public class Valorar extends HttpServlet {
                     VistaInterface vista = (VistaInterface) sc.getAttribute("vista");
                     vista.setDatosValoracion(datosValoracion);  
                     controlador.peticionValorarPelicula();
-                    RequestDispatcher dispatcher = request.getRequestDispatcher(response.encodeURL("pelicula.jsp?id="+request.getParameter("idPelicula")));
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("pelicula.jsp?id="+request.getParameter("idPelicula"));
                     dispatcher.forward (request, response);
                 }catch (NumberFormatException e){
-                   // notificarError (request, response, "Nombre de usuario existente", 
-                     //       "El nombre de usuario escogido ya existe en el sistema", "registrarse.jsp"); 
+                    Vista.notificarError (request, response, "error.jsp", 
+                            "Valoracion incompleta", "No se ha podido procesar su voto."); 
                 } catch (ErrorValoraPelicula ex) {
-                    Logger.getLogger(Valorar.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                    Vista.notificarError (request, response, "error.jsp", 
+                            "Valoracion incompleta", "No se ha podido procesar su voto."); 
+                 }
             }
         }
     }   

@@ -4,6 +4,7 @@
     Author     : Sonia ga
 --%>
 
+<%@page import="srccine.vista.Vista"%>
 <%@page import="srccine.controlador.ErrorInicioSistema"%>
 <%@page import="java.util.List"%>
 <%@page import="srccine.modelo.Pelicula"%>
@@ -62,7 +63,7 @@
                 sesion.setAttribute("controlador", controlador);
                 sesion.setAttribute("vista", controlador.obtieneVista());
             } catch (ErrorInicioSistema ex){
-                response.getWriter().println("La hemos liao parda");
+                Vista.notificarError(request, response, "error.jsp", "Inicio de sistema incompleto", "No se ha podido iniciar el sistema"+ex.getMessage());
             }
         }
         response.encodeURL("index.jsp");

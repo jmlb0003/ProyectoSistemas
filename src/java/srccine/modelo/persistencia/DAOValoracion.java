@@ -78,7 +78,7 @@ public class DAOValoracion {
             //Realiza la operacion
             em.getTransaction().commit();
         }catch (Exception ex){
-            em.clear();
+            em.clear(); ex.printStackTrace();
             throw new ErrorActualizarValoracion();
         }
         
@@ -89,6 +89,7 @@ public class DAOValoracion {
      * @param v Valoracion que se debe borrar
      * @throws ErrorBorrarRecomendacion error al borrar la valoracion
      */
+    
     public void remove(Valoracion v) throws ErrorBorrarRecomendacion{
         //Obtiene la instancia del EntityManager del gestor de persistenciaa
         EntityManager em=GestorPersistencia.instancia().getEntityManager();

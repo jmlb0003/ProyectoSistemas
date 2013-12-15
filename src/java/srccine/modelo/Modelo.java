@@ -67,7 +67,7 @@ public class Modelo implements ModeloInterface{
             // Carga el modelo de similitud desde disco
             cargarModeloSimilitud();
   
-            //_peliculas = DAOPelicula.instancia().get();
+            _peliculas = DAOPelicula.instancia().get();
         }
         //notificarObservadorNuevoUsuario();
     }

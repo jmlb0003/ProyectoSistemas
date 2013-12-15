@@ -124,7 +124,7 @@
 <%                              for (int c=1; c<6 && iterator.hasNext();c++){
                                     Recomendacion recomendacion = iterator.next(); 
                                     Pelicula pelicula = recomendacion.getPelicula(); %> 
-                        <td height="25%">                      
+                        <td height="20%">                      
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
@@ -154,7 +154,7 @@
                     <tr> 
 <%                          for (int c=1; c<6 && iterator.hasNext();c++){
                                 Pelicula pelicula = iterator.next(); %> 
-                        <td height="25%">                      
+                        <td height="20%">                      
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>

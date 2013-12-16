@@ -53,7 +53,11 @@
             
         <!-- Mis estilos -->   
         <link rel="stylesheet"  href="css/estilos.css" type="text/css"> 
-
+            
+        <script type="text/javascript" src="jQuery/jquery-2.0.3.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/srccine.js"></script>            
+            
 <%      //Aqui va el codigo JAVA
         HttpSession sesion = request.getSession();                        
         ControladorInterface controlador = (ControladorInterface) sesion.getAttribute("controlador");
@@ -72,45 +76,6 @@
         response.setHeader("Pragma","no-cache"); 
         response.setDateHeader ("Expires", -1); %>
         
-        <script type="text/javascript" src="jQuery/jquery-2.0.3.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script language="javascript"> 
-    function getPosterURL(titulo, id){        
-        $.getJSON("http://api.themoviedb.org/3/search/movie?api_key=05c9544702dc546bbe3cac04d5e55356&query="+titulo, 
-            function(json) {
-                document.getElementById("poster"+id).src="img/pelicula.png";
-                    for(i=0;i<json.results.length;i++){
-                        document.getElementById("poster"+id).src = "https://image.tmdb.org/t/p/w342/"+json.results[i].poster_path;
-                    }
-        });    
-    }
-    
-    function validarLogin(){                                  
-
-        if(document.getElementById('usuario').value.length!==0 && document.getElementById('clave').value.length!==0){
-                document.getElementById('usuario').style.borderColor="#D8D8D8";                      
-                document.getElementById('clave').style.borderColor="#D8D8D8";
-                document.IniciarSesion.submit();
-        } 
-
-        if(document.getElementById('usuario').value.length==0 && document.getElementById('clave').value.length!==0){
-                document.getElementById('usuario').style.borderColor="red";                      
-                document.getElementById('clave').style.borderColor="#D8D8D8";
-        } 
-
-        if(document.getElementById('usuario').value.length!==0 && document.getElementById('clave').value.length==0){
-                document.getElementById('usuario').style.borderColor="#D8D8D8";                      
-                document.getElementById('clave').style.borderColor="red";
-        }               
-
-        if(document.getElementById('usuario').value.length==0 && document.getElementById('clave').value.length==0){
-                document.getElementById('usuario').style.borderColor="red";                      
-                document.getElementById('clave').style.borderColor="red";
-        }
-    }        
-            
-        </script>
-
     </header>
     
     <body>
@@ -169,7 +134,7 @@
                         <td height="20%">                      
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" >   
                                 <img id="poster<%=pelicula.obtieneID()%>" width="108px" height="141px">
-                                <script>getPosterURL('<%=pelicula.obtieneTitulo()%>',<%=pelicula.obtieneID()%>)</script> 
+                                <script>getImagenURL('<%=pelicula.obtieneTitulo()%>',<%=pelicula.obtieneID()%>)</script> 
                             </a>
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= String.format("%.2f", pelicula.obtieneMedia()) %></p>
@@ -202,7 +167,7 @@
                         <td height="20%">                      
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > 
                                 <img id="poster<%=pelicula.obtieneID()%>" width="108px" height="141px">
-                                <script>getPosterURL('<%=pelicula.obtieneTitulo()%>',<%=pelicula.obtieneID()%>)</script> 
+                                <script>getImagenURL('<%=pelicula.obtieneTitulo()%>',<%=pelicula.obtieneID()%>)</script> 
                             </a>
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
@@ -235,7 +200,7 @@
                         <td height="25%">                      
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > 
                                 <img id="poster<%=pelicula.obtieneID()%>" width="108px" height="141px">
-                                <script>getPosterURL('<%=pelicula.obtieneTitulo()%>',<%=pelicula.obtieneID()%>)</script> 
+                                <script>getImagenURL('<%=pelicula.obtieneTitulo()%>',<%=pelicula.obtieneID()%>)</script> 
                             </a>                                                                               
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>

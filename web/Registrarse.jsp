@@ -23,6 +23,11 @@
             
         <!-- Mis estilos -->   
         <link rel="stylesheet"  href="css/estilos.css" type="text/css"> 
+        
+        <script type="text/javascript" src="jQuery/jquery-2.0.3.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/srccine.js"></script>   
+        
 <%
         //Aqui va el codigo JAVA
         HttpSession sesion = request.getSession();                         
@@ -37,63 +42,11 @@
             }
         }
         response.encodeURL("Registrarse.jsp");        
-%>            
-    <script language="javascript">
-        function validarRegistro(){                                  
-            
-            if(document.getElementById('idUsuario').value.length!==0 && document.getElementById('nombre').value.length!==0 && document.getElementById('contrasena').value.length!==0){
-                document.getElementById('idUsuario').style.borderColor="#D8D8D8";
-                document.getElementById('nombre').style.borderColor="#D8D8D8";
-                document.getElementById('contrasena').style.borderColor="#D8D8D8";
-                document.formulario.submit();
-            }
-            
-            if(document.getElementById('idUsuario').value.length==0 && document.getElementById('nombre').value.length!==0 && document.getElementById('contrasena').value.length!==0){
-                 document.getElementById('contrasena').style.borderColor="#D8D8D8";
-                 document.getElementById('nombre').style.borderColor="#D8D8D8";
-                 document.getElementById('idUsuario').style.borderColor="red";   
-            }
-            
-            if(document.getElementById('idUsuario').value.length!==0 && document.getElementById('nombre').value.length==0 && document.getElementById('contrasena').value.length!==0){
-                document.getElementById('idUsuario').style.borderColor="#D8D8D8";
-                document.getElementById('contrasena').style.borderColor="#D8D8D8";
-                document.getElementById('nombre').style.borderColor="red";
-            }
-            
-            if(document.getElementById('idUsuario').value.length!==0 && document.getElementById('nombre').value.length!==0 && document.getElementById('contrasena').value.length==0){
-                document.getElementById('idUsuario').style.borderColor="#D8D8D8";
-                document.getElementById('nombre').style.borderColor="#D8D8D8";
-                document.getElementById('contrasena').style.borderColor="red"; 
-            }
-            
-            if(document.getElementById('idUsuario').value.length==0 && document.getElementById('nombre').value.length==0 && document.getElementById('contrasena').value.length==0){
-                document.getElementById('idUsuario').style.borderColor="red";
-                document.getElementById('nombre').style.borderColor="red";
-                document.getElementById('contrasena').style.borderColor="red"; 
-            }
-            
-            if(document.getElementById('idUsuario').value.length!==0 && document.getElementById('nombre').value.length==0 && document.getElementById('contrasena').value.length==0){
-                document.getElementById('idUsuario').style.borderColor="#D8D8D8";
-                document.getElementById('nombre').style.borderColor="red";
-                document.getElementById('contrasena').style.borderColor="red"; 
-            }
-            
-            if(document.getElementById('idUsuario').value.length==0 && document.getElementById('nombre').value.length==0 && document.getElementById('contrasena').value.length!==0){
-                document.getElementById('idUsuario').style.borderColor="red";
-                document.getElementById('nombre').style.borderColor="red";
-                document.getElementById('contrasena').style.borderColor="#D8D8D8"; 
-            }
-            
-            if(document.getElementById('idUsuario').value.length==0 && document.getElementById('nombre').value.length!==0 && document.getElementById('contrasena').value.length==0){
-                document.getElementById('idUsuario').style.borderColor="red";
-                document.getElementById('nombre').style.borderColor="#D8D8D8";
-                document.getElementById('contrasena').style.borderColor="red"; 
-            }
-            
-            
-        }         
-    </script>
-    
+        response.setHeader("Cache-Control","no-store");
+        response.setHeader("Cache-Control","no-cache"); 
+        response.setHeader("Pragma","no-cache"); 
+        response.setDateHeader ("Expires", -1); %>
+        
     </header>
     <body>
                    

@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
     Created on : 24-nov-2013, 18:30:17
-    Author     : Sonia ga
+    Author     : Sonia g
 --%>
 
 <%@page import="srccine.vista.Vista"%>

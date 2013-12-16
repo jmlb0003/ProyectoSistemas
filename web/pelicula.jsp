@@ -45,12 +45,28 @@
             }
         }
         response.encodeURL("pelicula.jsp");
-%>
+        response.setHeader("Cache-Control","no-store");
+        response.setHeader("Cache-Control","no-cache"); 
+        response.setHeader("Pragma","no-cache"); 
+        response.setDateHeader ("Expires", -1); %>
+        
+        <script type="text/javascript" src="jQuery/jquery-2.0.3.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script language="javascript"> 
+    function getPosterURL(titulo, id){        
+        $.getJSON("http://api.themoviedb.org/3/search/movie?api_key=05c9544702dc546bbe3cac04d5e55356&query="+titulo, 
+            function(json) {
+                document.getElementById("poster"+id).src="img/pelicula.png";
+                    for(i=0;i<json.results.length;i++){
+                        document.getElementById("poster"+id).src = "https://image.tmdb.org/t/p/w342/"+json.results[i].poster_path;
+                    }
+        });    
+    }
+        </script>
+        
     </header>
     
     <body>         
-        <script> Messenger src="http://code.jquery.com/jquery.js"> </script>
-        <script src="js/bootstrap.min.js"></script>
             
         <div id="contenedor">
           
@@ -94,21 +110,22 @@
 
             <div id="contenido">
                 <table border="0" width="100%" cellspacing="0" cellpadding="40">
-                    <tr><td width="50%" align="right">
-                            <div im>
-                                <img src="img/pelicula.png" ALT="Foto película" heigth="50%" width="50%">
-                            </div>
-                        </td>
-                        <td width="50%" align="left">   
-                            <% if (request.getParameter("id")!=null){
-                                long id;
+                    <tr>
+                    <% if (request.getParameter("id")!=null){
+                            long id;
                             try{
                                 id = Long.parseLong(request.getParameter("id"));
                                 vista.setPeliculaSeleccionada(id);
                                 controlador.peticionVerInformacionPelicula();
                                 Pelicula pelicula = controlador.obtienePeliculaSeleccionada();
                                 %> 
-                    
+                        <td width="50%" align="right">
+                            <div im>
+                                <img id="poster0" width="200px" height="300px">
+                                <script>getPosterURL('<%=pelicula.obtieneTitulo()%>',0)</script>
+                            </div>
+                        </td>
+                        <td width="50%" align="left">                      
                                 <left>                                                              
                                 </b><font size=6 color=#5882FA><%= pelicula.obtieneTitulo() %></font> 
                                 </br>

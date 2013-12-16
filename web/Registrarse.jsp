@@ -41,28 +41,56 @@
     <script language="javascript">
         function validarRegistro(){                                  
             
-            if(document.getElementById('idUsuario').value.length!==0){
-                if(document.getElementById('nombre').value.length!==0){
-                    if(document.getElementById('contrasena').value.length!==0){
-                        document.getElementById('idUsuario').style.borderColor="#D8D8D8";
-                        document.getElementById('nombre').style.borderColor="#D8D8D8";
-                        document.getElementById('contrasena').style.borderColor="#D8D8D8";
-                        document.formulario.submit();
-                    }else{
-                        document.getElementById('idUsuario').style.borderColor="#D8D8D8";
-                        document.getElementById('nombre').style.borderColor="#D8D8D8";
-                        document.getElementById('contrasena').style.borderColor="red";                     
-                    }           
-                }else{
-                    document.getElementById('idUsuario').style.borderColor="#D8D8D8";
-                    document.getElementById('contrasena').style.borderColor="#D8D8D8";
-                    document.getElementById('nombre').style.borderColor="red";
-                }              
-            }else{
+            if(document.getElementById('idUsuario').value.length!==0 && document.getElementById('nombre').value.length!==0 && document.getElementById('contrasena').value.length!==0){
+                document.getElementById('idUsuario').style.borderColor="#D8D8D8";
+                document.getElementById('nombre').style.borderColor="#D8D8D8";
+                document.getElementById('contrasena').style.borderColor="#D8D8D8";
+                document.formulario.submit();
+            }
+            
+            if(document.getElementById('idUsuario').value.length==0 && document.getElementById('nombre').value.length!==0 && document.getElementById('contrasena').value.length!==0){
                  document.getElementById('contrasena').style.borderColor="#D8D8D8";
                  document.getElementById('nombre').style.borderColor="#D8D8D8";
-                 document.getElementById('idUsuario').style.borderColor="red";          
+                 document.getElementById('idUsuario').style.borderColor="red";   
             }
+            
+            if(document.getElementById('idUsuario').value.length!==0 && document.getElementById('nombre').value.length==0 && document.getElementById('contrasena').value.length!==0){
+                document.getElementById('idUsuario').style.borderColor="#D8D8D8";
+                document.getElementById('contrasena').style.borderColor="#D8D8D8";
+                document.getElementById('nombre').style.borderColor="red";
+            }
+            
+            if(document.getElementById('idUsuario').value.length!==0 && document.getElementById('nombre').value.length!==0 && document.getElementById('contrasena').value.length==0){
+                document.getElementById('idUsuario').style.borderColor="#D8D8D8";
+                document.getElementById('nombre').style.borderColor="#D8D8D8";
+                document.getElementById('contrasena').style.borderColor="red"; 
+            }
+            
+            if(document.getElementById('idUsuario').value.length==0 && document.getElementById('nombre').value.length==0 && document.getElementById('contrasena').value.length==0){
+                document.getElementById('idUsuario').style.borderColor="red";
+                document.getElementById('nombre').style.borderColor="red";
+                document.getElementById('contrasena').style.borderColor="red"; 
+            }
+            
+            if(document.getElementById('idUsuario').value.length!==0 && document.getElementById('nombre').value.length==0 && document.getElementById('contrasena').value.length==0){
+                document.getElementById('idUsuario').style.borderColor="#D8D8D8";
+                document.getElementById('nombre').style.borderColor="red";
+                document.getElementById('contrasena').style.borderColor="red"; 
+            }
+            
+            if(document.getElementById('idUsuario').value.length==0 && document.getElementById('nombre').value.length==0 && document.getElementById('contrasena').value.length!==0){
+                document.getElementById('idUsuario').style.borderColor="red";
+                document.getElementById('nombre').style.borderColor="red";
+                document.getElementById('contrasena').style.borderColor="#D8D8D8"; 
+            }
+            
+            if(document.getElementById('idUsuario').value.length==0 && document.getElementById('nombre').value.length!==0 && document.getElementById('contrasena').value.length==0){
+                document.getElementById('idUsuario').style.borderColor="red";
+                document.getElementById('nombre').style.borderColor="#D8D8D8";
+                document.getElementById('contrasena').style.borderColor="red"; 
+            }
+            
+            
         }         
     </script>
     

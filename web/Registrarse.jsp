@@ -38,6 +38,34 @@
         }
         response.encodeURL("Registrarse.jsp");        
 %>            
+    <script language="javascript">
+        function validarRegistro(){                                  
+            
+            if(document.getElementById('idUsuario').value.length!==0){
+                if(document.getElementById('nombre').value.length!==0){
+                    if(document.getElementById('contrasena').value.length!==0){
+                        document.getElementById('idUsuario').style.borderColor="#D8D8D8";
+                        document.getElementById('nombre').style.borderColor="#D8D8D8";
+                        document.getElementById('contrasena').style.borderColor="#D8D8D8";
+                        document.formulario.submit();
+                    }else{
+                        document.getElementById('idUsuario').style.borderColor="#D8D8D8";
+                        document.getElementById('nombre').style.borderColor="#D8D8D8";
+                        document.getElementById('contrasena').style.borderColor="red";                     
+                    }           
+                }else{
+                    document.getElementById('idUsuario').style.borderColor="#D8D8D8";
+                    document.getElementById('contrasena').style.borderColor="#D8D8D8";
+                    document.getElementById('nombre').style.borderColor="red";
+                }              
+            }else{
+                 document.getElementById('contrasena').style.borderColor="#D8D8D8";
+                 document.getElementById('nombre').style.borderColor="#D8D8D8";
+                 document.getElementById('idUsuario').style.borderColor="red";          
+            }
+        }         
+    </script>
+    
     </header>
     <body>
                    
@@ -88,13 +116,13 @@
             <% if (controlador.obtieneUsuarioIdentificado() == null){%>
           
             <div id="formular">
-                <form action="Registro" method="post" >
+                <form name="formulario" action="Registro" method="post" >
                     <br>
                     <h3> Crear un nuevo usuario: </h3>   
-                    <input name="idUsuario" type="text"  aling="left" class="input-large search-query" placeholder="Identificador de Usuario"><img src="img/asterisco.png">              
+                    <input id="idUsuario" name="idUsuario" type="text"  aling="left" class="input-large search-query" placeholder="Identificador de Usuario"><img src="img/asterisco.png">              
                     <br>
                     <br>
-                    <input name="nombre" type="text" class="input-large search-query" placeholder="Nombre"><img src="img/asterisco.png"> 
+                    <input id="nombre" name="nombre" type="text" class="input-large search-query" placeholder="Nombre"><img src="img/asterisco.png"> 
                     <br>
                     <br>
                     <input name="apellidos" type="text" class="input-large search-query" placeholder="Apellidos">
@@ -119,12 +147,18 @@
                     </select>
                     <br>
                     <br>
-                    <input name="clave" type="password" class="input-large search-query" placeholder="Contraseña"><img src="img/asterisco.png"> 
+                    <input id="contrasena" name="clave" type="password" class="input-large search-query" placeholder="Contraseña"><img src="img/asterisco.png"> 
                     <br>
                     <br>
-                    <center>              
+                    <center>
+                        
+                        <font color="red">(*) Campo requerido </font>
+                        <br>
+                        <br>
+                        
                         <a class="btn" href="index.jsp">Salir</a>    
-                        <button type="submit" class="btn">Aceptar</button>                                       
+                        <button type="button" onclick="validarRegistro();" class="btn">Aceptar</button> 
+                        
                     </center>
                 </form>                              
               </div>

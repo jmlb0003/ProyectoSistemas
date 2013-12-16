@@ -124,7 +124,7 @@
             <% }else{ %>
                 <div id="login">
                     <form action="CerrarSesion" method="post">
-                        <p> Bienvenido/a <%= controlador.obtieneUsuarioIdentificado().obtieneID() %> </p>                   
+                        <p><b> Bienvenido/a <%= controlador.obtieneUsuarioIdentificado().obtieneID() %> </b></p>                   
                         <button type="submit" class="btn">Cerrar Sesión</button> 
                     </form>
                 </div> 

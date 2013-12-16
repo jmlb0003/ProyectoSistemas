@@ -27,7 +27,11 @@
             
         <!-- Mis estilos -->   
         <link rel="stylesheet"  href="css/estilos.css" type="text/css"> 
-
+        
+        <script type="text/javascript" src="jQuery/jquery-2.0.3.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/srccine.js"></script> 
+        
 <%      //Aqui va el codigo JAVA
         HttpSession sesion = request.getSession();                        
         ControladorInterface controlador = (ControladorInterface) sesion.getAttribute("controlador");
@@ -42,12 +46,14 @@
             }
         }
         response.encodeURL("busqueda.jsp");
-%>
+        response.setHeader("Cache-Control","no-store");
+        response.setHeader("Cache-Control","no-cache"); 
+        response.setHeader("Pragma","no-cache"); 
+        response.setDateHeader ("Expires", -1); %>
+        
     </header>
     
-    <body>         
-        <script> Messenger src="http://code.jquery.com/jquery.js"> </script>
-        <script src="js/bootstrap.min.js"></script>
+    <body>
             
         <div id="contenedor">
           

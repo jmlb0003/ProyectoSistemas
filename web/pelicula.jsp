@@ -30,7 +30,11 @@
             
         <!-- Mis estilos -->   
         <link rel="stylesheet"  href="css/estilos.css" type="text/css"> 
-
+        
+        <script type="text/javascript" src="jQuery/jquery-2.0.3.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/srccine.js"></script>         
+        
 <%      //Aqui va el codigo JAVA
         HttpSession sesion = request.getSession();                        
         ControladorInterface controlador = (ControladorInterface) sesion.getAttribute("controlador");
@@ -49,21 +53,7 @@
         response.setHeader("Cache-Control","no-cache"); 
         response.setHeader("Pragma","no-cache"); 
         response.setDateHeader ("Expires", -1); %>
-        
-        <script type="text/javascript" src="jQuery/jquery-2.0.3.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script language="javascript"> 
-    function getPosterURL(titulo, id){        
-        $.getJSON("http://api.themoviedb.org/3/search/movie?api_key=05c9544702dc546bbe3cac04d5e55356&query="+titulo, 
-            function(json) {
-                document.getElementById("poster"+id).src="img/pelicula.png";
-                    for(i=0;i<json.results.length;i++){
-                        document.getElementById("poster"+id).src = "https://image.tmdb.org/t/p/w342/"+json.results[i].poster_path;
-                    }
-        });    
-    }
-        </script>
-        
+                
     </header>
     
     <body>         
@@ -122,7 +112,7 @@
                         <td width="50%" align="right">
                             <div im>
                                 <img id="poster0" width="200px" height="300px">
-                                <script>getPosterURL('<%=pelicula.obtieneTitulo()%>',0)</script>
+                                <script>getImagenURL('<%=pelicula.obtieneTitulo()%>',0)</script>
                             </div>
                         </td>
                         <td width="50%" align="left">                      

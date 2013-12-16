@@ -64,7 +64,7 @@
                 <form action="IniciarSesion" method="post" >
                     <input name="idUsuario" type="text" class="input-medium search-query" placeholder="Usuario">
                     <input name="clave" type="password" class="input-medium search-query" placeholder="Contraseña">            
-                    <button type="submit" class="btn">Entrar</button>
+                    <button onclick="validarLogin();" type="submit" class="btn">Entrar</button>
                     <br>
                     <label class="checkbox">
                         <input type="checkbox"> Recordarme
@@ -115,7 +115,10 @@
 <%                              for (int c=1; c<4 && iterator.hasNext();c++){
                                     Pelicula pelicula = iterator.next(); %> 
                         <td height="25%">                      
-                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <img src="img/pelicula.png" ALT="Foto película"> </a>
+                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" >          
+                                <img id="poster<%=pelicula.obtieneID()%>" width="108px" height="141px">
+                                <script>getImagenURL('<%=pelicula.obtieneTitulo()%>',<%=pelicula.obtieneID()%>)</script> 
+                            </a>
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= String.format("%.2f", pelicula.obtieneMedia()) %></p>
                             <p>Valoración:

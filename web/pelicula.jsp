@@ -4,6 +4,7 @@
     Author     : Sonia
 --%>
 
+<%@page import="java.net.URL"%>
 <%@page import="srccine.vista.Vista"%>
 <%@page import="srccine.controlador.ErrorInicioSistema"%>
 <%@page import="java.util.Map.Entry"%>
@@ -15,6 +16,8 @@
 <%@page import="srccine.modelo.Usuario"%>
 <%@page import="srccine.modelo.Modelo"%>
 <%@page import="srccine.controlador.Controlador"%>
+<%@page import="srccine.controlador.ControladorInterface"%>
+<%@page import="srccine.controlador.ControladorInterface"%>
 <%@page import="srccine.controlador.ControladorInterface"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -67,7 +70,7 @@
                 <form action="IniciarSesion" method="post" >
                     <input name="idUsuario" type="text" class="input-medium search-query" placeholder="Usuario">
                     <input name="clave" type="password" class="input-medium search-query" placeholder="Contraseña">            
-                    <button type="submit" class="btn">Entrar</button>
+                    <button onclick="validarLogin();" type="submit" class="btn">Entrar</button>
                     <br>
                     <label class="checkbox">
                         <input type="checkbox"> Recordarme
@@ -111,7 +114,7 @@
                                 %> 
                         <td width="50%" align="right">
                             <div im>
-                                <img id="poster0" width="200px" height="300px">
+                                <img id="poster0" width="303px" height="448px">
                                 <script>getImagenURL('<%=pelicula.obtieneTitulo()%>',0)</script>
                             </div>
                         </td>
@@ -122,14 +125,18 @@
                                 </br>                
 
                                 <b>Sinopsis: </b>
+                            <%  if (pelicula.obtieneDetalles().obtieneDetalles().containsKey("sipnosis")){ %>
+                            <%= pelicula.obtieneDetalles().obtieneDetalles().get("sipnosis") %>
+                            <%  }else{%>
                                 &Eacute;ste es el argumento de la pel&iacute;cula.
+                                <% } %>
                                 </br>
                                 </br> 
-                                
-                                <b></b>
+                                <b>Fecha Lanzamiento: </b>
+                                <p id="fecha_lanzamiento"> </p>
+                                </br>
                                 <form method="post" action="Valorar">
                                     <input type="hidden" name="idPelicula" value="<%= pelicula.obtieneID()%>" >
-
     <%                          if (controlador.obtieneUsuarioIdentificado()!=null){
                                     int antV = 0;
                                     if (controlador.obtieneUsuarioIdentificado().obtieneValoraciones().containsKey(id)){
@@ -155,11 +162,8 @@
                                     <button type="submit" class="btn" disabled>Valorar</button>
                             <%  } %>
                                 </form>
-                                </br>
                                 <b>Media: </b> <%= String.format("%.2f", pelicula.obtieneMedia()) %> <img src="img/estrellaAmarilla.png" ALT="valoracion">
-                                </br>                
-                                </br>  
-                                
+                                </br>                                               
                                 <% 
                                 Map detalles = pelicula.obtieneDetalles().obtieneDetalles();
                                 Iterator it = detalles.entrySet().iterator();
@@ -174,13 +178,13 @@
                                           } else{
                                             entry.getKey();                                         
                                           }
-                                        %> </b><%= entry.getValue() %><br>
-                                        
+                                        %> </b><%= entry.getValue() %><br><br>                                         
                                 <%
                                     }
-                                }
-
-                                %>
+                                } %> 
+                            <div trailer>
+                                <iframe id="trailer0" width="330" height="186" frameborder="0" allowfullscreen></iframe>
+                            </div> 
                                 
                                 </left>
                         <%  }catch (NumberFormatException e){
@@ -190,7 +194,7 @@
                                 Acceso invalido.
                         <%  }
                             %>
-                    </td></tr>   
+                    </td></tr> 
                 </table>
             </div>
 

@@ -49,9 +49,6 @@
         
     </header>
     <body>
-                   
-        <script> Messenger src="http://code.jquery.com/jquery.js"> </script>
-        <script src="js/bootstrap.min.js"></script>
             
         <div id="contenedor">
           
@@ -62,7 +59,7 @@
                 <form action="IniciarSesion" method="post" >
                     <input name="idUsuario" type="text" class="input-medium search-query" placeholder="Usuario">
                     <input name="clave" type="password" class="input-medium search-query" placeholder="Contraseña">            
-                    <button type="submit" class="btn">Entrar</button>
+                    <button onclick="validarLogin();" type="submit" class="btn">Entrar</button>
                     <br>
                     <label class="checkbox">
                         <input type="checkbox"> Recordarme

@@ -85,7 +85,7 @@ public class Vista implements VistaInterface {
     public static void notificarError(HttpServletRequest request, HttpServletResponse response, String url, String titulo, String mensaje){
         try {
             RequestDispatcher dispatcher = request.getRequestDispatcher(response.encodeURL("error.jsp")+
-                    "?titulo="+titulo+"?mensaje="+mensaje);
+                    "?titulo="+titulo+"&mensaje="+mensaje);
             dispatcher.forward (request, response);
         } catch (ServletException ex) {
             notificarError (request, response, url,"No se ha completado el registro del usuario.", 

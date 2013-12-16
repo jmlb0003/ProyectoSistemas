@@ -4,16 +4,6 @@
     Author     : Sonia ga
 --%>
 
-<%@page import="srccine.controlador.ErrorInicioSistema"%>
-<%@page import="java.util.List"%>
-<%@page import="srccine.modelo.Pelicula"%>
-<%@page import="srccine.modelo.Recomendacion"%>
-<%@page import="java.util.Iterator"%>
-<%@page import="srccine.modelo.Usuario"%>
-<%@page import="srccine.modelo.Modelo"%>
-<%@page import="srccine.controlador.Controlador"%>
-<%@page import="srccine.controlador.ControladorInterface"%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -28,11 +18,13 @@
         <!-- Mis estilos -->   
         <link rel="stylesheet"  href="css/estilos.css" type="text/css"> 
 
+        <script type="text/javascript" src="jQuery/jquery-2.0.3.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/srccine.js"></script>  
+        
     </header>
     
     <body>         
-        <script> Messenger src="http://code.jquery.com/jquery.js"> </script>
-        <script src="js/bootstrap.min.js"></script>
             
         <div id="contenedor">
           
@@ -50,8 +42,8 @@
             </div>
 
             <div id="contenido">
-                Error <%= request.getParameter("")%>
-                Error <%= request.getParameter("")%>                
+                <%= request.getParameter("titulo")%> <br>
+                <%= request.getParameter("mensaje")%>                
             </div>
 
             <div id="pie">

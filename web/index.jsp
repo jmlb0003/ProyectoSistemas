@@ -68,6 +68,33 @@
         }
         response.encodeURL("index.jsp");
 %>
+
+        <script language="javascript">
+            function validarLogin(){                                  
+
+                if(document.getElementById('usuario').value.length!==0 && document.getElementById('clave').value.length!==0){
+                        document.getElementById('usuario').style.borderColor="#D8D8D8";                      
+                        document.getElementById('clave').style.borderColor="#D8D8D8";
+                        document.IniciarSesion.submit();
+                } 
+                
+                if(document.getElementById('usuario').value.length==0 && document.getElementById('clave').value.length!==0){
+                        document.getElementById('usuario').style.borderColor="red";                      
+                        document.getElementById('clave').style.borderColor="#D8D8D8";
+                } 
+                
+                if(document.getElementById('usuario').value.length!==0 && document.getElementById('clave').value.length==0){
+                        document.getElementById('usuario').style.borderColor="#D8D8D8";                      
+                        document.getElementById('clave').style.borderColor="red";
+                }               
+
+                if(document.getElementById('usuario').value.length==0 && document.getElementById('clave').value.length==0){
+                        document.getElementById('usuario').style.borderColor="red";                      
+                        document.getElementById('clave').style.borderColor="red";
+                }
+            }         
+        </script>
+
     </header>
     
     <body>         
@@ -80,10 +107,10 @@
 
             <% if (controlador.obtieneUsuarioIdentificado()==null){%>
                 <div id="login">
-                    <form action="IniciarSesion" method="post" >
-                        <input name="idUsuario" type="text" class="input-medium search-query" placeholder="Usuario">
-                        <input name="clave" type="password" class="input-medium search-query" placeholder="Contraseña">            
-                        <button type="submit" class="btn">Entrar</button>
+                    <form action="IniciarSesion" name="IniciarSesion" method="post" >
+                        <input id="usuario" name="idUsuario" type="text" class="input-medium search-query" placeholder="Usuario">
+                        <input id="clave" name="clave" type="password" class="input-medium search-query" placeholder="Contraseña">            
+                        <button onclick="validarLogin();" type="button" class="btn">Entrar</button>
                         <br>
                         <label class="checkbox">
                             <input type="checkbox"> Recordarme

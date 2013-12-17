@@ -45,14 +45,14 @@ public class Similitud implements Comparable<Similitud>, Serializable{
      * Devuelve el identificador de la pelicula con la que se compara
      * @return long identificador de la pelicula
      */
-    public long getIdPelicula() {
+    public long obtieneIDPelicula() {
         return _idPelicula;
     }
 
     /**
      * Devuelve la similitud con la pelicula
      */
-    public double getSimilitud() {
+    public double obtieneSimilitud() {
         return _similitud;
     }
     

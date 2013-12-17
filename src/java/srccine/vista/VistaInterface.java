@@ -1,8 +1,6 @@
 package srccine.vista;
 
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -10,26 +8,24 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface VistaInterface {
 
-    public Map obtenerValoracionPelicula();
+    public Map obtenerDetallesValoracion();
     
-    public Map obtenerDetallesNuevoUsuario();
+    public Map obtenerDetallesRegistro();
 
-    public String obtenerCriteriosBusqueda();
+    public String obtenerDetallesBusqueda();
 
     public Map obtenerDetallesInicioSesion();
 
     public Long obtenerIDPelicula();
 
-    public void setDetallesRegistro(Map<String, Object> _datosRegistro);
+    public void setDetallesRegistro(Map<String, Object> detalles);
 
-    public void setDetallesLogin(Map<String, Object> datosLogin);
+    public void setDetallesInicioSesion(Map<String, Object> detalles);
 
     public void setDetallesBusqueda(String consulta);
     
-    public void setPeliculaSeleccionada(Long idPelicula);
+    public void setPeliculaSeleccionada(Long id);
     
-    public void setValoracion(Map<String, Object> valoracion);    
-
-    public void setDatosValoracion(Map<String, Object> datosValoracion);
+    public void setDetallesValoracion(Map<String, Object> detalles);
     
 }

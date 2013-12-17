@@ -231,7 +231,7 @@ public class Modelo implements ModeloInterface{
     }    
     
     @Override
-    public void actualizarPelicula(Pelicula p) throws ErrorActualizarPelicula {
+    public void actualizaPelicula(Pelicula p) throws ErrorActualizarPelicula {
         DAOPelicula.instancia().update(p);
     }    
     
@@ -248,17 +248,17 @@ public class Modelo implements ModeloInterface{
     }
     
     @Override
-    public void actualizarUsuario(Usuario u) throws ErrorActualizarUsuario {
+    public void actualizaUsuario(Usuario u) throws ErrorActualizarUsuario {
         DAOUsuario.instancia().update(u);
     }
 
     @Override
-    public void actualizarValoracion(Valoracion v) throws ErrorActualizarValoracion {
+    public void actualizaValoracion(Valoracion v) throws ErrorActualizarValoracion {
         DAOValoracion.instancia().update(v);
     }
 
     @Override
-    public void actualizarRecomendacion(Recomendacion r) throws ErrorActualizarRecomendacion{
+    public void actualizaRecomendacion(Recomendacion r) throws ErrorActualizarRecomendacion{
         DAORecomendacion.instancia().update(r);
     }
 

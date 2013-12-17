@@ -29,17 +29,17 @@ public class Vista implements VistaInterface {
     }
     
     @Override
-    public Map obtenerDetallesNuevoUsuario() {
+    public Map obtenerDetallesRegistro() {
         return _detallesRegistro;
     }
 
     @Override
-    public Map obtenerValoracionPelicula() {
+    public Map obtenerDetallesValoracion() {
         return _detallesValoracion;
     }
 
     @Override
-    public String obtenerCriteriosBusqueda() {
+    public String obtenerDetallesBusqueda() {
         return _detallesBusqueda;
     }
 
@@ -59,7 +59,7 @@ public class Vista implements VistaInterface {
     }
 
     @Override
-    public void setDetallesLogin(Map<String, Object> datosLogin) {
+    public void setDetallesInicioSesion(Map<String, Object> datosLogin) {
         _detallesLogin = datosLogin;
     }
     
@@ -97,7 +97,7 @@ public class Vista implements VistaInterface {
     }
 
     @Override
-    public void setDatosValoracion(Map<String, Object> datosValoracion) {
+    public void setDetallesValoracion(Map<String, Object> datosValoracion) {
         _detallesValoracion = datosValoracion;
     }
 }

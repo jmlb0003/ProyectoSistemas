@@ -22,16 +22,16 @@ import java.util.SortedSet;
  */
 public interface ModeloInterface {
     
-    public void actualizarPelicula(Pelicula p)throws ErrorActualizarPelicula ;
-    public void actualizarUsuario(Usuario u)throws ErrorActualizarUsuario ;
-    public void actualizarValoracion(Valoracion v)throws ErrorActualizarValoracion ;
-    public void actualizarRecomendacion(Recomendacion r) throws ErrorActualizarRecomendacion ;
+    public void actualizaPelicula(Pelicula p)throws ErrorActualizarPelicula ;
+    public void actualizaUsuario(Usuario u)throws ErrorActualizarUsuario ;
+    public void actualizaValoracion(Valoracion v)throws ErrorActualizarValoracion ;
+    public void actualizaRecomendacion(Recomendacion r) throws ErrorActualizarRecomendacion ;
     
     public void anadeValoracion(Valoracion v) throws ErrorInsertarValoracion;
     public void anadeUsuario(Usuario u) throws ErrorInsertarUsuario;
     
     public Usuario buscaUsuario(String idUsuario);
-    public List buscaPeliculas(String criteriosBusqueda);
+    public List buscaPeliculas(String ptitulo);
     public Pelicula buscaPelicula(Long idPelicula);
     public Valoracion buscaValoracion(String idUsuario, Long idPelicula);
     public List<Pelicula> buscaPeliculasMejorValoradas();

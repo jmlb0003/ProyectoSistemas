@@ -116,7 +116,7 @@ public class Usuario implements Serializable{
         //comprobamos si el usuario valoro previamente la pelicula
         if (! _valoraciones.containsKey(id)){
             _valoraciones.put(id, v);
-            _suma += v.getPuntuacion();
+            _suma += v.obtienePuntuacion();
             _media = (double) _suma / _valoraciones.size(); 
         }  
     }   
@@ -144,7 +144,7 @@ public class Usuario implements Serializable{
     public void actualizaValoracion(Long idPelicula, int antiguaNota) {
         if (_valoraciones.containsKey(idPelicula)){
             _suma -= antiguaNota;
-            _suma += _valoraciones.get(idPelicula).getPuntuacion();
+            _suma += _valoraciones.get(idPelicula).obtienePuntuacion();
             _media = (double) _suma / _valoraciones.size(); 
         }
     }

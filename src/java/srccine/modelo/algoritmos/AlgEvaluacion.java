@@ -56,7 +56,7 @@ public class AlgEvaluacion {
                 // Comprobamos si realizo la prediccion
                 if (valoracionEstimada != -1){
                     //Obtenemos la valoracion real para la pelicula
-                    valoracionReal = e.getValue().getPuntuacion();
+                    valoracionReal = e.getValue().obtienePuntuacion();
                     // Calculamos la diferencia entre la valoracion y la añadimos al MAE
                     diferencia = valoracionEstimada - valoracionReal*1.0;
                     MAE = MAE + Math.abs(diferencia);
@@ -101,10 +101,10 @@ public class AlgEvaluacion {
             Map<Long, Valoracion> valoracionesUsuario = u.obtieneValoraciones();
             
             for (Entry<Long,Valoracion> e : valoracionesUsuario.entrySet()) {
-                 idPelicula = e.getValue().getIdPelicula();
+                 idPelicula = e.getValue().obtieneIDPelicula();
                  
                  // 3. Calculamos la valoracion real y la estimada.
-                 valoracionReal = e.getValue().getPuntuacion();
+                 valoracionReal = e.getValue().obtienePuntuacion();
                  vecinos = modeloSimilitud.get(idPelicula);
                  //Aplicamos el algoritmo de prediccion Weighted SUm
                  valoracionEstimada = AlgPrediccion.calcularPrediccionWS(u,vecinos);
@@ -112,7 +112,7 @@ public class AlgEvaluacion {
                  // Comprobamos si realizo la prediccion
                  if (valoracionEstimada != -1){
                     //Obtenemos la valoracion real para la pelicula
-                    valoracionReal = e.getValue().getPuntuacion();
+                    valoracionReal = e.getValue().obtienePuntuacion();
                     // Calculamos la diferencia entre la valoracion y la añadimos al MAE
                     diferencia = valoracionEstimada - valoracionReal*1.0;
 

@@ -62,7 +62,7 @@ public class Valoracion implements Serializable {
      * Devuelve el id de la pelicula valorada
      * @return Id de la pelicula
      */
-    public long getIdPelicula() {
+    public long obtieneIDPelicula() {
         return _idPelicula;
     }
 
@@ -70,7 +70,7 @@ public class Valoracion implements Serializable {
      * Devuelve el id del usuario que valora
      * @return Id del usuario
      */
-    public String getIdUsuario() {
+    public String obtieneIDUsuario() {
         return _idUsuario;
     }
 
@@ -78,7 +78,7 @@ public class Valoracion implements Serializable {
      * Devuelve la puntuacion
      * @return Puntuacion de la valoracion
      */
-    public int getPuntuacion() {
+    public int obtienePuntuacion() {
         return _puntuacion;
     }
 
@@ -86,24 +86,24 @@ public class Valoracion implements Serializable {
      * Devuelve la fecha en la que se valoro
      * @return fecha de valoracion
      */
-    public Date getFecha() {
+    public Date obtieneFecha() {
         return _fecha;
     }    
 
     /**
      * Modifica la puntuacion de la valoracion
-     * @param _puntuacion 
+     * @param puntuacion 
      */
-    public void setPuntuacion(int _puntuacion) {
-        this._puntuacion = _puntuacion;
+    public void asignaPuntuacion(int puntuacion ){
+        this._puntuacion = puntuacion;
     }
 
     /**
      * Modifica la fecha de la valoracion
-     * @param _fecha 
+     * @param f 
      */
-    public void setFecha(Date _fecha) {
-        this._fecha = _fecha;
+    public void asignaFecha(Date f) {
+        this._fecha = f;
     }
     
 }

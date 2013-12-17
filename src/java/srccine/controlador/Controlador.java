@@ -79,7 +79,7 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
     public void peticionValorarPelicula() throws ErrorValoraPelicula{
         try {
             //Sacar los datos de la valoracion de la vista            
-            Map detallesValoracion = _vista.obtenerValoracionPelicula();
+            Map detallesValoracion = _vista.obtenerDetallesValoracion();
             
             //buscamos la valoracion en la base de datos
             String idUsuario = _usuarioIdentificado.obtieneID();
@@ -89,12 +89,12 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
             
             Valoracion v = _modelo.buscaValoracion(idUsuario, idPelicula);
             if (v!=null){
-                int antiguaNota = v.getPuntuacion();
-                v.setPuntuacion(nota);
-                v.setFecha(fecha);
+                int antiguaNota = v.obtienePuntuacion();
+                v.asignaPuntuacion(nota);
+                v.asignaFecha(fecha);
                 _usuarioIdentificado.actualizaValoracion(idPelicula, antiguaNota);
                 _peliculaSeleccionada.actualizaValoracion(idUsuario, antiguaNota);
-                _modelo.actualizarValoracion(v);
+                _modelo.actualizaValoracion(v);
             }else{
                 v = new Valoracion(nota, idUsuario, idPelicula, fecha);
                 _usuarioIdentificado.anadeValoracion(idPelicula, v);
@@ -102,8 +102,8 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
                 _modelo.anadeValoracion(v);
             }
             
-            _modelo.actualizarUsuario(_usuarioIdentificado);
-            _modelo.actualizarPelicula(_peliculaSeleccionada);
+            _modelo.actualizaUsuario(_usuarioIdentificado);
+            _modelo.actualizaPelicula(_peliculaSeleccionada);
             
             new LanzarRecomendaciones().start();            
             
@@ -122,13 +122,13 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
     public void peticionBusquedaPeliculas() {
         _peliculaSeleccionada = null;
         
-        _peliculasBuscadas = _modelo.buscaPeliculas(_vista.obtenerCriteriosBusqueda()); 
+        _peliculasBuscadas = _modelo.buscaPeliculas(_vista.obtenerDetallesBusqueda()); 
     }
 
     
     @Override
     public void peticionRegistrarUsuario() throws ErrorUsuarioRegistrado {
-        Map detallesUsuario = _vista.obtenerDetallesNuevoUsuario();
+        Map detallesUsuario = _vista.obtenerDetallesRegistro();
         
         String idUsuario = (String) detallesUsuario.get("idUsuario");
         
@@ -182,8 +182,8 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
 
     @Override
     public void usuarioNuevoRegistrado() {
-        if (_vista.obtenerDetallesNuevoUsuario()!=null){
-            String idUsuario = (String) _vista.obtenerDetallesNuevoUsuario().get("idUsuario");
+        if (_vista.obtenerDetallesRegistro()!=null){
+            String idUsuario = (String) _vista.obtenerDetallesRegistro().get("idUsuario");
 
             if (!idUsuario.equals("")) {
                 Usuario usu = _modelo.buscaUsuario(idUsuario);
@@ -227,15 +227,15 @@ private class LanzarRecomendaciones extends Thread{
         try {
             List<Recomendacion> l = new ArrayList();
             Usuario usuario = _usuarioIdentificado;
+            _modelo.eliminaRecomendaciones(usuario.obtieneRecomendaciones());
             TreeSet<Recomendacion> recibirRecomendaciones = (TreeSet<Recomendacion>) _modelo.recibirRecomendaciones(usuario);
             usuario.anadeRecomendaciones(recibirRecomendaciones);
-            _modelo.actualizarUsuario(usuario);
+            _modelo.actualizaUsuario(usuario);
             l.addAll(recibirRecomendaciones.descendingSet());
            _modelo.anadeRecomendacion(l);
-        } catch (ErrorActualizarUsuario ex) {
-            
-        } catch (ErrorInsertarRecomendacion ex) {
-            
+        } catch (ErrorActualizarUsuario ex) {            
+        } catch (ErrorInsertarRecomendacion ex) {            
+        } catch (ErrorBorrarRecomendacion ex) {
         }
     } 
 }

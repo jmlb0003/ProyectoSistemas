@@ -56,21 +56,21 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
              */
             _modelo.registrarObservadorNuevoUsuario(this);
         
-        } catch (ErrorConexionBBDD ex){ 
+        } catch (ErrorConexionBBDD ex){ ex.printStackTrace();
             throw new ErrorInicioSistema();
-        }catch (ErrorLecturaFichero ex){ 
+        }catch (ErrorLecturaFichero ex){ ex.printStackTrace();
             throw new ErrorInicioSistema();
-        }catch (ErrorLeerModeloSimilitud ex){
+        }catch (ErrorLeerModeloSimilitud ex){ex.printStackTrace();
             throw new ErrorInicioSistema();
-        }catch (ErrorInsertarValoracion ex){ 
+        }catch (ErrorInsertarValoracion ex){ ex.printStackTrace();
             throw new ErrorInicioSistema();
-        }catch (ErrorInsertarUsuario ex){ 
+        }catch (ErrorInsertarUsuario ex){ ex.printStackTrace();
             throw new ErrorInicioSistema();
-        }catch (ErrorInsertarRecomendacion ex){ 
+        }catch (ErrorInsertarRecomendacion ex){ ex.printStackTrace();
             throw new ErrorInicioSistema();
-        }catch (ErrorGrabarModeloSimilitud ex){ 
+        }catch (ErrorGrabarModeloSimilitud ex){ ex.printStackTrace();
             throw new ErrorInicioSistema();
-        }catch (ErrorInsertarPelicula ex){ 
+        }catch (ErrorInsertarPelicula ex){ ex.printStackTrace();
             throw new ErrorInicioSistema();
         }
     }    

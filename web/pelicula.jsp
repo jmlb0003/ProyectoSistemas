@@ -140,7 +140,7 @@
     <%                          if (controlador.obtieneUsuarioIdentificado()!=null){
                                     int antV = 0;
                                     if (controlador.obtieneUsuarioIdentificado().obtieneValoraciones().containsKey(id)){
-                                        antV = controlador.obtieneUsuarioIdentificado().obtieneValoraciones().get(id).getPuntuacion();
+                                        antV = controlador.obtieneUsuarioIdentificado().obtieneValoraciones().get(id).obtienePuntuacion();
                                     }
                                     for (int i=1; i<=5; i++){
                                         if (antV == i){ %>

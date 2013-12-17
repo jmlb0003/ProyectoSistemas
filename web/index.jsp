@@ -130,7 +130,7 @@
                     <tr> 
 <%                              for (int c=1; c<6 && iterator.hasNext();c++){
                                     Recomendacion recomendacion = iterator.next(); 
-                                    Pelicula pelicula = recomendacion.getPelicula(); %> 
+                                    Pelicula pelicula = recomendacion.obtienePelicula(); %> 
                         <td height="20%">                      
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" >   
                                 <img id="poster<%=pelicula.obtieneID()%>" width="108px" height="141px">
@@ -142,7 +142,7 @@
                                 <%  int valoracion = 0;
                                     if(controlador.obtieneUsuarioIdentificado()!=null){ 
                                         if (controlador.obtieneUsuarioIdentificado().obtieneValoraciones().containsKey(pelicula.obtieneID())){
-                                            valoracion=controlador.obtieneUsuarioIdentificado().obtieneValoraciones().get(pelicula.obtieneID()).getPuntuacion();
+                                            valoracion=controlador.obtieneUsuarioIdentificado().obtieneValoraciones().get(pelicula.obtieneID()).obtienePuntuacion();
                                         }
                                     }
                                     //Obtenemos la valoración  

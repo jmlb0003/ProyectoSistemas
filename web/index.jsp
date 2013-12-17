@@ -126,9 +126,9 @@
                         Usuario usuario = controlador.obtieneUsuarioIdentificado();
                         if (usuario.obtieneRecomendaciones().size() > 0){
                             Iterator<Recomendacion> iterator = usuario.obtieneRecomendaciones().iterator(); 
-                            for (int f=1; f<4 && iterator.hasNext();f++){ %>
+                            for (int f=0; f<7 && iterator.hasNext();f++){ %>
                     <tr> 
-<%                              for (int c=1; c<6 && iterator.hasNext();c++){
+<%                              for (int c=0; c<3 && iterator.hasNext();c++){
                                     Recomendacion recomendacion = iterator.next(); 
                                     Pelicula pelicula = recomendacion.obtienePelicula(); %> 
                         <td height="20%">                      
@@ -144,7 +144,7 @@
                                         if (controlador.obtieneUsuarioIdentificado().obtieneValoraciones().containsKey(pelicula.obtieneID())){
                                             valoracion=controlador.obtieneUsuarioIdentificado().obtieneValoraciones().get(pelicula.obtieneID()).obtienePuntuacion();
                                         }
-                                    }
+                                    }                                    
                                     //Obtenemos la valoración  
                                     for(int i=1;i<=valoracion;i++){ %>
                                     <img src="img/estrellaAmarilla.png" ALT="valoracion">
@@ -160,9 +160,9 @@
                         List mejoresPeliculas = controlador.obtieneMejoresPeliculas();
                         if (mejoresPeliculas!=null){
                         Iterator<Pelicula> iterator = mejoresPeliculas.iterator(); 
-                        for (int f=1; f<4 && iterator.hasNext();f++){ %>
+                        for (int f=0; f<7 && iterator.hasNext();f++){ %>
                     <tr> 
-<%                          for (int c=1; c<6 && iterator.hasNext();c++){
+<%                          for (int c=0; c<3 && iterator.hasNext();c++){ 
                                 Pelicula pelicula = iterator.next(); %> 
                         <td height="20%">                      
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > 
@@ -172,15 +172,19 @@
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
                             <p>Media: <%= pelicula.obtieneMedia() %></p>
                             <p>Valoración:
-                            <%
-                                int valoracion=0;
-                                //Obtenemos la valoración  
-                                for(int i=1;i<=valoracion;i++){ %>
-                            <img src="img/estrellaAmarilla.png" ALT="valoracion">
-                           <%   }
-                                for(int i=1;i<=5-valoracion;i++){ %>
-                            <img src="img/estrellaGris.png" ALT="valoracion">
-                        <%      } %>
+                                <%  int valoracion = 0;
+                                    if(controlador.obtieneUsuarioIdentificado()!=null){ 
+                                        if (controlador.obtieneUsuarioIdentificado().obtieneValoraciones().containsKey(pelicula.obtieneID())){
+                                            valoracion=controlador.obtieneUsuarioIdentificado().obtieneValoraciones().get(pelicula.obtieneID()).obtienePuntuacion();
+                                        }
+                                    }
+                                    //Obtenemos la valoración  
+                                    for(int i=1;i<=valoracion;i++){ %>
+                                    <img src="img/estrellaAmarilla.png" ALT="valoracion">
+                                <%  }
+                                    for(int i=1;i<=5-valoracion;i++){ %>
+                                    <img src="img/estrellaGris.png" ALT="valoracion">
+                                <%  } %>                   
                             </p>      
                         </td>
                     <%      } %>
@@ -193,9 +197,9 @@
                     List mejoresPeliculas = controlador.obtieneMejoresPeliculas();
                     if (mejoresPeliculas!=null){
                     Iterator<Pelicula> iterator = mejoresPeliculas.iterator(); 
-                    for (int f=1; f<4 && iterator.hasNext();f++){ %>
+                    for (int f=0; f<7 && iterator.hasNext();f++){ %>
                     <tr> 
-<%                      for (int c=1; c<6 && iterator.hasNext();c++){
+<%                      for (int c=0; c<3 && iterator.hasNext();c++){
                             Pelicula pelicula = iterator.next(); %> 
                         <td height="25%">                      
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > 

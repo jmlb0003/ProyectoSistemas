@@ -43,8 +43,8 @@ public class AlgSimilitud {
                 
                 //La pelicula ha sido valorada por el usuario
                 if (valoracionesP2.containsKey(idUsuario)){  
-                    val1 = e.getValue().getPuntuacion();
-                    val2 = valoracionesP2.get(idUsuario).getPuntuacion();
+                    val1 = e.getValue().obtienePuntuacion();
+                    val2 = valoracionesP2.get(idUsuario).obtienePuntuacion();
 
                     suma1 = suma1 + val1 * val1;
                     suma2 = suma2 + val2 * val2;
@@ -56,13 +56,13 @@ public class AlgSimilitud {
             }
         }else{
             for (Entry<String,Valoracion> e : valoracionesP2.entrySet()) {
-                idUsuario = e.getValue().getIdUsuario();
+                idUsuario = e.getValue().obtieneIDUsuario();
                                 
                 //La pelicula ha sido valorada por el usuario
                 if (valoracionesP1.containsKey(idUsuario)){
                     //Realizamos los cálculos de similitud
-                    val2 = e.getValue().getPuntuacion();
-                    val1 = valoracionesP1.get(idUsuario).getPuntuacion();
+                    val2 = e.getValue().obtienePuntuacion();
+                    val1 = valoracionesP1.get(idUsuario).obtienePuntuacion();
 
                     suma1 = suma1 + val1 * val1;
                     suma2 = suma2 + val2 * val2;
@@ -199,8 +199,8 @@ public class AlgSimilitud {
                 if (!usuarios.contains(idUsuario)){
                     //La pelicula ha sido valorada por el usuario
                     if (valoracionesP2.containsKey(idUsuario)){
-                        val1 = e.getValue().getPuntuacion();
-                        val2 = valoracionesP2.get(idUsuario).getPuntuacion();
+                        val1 = e.getValue().obtienePuntuacion();
+                        val2 = valoracionesP2.get(idUsuario).obtienePuntuacion();
 
                         suma1 = suma1 + (val1 - media1)*(val1 - media1);
                         suma2 = suma2 + (val2 - media2)*(val2 - media2);
@@ -219,8 +219,8 @@ public class AlgSimilitud {
                     //La pelicula ha sido valorada por el usuario
                     if (valoracionesP1.containsKey(idUsuario)){
                         //Realizamos los cálculos de similitud
-                        val2 = e.getValue().getPuntuacion();
-                        val1 = valoracionesP1.get(idUsuario).getPuntuacion();
+                        val2 = e.getValue().obtienePuntuacion();
+                        val1 = valoracionesP1.get(idUsuario).obtienePuntuacion();
 
                         suma1 = suma1 + (val1 - media1)*(val1 - media1);
                         suma2 = suma2 + (val2 - media2)*(val2 - media2);

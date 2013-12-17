@@ -44,7 +44,7 @@ public class Valorar extends HttpServlet {
 
                     //Proporcionamos los datos a la vista
                     VistaInterface vista = (VistaInterface) sc.getAttribute("vista");
-                    vista.setDatosValoracion(datosValoracion);  
+                    vista.setDetallesValoracion(datosValoracion);  
                     controlador.peticionValorarPelicula();
                     RequestDispatcher dispatcher = request.getRequestDispatcher("pelicula.jsp?id="+request.getParameter("idPelicula"));
                     dispatcher.forward (request, response);

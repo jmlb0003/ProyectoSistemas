@@ -31,7 +31,7 @@ public class IniciarSesion extends HttpServlet{
            
             //Proporcionamos los datos a la vista
             VistaInterface vista = (VistaInterface) sc.getAttribute("vista");
-            vista.setDetallesLogin(datosLogin);
+            vista.setDetallesInicioSesion(datosLogin);
             
             try {
                 controlador.peticionIniciarSesion();

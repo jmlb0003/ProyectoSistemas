@@ -52,11 +52,11 @@ public class Recomendacion implements Comparable<Recomendacion>, Serializable, C
         return 0;
     }
 
-    public Pelicula getPelicula() {
+    public Pelicula obtienePelicula() {
         return _pelicula;
     }
 
-    public double getValoracion() {
+    public double obtieneValoracion() {
         return _valoracion;
     }
 

@@ -40,8 +40,8 @@ public class AlgPrediccion {
         //que hayan sido votados por el usuario actual
         for(Similitud s : vecinos){
             //Si el usuario ha valorado a la pelicula vecina
-            if ( uValoraciones.containsKey(s.getIdPelicula()) ){
-                valoracionesVecinos.add(uValoraciones.get(s.getIdPelicula()));
+            if ( uValoraciones.containsKey(s.obtieneIDPelicula()) ){
+                valoracionesVecinos.add(uValoraciones.get(s.obtieneIDPelicula()));
             }
         }
         
@@ -92,11 +92,11 @@ public class AlgPrediccion {
                 v = it1.next();
 
                 //Buscamos las similitudes de los vecinos
-                similitud = buscarVecino(v.getIdPelicula(), vecinos);
+                similitud = buscarVecino(v.obtieneIDPelicula(), vecinos);
                 
                 if (similitud != null){
-                    numerador = numerador + similitud.getSimilitud()*(v.getPuntuacion()-mediaU) ;
-                    denominador = denominador + similitud.getSimilitud() ;
+                    numerador = numerador + similitud.obtieneSimilitud()*(v.obtienePuntuacion()-mediaU) ;
+                    denominador = denominador + similitud.obtieneSimilitud() ;
                 }
             }
 
@@ -131,8 +131,8 @@ public class AlgPrediccion {
         //que hayan sido votados por el usuario actual
         for(Similitud s : vecinos){            
             //Si el usuario ha valorado a la pelicula vecina
-            if ( uValoraciones.containsKey(s.getIdPelicula()) ){                    
-                valoracionesVecinos.add(uValoraciones.get(s.getIdPelicula()));
+            if ( uValoraciones.containsKey(s.obtieneIDPelicula()) ){                    
+                valoracionesVecinos.add(uValoraciones.get(s.obtieneIDPelicula()));
             }
         }
         
@@ -148,11 +148,11 @@ public class AlgPrediccion {
 
             while(it1.hasNext()){
                 v = it1.next();
-                idPeliculaAux = v.getIdPelicula();
+                idPeliculaAux = v.obtieneIDPelicula();
                 itemSim = buscarVecino(idPeliculaAux, vecinos);
 
-                numerador = numerador + itemSim.getSimilitud()*v.getPuntuacion();
-                denominador = denominador + itemSim.getSimilitud();
+                numerador = numerador + itemSim.obtieneSimilitud()*v.obtienePuntuacion();
+                denominador = denominador + itemSim.obtieneSimilitud();
             }
 
             if (denominador != 0){
@@ -187,7 +187,7 @@ public class AlgPrediccion {
         while (it.hasNext()){
             s = it.next();
             
-            if (s.getIdPelicula() == idPelicula){
+            if (s.obtieneIDPelicula() == idPelicula){
                 return s;
             }
         }

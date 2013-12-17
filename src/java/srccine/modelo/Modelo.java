@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Clase modelo que implementa ModeloInterface y
@@ -54,7 +56,7 @@ public class Modelo implements ModeloInterface{
      * @throws srccine.modelo.persistencia.excepciones.ErrorInsertarRecomendacion
      */
     @Override
-    public void inicializar() throws ErrorConexionBBDD, ErrorLeerModeloSimilitud, 
+    public void inicializar() throws ErrorConexionBBDD, 
             ErrorLecturaFichero, ErrorInsertarValoracion, ErrorInsertarPelicula, 
             ErrorInsertarUsuario, ErrorGrabarModeloSimilitud, ErrorInsertarRecomendacion{
         
@@ -64,12 +66,20 @@ public class Modelo implements ModeloInterface{
             // importa el conjunto de datos desde ficheros
             importarDatos();
         }else{
-            // Carga el modelo de similitud desde disco
-            cargarModeloSimilitud();
-  
-            _peliculas = DAOPelicula.instancia().get();
+            try {                
+                _peliculas = DAOPelicula.instancia().get();
+                
+                // Carga el modelo de similitud desde disco
+                cargarModeloSimilitud();
+            }
+            //notificarObservadorNuevoUsuario();
+            catch (ErrorLeerModeloSimilitud ex) {
+                // Calculamos el modelo de similitud con el coeficiente del coseno
+                // y lo grabamos en disco
+                _modeloSimilitud = AlgSimilitud.getModeloSimilitudCoseno(K, new ArrayList(_peliculas.values()));
+                grabarModeloSimilitud(); 
+            }
         }
-        //notificarObservadorNuevoUsuario();
     }
     
     /**
@@ -97,7 +107,7 @@ public class Modelo implements ModeloInterface{
      * @throws srccine.modelo.excepciones.ErrorGrabarModeloSimilitud
      */
     private void importarDatos() throws ErrorLecturaFichero, ErrorInsertarValoracion, ErrorInsertarRecomendacion,
-            ErrorInsertarPelicula, ErrorInsertarUsuario, ErrorGrabarModeloSimilitud, ErrorLeerModeloSimilitud{
+            ErrorInsertarPelicula, ErrorInsertarUsuario, ErrorGrabarModeloSimilitud{
         
         //Creamos el lector de CSV, leemos y obtenemos las EEDD
         FicheroCSV fichero = new FicheroCSV();

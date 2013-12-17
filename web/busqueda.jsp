@@ -125,7 +125,7 @@
                                 <%  int valoracion = 0;
                                     if(controlador.obtieneUsuarioIdentificado()!=null){ 
                                         if (controlador.obtieneUsuarioIdentificado().obtieneValoraciones().containsKey(pelicula.obtieneID())){
-                                            valoracion=controlador.obtieneUsuarioIdentificado().obtieneValoraciones().get(pelicula.obtieneID()).getPuntuacion();
+                                            valoracion=controlador.obtieneUsuarioIdentificado().obtieneValoraciones().get(pelicula.obtieneID()).obtienePuntuacion();
                                         }
                                     }
                                     //Obtenemos la valoración  

@@ -232,7 +232,7 @@ private class LanzarRecomendaciones extends Thread{
             usuario.anadeRecomendaciones(recibirRecomendaciones);
             _modelo.actualizaUsuario(usuario);
             l.addAll(recibirRecomendaciones.descendingSet());
-           _modelo.anadeRecomendacion(l);
+           _modelo.anadeRecomendacion(l); 
         } catch (ErrorActualizarUsuario ex) {            
         } catch (ErrorInsertarRecomendacion ex) {            
         } catch (ErrorBorrarRecomendacion ex) {

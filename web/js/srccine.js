@@ -12,9 +12,11 @@
     function getTrailerURL(idPelicula, id){        
         $.getJSON("http://api.themoviedb.org//3/movie/"+idPelicula+"/trailers?api_key=05c9544702dc546bbe3cac04d5e55356", 
             function(json) {
-                document.getElementById("trailer"+id).src="#";
-                document.getElementById("trailer"+id).src = "//www.youtube.com/embed/"+json.youtube[0].source;
-                
+                if (json.youtube.length >0 ){
+                    document.getElementById("trailer"+id).src = "//www.youtube.com/embed/"+json.youtube[0].source;
+                }else{
+                    document.getElementById("trailer"+id).style.visibility = "hidden";
+                }
         });    
     }
     

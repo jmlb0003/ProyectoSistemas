@@ -51,10 +51,10 @@ public class DAOValoracion {
     
     /**
      * Recupera un Valoracion de la base de datos
-     * @param id nombre del Valoracion a recuperar
+     * @param id id del Valoracion a recuperar
      * @return Valoracion encontrado en la base de datos
      */
-    public Valoracion get(String id){
+    public Valoracion get(Long id){
         //Obtiene la instancia del EntityManager del gestor de persistenciaa
         EntityManager em=GestorPersistencia.instancia().getEntityManager();
         

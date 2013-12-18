@@ -87,6 +87,7 @@
             <% if (controlador.obtieneUsuarioIdentificado()==null){%>
                 <div id="login">
                     <form action="IniciarSesion" name="IniciarSesion" method="post" >
+                        <input type="hidden" name="url" value="<%= request.getServletPath()%>" >
                         <input id="usuario" name="idUsuario" type="text" class="input-medium search-query" 
                                placeholder="Usuario">
                         <input id="clave" name="clave" type="password" class="input-medium search-query" 

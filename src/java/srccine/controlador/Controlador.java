@@ -186,12 +186,10 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
 
     @Override
     public void peticionVerInformacionPelicula() {
-        System.out.println("controlador "+_vista.obtenerIDPelicula());
         Pelicula p = _modelo.buscaPelicula(_vista.obtenerIDPelicula());
         while (p==null){
             p = _modelo.buscaPelicula(_vista.obtenerIDPelicula());
         }
-        System.out.println("controlador "+p);
         _peliculaSeleccionada = p; 
     }
 

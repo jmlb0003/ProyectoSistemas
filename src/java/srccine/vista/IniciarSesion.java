@@ -43,7 +43,7 @@ public class IniciarSesion extends HttpServlet{
 
             //Te devuelve a la pagina de inicio, recogiendo los posibles errores que haya
             try {
-                RequestDispatcher dispatcher = request.getRequestDispatcher(request.getRequestURL().toString());
+                RequestDispatcher dispatcher = request.getRequestDispatcher(request.getParameter("url"));
                 dispatcher.forward (request, response);
             } catch (ServletException ex) {
                 Vista.notificarError (request, response, "error.jsp", 

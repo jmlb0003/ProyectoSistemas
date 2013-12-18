@@ -1,4 +1,3 @@
-
 package srccine.vista;
 
 import java.io.IOException;

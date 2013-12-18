@@ -54,7 +54,7 @@ public class DAORecomendacion {
      * @param id nombre del Recomendacion a recuperar
      * @return Recomendacion encontrado en la base de datos
      */
-    public Recomendacion get(String id){
+    public Recomendacion get(Long id){
         //Obtiene la instancia del EntityManager del gestor de persistenciaa
         EntityManager em=GestorPersistencia.instancia().getEntityManager();
         

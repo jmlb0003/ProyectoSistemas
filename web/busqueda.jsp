@@ -45,6 +45,7 @@
                 Vista.notificarError(request, response, "error.jsp", "Inicio de sistema incompleto", "No se ha podido iniciar el sistema"+ex.getMessage());
             }
         }
+        sesion.setAttribute("url",request.getRequestURL().toString());
         response.encodeURL("busqueda.jsp");
         response.setHeader("Cache-Control","no-store");
         response.setHeader("Cache-Control","no-cache"); 
@@ -62,6 +63,7 @@
             <% if (controlador.obtieneUsuarioIdentificado()==null){%>
                 <div id="login">
                 <form action="IniciarSesion" method="post" >
+                    <input type="hidden" name="url" value="<%= request.getServletPath()%>" >
                     <input name="idUsuario" type="text" class="input-medium search-query" placeholder="Usuario">
                     <input name="clave" type="password" class="input-medium search-query" placeholder="Contraseña">            
                     <button onclick="validarLogin();" type="submit" class="btn">Entrar</button>

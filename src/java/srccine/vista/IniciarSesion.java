@@ -24,6 +24,7 @@ public class IniciarSesion extends HttpServlet{
         Map<String, Object> datosLogin = new HashMap();
         HttpSession sc = request.getSession();
         response.encodeURL("IniciarSesion");
+        
         ControladorInterface controlador = (ControladorInterface) sc.getAttribute("controlador");
         if (controlador != null){            
             datosLogin.put("idUsuario", request.getParameter("idUsuario"));
@@ -42,7 +43,7 @@ public class IniciarSesion extends HttpServlet{
 
             //Te devuelve a la pagina de inicio, recogiendo los posibles errores que haya
             try {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher(request.getParameter("url"));
                 dispatcher.forward (request, response);
             } catch (ServletException ex) {
                 Vista.notificarError (request, response, "error.jsp", 

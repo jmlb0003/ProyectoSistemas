@@ -151,7 +151,7 @@ public class DAORecomendacion {
      * @param _recomendaciones contenedor de Recomendaciones
      * @throws ErrorInsertarRecomendacion Error al inserta la valoraicon
      */
-    public void insert(List _recomendaciones) throws ErrorInsertarRecomendacion {
+    public synchronized void insert(List _recomendaciones) throws ErrorInsertarRecomendacion {
         //Obtiene la instancia del EntityManager del gestor de persistenciaa
         EntityManager em=GestorPersistencia.instancia().getEntityManager();
         Recomendacion r;

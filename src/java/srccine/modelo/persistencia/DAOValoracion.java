@@ -27,7 +27,7 @@ public class DAOValoracion {
      * @param v Valoracion nuevo que se introducira
      * @throws ErrorInsertarValoracion Error deb_ido a que el Valoracion ya existe 
      */
-    public void insert(Valoracion v) throws ErrorInsertarValoracion{
+    public synchronized void insert(Valoracion v) throws ErrorInsertarValoracion{
         //Obtiene la instancia del EntityManager del gestor de persistenciaa
         EntityManager em=GestorPersistencia.instancia().getEntityManager();
         
@@ -161,11 +161,11 @@ public class DAOValoracion {
      * @param idPelicula Id de la pelicula que se valoro
      * @return Valoracion encontrada en la bbdd
      */
-    public Valoracion get(String idUsuario, Long idPelicula) {
+    public synchronized Valoracion get(String idUsuario, Long idPelicula) {
         EntityManager em=GestorPersistencia.instancia().getEntityManager();
                 
         //Busca el partido creando un query
-        Query consulta = em.createQuery("select v from Valoracion v WHERE v._idPelicula="+idPelicula+" and v._idUsuario="+idUsuario);
+        Query consulta = em.createQuery("select v from Valoracion v WHERE v._idPelicula="+idPelicula+" and v._idUsuario='"+idUsuario+"' ");
         
         if (consulta.getResultList().isEmpty()){
             return null;

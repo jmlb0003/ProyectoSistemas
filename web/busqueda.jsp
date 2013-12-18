@@ -80,7 +80,8 @@
             <% }else{ %>
                 <div id="login">
                     <form action="CerrarSesion" method="post">
-                        <p> Bienvenido/a <%= controlador.obtieneUsuarioIdentificado().obtieneID() %> </p>                   
+                        <p> Bienvenido/a <%= controlador.obtieneUsuarioIdentificado().obtieneID() %> </p>  
+                        <input type="hidden" name="url" value="<%= request.getServletPath() %>" >
                         <button type="submit" class="btn">Cerrar Sesión</button> 
                     </form>
                 </div> 

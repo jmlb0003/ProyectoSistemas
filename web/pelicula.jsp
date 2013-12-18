@@ -111,7 +111,7 @@
                                 vista.setPeliculaSeleccionada(id);
                                 controlador.peticionVerInformacionPelicula();
                                 Pelicula pelicula = controlador.obtienePeliculaSeleccionada();
-                                %> 
+                                if (pelicula!=null){  %> 
                         <td width="50%" align="right">
                             <div im>
                                 <img id="poster0" width="303px" height="448px">
@@ -181,7 +181,8 @@
                                         %> </b><%= entry.getValue() %><br><br>                                         
                                 <%
                                     }
-                                } %> 
+                                }
+                            } %> 
                             <div trailer>
                                 <iframe id="trailer0" width="330" height="186" frameborder="0" allowfullscreen></iframe>
                             </div> 

@@ -105,15 +105,26 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
             _modelo.actualizaUsuario(_usuarioIdentificado);
             _modelo.actualizaPelicula(_peliculaSeleccionada);
             
-            new LanzarRecomendaciones().start();            
-            
-        } catch (ErrorActualizarUsuario  ex) {
+        try {
+            List<Recomendacion> l = new ArrayList();
+            Usuario usuario = _usuarioIdentificado;
+            _modelo.eliminaRecomendaciones(usuario.obtieneRecomendaciones());
+            TreeSet<Recomendacion> recibirRecomendaciones = (TreeSet<Recomendacion>) _modelo.recibirRecomendaciones(usuario);
+            usuario.anadeRecomendaciones(recibirRecomendaciones);
+            _modelo.actualizaUsuario(usuario);
+            l.addAll(recibirRecomendaciones.descendingSet());
+           _modelo.anadeRecomendacion(l); 
+        } catch (ErrorActualizarUsuario ex) {            
+        } catch (ErrorInsertarRecomendacion ex) {            
+        } catch (ErrorBorrarRecomendacion ex) {
+        }            
+        } catch (ErrorActualizarUsuario  ex) { ex.printStackTrace();
             throw new ErrorValoraPelicula();
-        } catch (ErrorInsertarValoracion ex) {
+        } catch (ErrorInsertarValoracion ex) {ex.printStackTrace();
             throw new ErrorValoraPelicula();
-        } catch (ErrorActualizarValoracion ex) {
+        } catch (ErrorActualizarValoracion ex) {ex.printStackTrace();
             throw new ErrorValoraPelicula();
-        } catch (ErrorActualizarPelicula ex) {
+        } catch (ErrorActualizarPelicula ex) {ex.printStackTrace();
             throw new ErrorValoraPelicula();
         }
     }
@@ -175,8 +186,12 @@ public class Controlador implements ControladorInterface, ObservadorNuevoUsuario
 
     @Override
     public void peticionVerInformacionPelicula() {
+        System.out.println("controlador "+_vista.obtenerIDPelicula());
         Pelicula p = _modelo.buscaPelicula(_vista.obtenerIDPelicula());
-        
+        while (p==null){
+            p = _modelo.buscaPelicula(_vista.obtenerIDPelicula());
+        }
+        System.out.println("controlador "+p);
         _peliculaSeleccionada = p; 
     }
 

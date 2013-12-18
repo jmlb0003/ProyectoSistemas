@@ -33,7 +33,6 @@ public class Valorar extends HttpServlet {
                
         Map<String, Object> datosValoracion = new HashMap();
         HttpSession sc = request.getSession();
-        response.encodeURL("Valorar");
         ControladorInterface controlador = (ControladorInterface) sc.getAttribute("controlador");
         if (controlador != null){ 
             if(request.getParameter("puntuacion")!=null && request.getParameter("idPelicula")!=null){
@@ -50,7 +49,7 @@ public class Valorar extends HttpServlet {
                     dispatcher.forward (request, response);
                 }catch (NumberFormatException e){
                     Vista.notificarError (request, response, "error.jsp", 
-                            "Valoracion incompleta", "No se ha podido procesar su voto."); 
+                            "Valoracion incompleta", "No se ha recogido su voto correctamente."); 
                 } catch (ErrorValoraPelicula ex) {
                     Vista.notificarError (request, response, "error.jsp", 
                             "Valoracion incompleta", "No se ha podido procesar su voto."); 

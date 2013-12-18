@@ -87,8 +87,10 @@
             <% if (controlador.obtieneUsuarioIdentificado()==null){%>
                 <div id="login">
                     <form action="IniciarSesion" name="IniciarSesion" method="post" >
-                        <input id="usuario" name="idUsuario" type="text" class="input-medium search-query" placeholder="Usuario">
-                        <input id="clave" name="clave" type="password" class="input-medium search-query" placeholder="Contraseña">            
+                        <input id="usuario" name="idUsuario" type="text" class="input-medium search-query" 
+                               placeholder="Usuario">
+                        <input id="clave" name="clave" type="password" class="input-medium search-query" 
+                               placeholder="Contraseña">            
                         <button onclick="validarLogin();" type="button" class="btn">Entrar</button>
                         <br>
                         <label class="checkbox">
@@ -136,15 +138,15 @@
                                 <img id="poster<%=pelicula.obtieneID()%>" width="108px" height="141px">
                                 <script>getImagenURL('<%=pelicula.obtieneTitulo()%>',<%=pelicula.obtieneID()%>)</script> 
                             </a>
-                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
+                            <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p></a>
                             <p>Media: <%= String.format("%.2f", pelicula.obtieneMedia()) %></p>
                             <p>Valoración:
                                 <%  int valoracion = 0;
-                                    if(controlador.obtieneUsuarioIdentificado()!=null){ 
-                                        if (controlador.obtieneUsuarioIdentificado().obtieneValoraciones().containsKey(pelicula.obtieneID())){
-                                            valoracion=controlador.obtieneUsuarioIdentificado().obtieneValoraciones().get(pelicula.obtieneID()).obtienePuntuacion();
-                                        }
-                                    }                                    
+                                    if (controlador.obtieneUsuarioIdentificado().obtieneValoraciones().
+                                            containsKey(pelicula.obtieneID())){
+                                        valoracion=controlador.obtieneUsuarioIdentificado().obtieneValoraciones().
+                                                get(pelicula.obtieneID()).obtienePuntuacion();
+                                    }                                                                       
                                     //Obtenemos la valoración  
                                     for(int i=1;i<=valoracion;i++){ %>
                                     <img src="img/estrellaAmarilla.png" ALT="valoracion">
@@ -170,7 +172,7 @@
                                 <script>getImagenURL('<%=pelicula.obtieneTitulo()%>',<%=pelicula.obtieneID()%>)</script> 
                             </a>
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
-                            <p>Media: <%= pelicula.obtieneMedia() %></p>
+                            <p>Media: <%= String.format("%.2f", pelicula.obtieneMedia()) %></p>
                             <p>Valoración:
                                 <%  int valoracion = 0;
                                     if(controlador.obtieneUsuarioIdentificado()!=null){ 
@@ -207,7 +209,7 @@
                                 <script>getImagenURL('<%=pelicula.obtieneTitulo()%>',<%=pelicula.obtieneID()%>)</script> 
                             </a>                                                                               
                             <a href="pelicula.jsp?id=<%=pelicula.obtieneID()%>" > <p><%= pelicula.obtieneTitulo() %></p> </a>
-                            <p>Media: <%= pelicula.obtieneMedia() %></p>
+                            <p>Media: <%= String.format("%.2f", pelicula.obtieneMedia()) %></p>
                             <p>Valoración:
                             <%
                             int valoracion=0;

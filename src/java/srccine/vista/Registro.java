@@ -21,44 +21,41 @@ public class Registro extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        //Creamos el maapa donde introducir los datos del registro del usuario
         Map<String, Object> datosRegistro = new HashMap();
+        //Recogemos la informacion de la sesion y obtenemos el controlador
         HttpSession sc = request.getSession();
-        response.encodeURL("Registro");
         ControladorInterface controlador = (ControladorInterface) sc.getAttribute("controlador");
         int dia, mes, ano;
+        // Se comprueba si el controlador existe
         if (controlador != null){       
+            // Se comprueba si los parametros necesarios existen.
             if(request.getParameter("idUsuario")!=null && request.getParameter("clave")!=null){
                 datosRegistro.put("idUsuario", request.getParameter("idUsuario"));
-                datosRegistro.put("nombre", request.getParameter("nombre"));
-                datosRegistro.put("apellidos", request.getParameter("apellidos"));
                 datosRegistro.put("clave", request.getParameter("clave"));
-                try{
-                    dia = Integer.parseInt(request.getParameter("dia"));
-                }catch (NumberFormatException e){
-                    dia = -1;
-                }            
-                try{
-                    mes = Integer.parseInt(request.getParameter("mes"));
-                }catch (NumberFormatException e){
-                    mes = -1;
-                }
-                try{
-                    ano = Integer.parseInt(request.getParameter("ano"));
-                }catch (NumberFormatException e){
-                    ano = -1;
-                }
-
-                if (dia !=-1 && mes !=-1 && ano!=-1){
-                    datosRegistro.put("fechaNacimiento", new GregorianCalendar(ano, mes, dia));
-                }
                 datosRegistro.put("fechaRegistro", new GregorianCalendar());
+
+                //Comprueba si incluye los nombres y apellidos
+                if (request.getParameter("nombre")!=null){
+                    datosRegistro.put("nombre", request.getParameter("nombre"));
+                }                
+                if (request.getParameter("apellidos")!=null){
+                    datosRegistro.put("apellidos", request.getParameter("apellidos"));
+                }
+                try{
+                    //Se parsea la fecha y se introduce
+                    dia = Integer.parseInt(request.getParameter("dia"));
+                    mes = Integer.parseInt(request.getParameter("mes"));
+                    ano = Integer.parseInt(request.getParameter("ano"));
+                    datosRegistro.put("fechaNacimiento", new GregorianCalendar(ano, mes, dia));
+                }catch (NumberFormatException e){  }                
 
                 //Proporcionamos los datos a la vista
                 VistaInterface vista = (VistaInterface) sc.getAttribute("vista");
                 vista.setDetallesRegistro(datosRegistro);
             
                 try {
+                    //Realizamos al controlador la peticion de registrar usuario
                     controlador.peticionRegistrarUsuario();
                 } catch (ErrorUsuarioRegistrado ex) {
                     Vista.notificarError (request, response, "error.jsp", 

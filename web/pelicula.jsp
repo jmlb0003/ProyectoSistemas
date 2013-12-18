@@ -85,7 +85,7 @@
             <% }else{ %>
                 <div id="login">
                     <form action="CerrarSesion" method="post">
-                        <p> Bienvenido/a <%= controlador.obtieneUsuarioIdentificado().obtieneID() %> </p>                   
+                        <p> <b>Bienvenido/a <%= controlador.obtieneUsuarioIdentificado().obtieneID() %> </b></p>                   
                         <input type="hidden" name="url" value="<%= request.getServletPath()+"?id="+request.getParameter("id") %>" >
                         <button type="submit" class="btn">Cerrar Sesión</button> 
                     </form>
@@ -104,7 +104,7 @@
             </div>
 
             <div id="contenido">
-                <table border="0" width="100%" cellspacing="0" cellpadding="40">
+                <table border="1" width="100%" cellspacing="0" cellpadding="40">
                     <tr>
                     <% if (request.getParameter("id")!=null){
                             long id;
@@ -116,7 +116,7 @@
                                 if (pelicula!=null){  %> 
                         <td width="50%" align="right">
                             <div im>
-                                <img id="poster0" width="303px" height="448px">
+                                <img id="poster0" width="335px" height="481px">
                                 <script>getImagenURL('<%=pelicula.obtieneTitulo()%>',0)</script>
                             </div>
                         </td>
